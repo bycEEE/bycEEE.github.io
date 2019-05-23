@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Dockerizing a Node Application - bchoy.me</title>
+  <meta property="og:title" content="Dockerizing a Node Application" />
+  <meta name="twitter:title" content="Dockerizing a Node Application" />
+  <meta name="description" content="I&rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked on were mature and had an established workflow. The code I pushed up to Github will end up magically working on the staging server and then to production. A few weeks ago I was given the opportunity see a new project grow through its infancy. I saw a lot of problems with getting a project working locally to work on production. Something would break every few pushes and time would be wasted getting the devleopers and system administrators together to figure out a solution. After hearing so many good things about Docker and how it aims to solve the problems we were having in production, I suggested that we use Docker to develop our application and ship it to production.
+
+Knowing absolutely nothing about Docker, these are the problems I faced and the references I used to figure out a workflow for our developers. This is yet another blog post where I jot down my thoughts and decision making, and not really walking through anything.">
+  <meta property="og:description" content="I&rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked on were mature and had an established workflow. The code I pushed up to Github will end up magically working on the staging server and then to production. A few weeks ago I was given the opportunity see a new project grow through its infancy. I saw a lot of problems with getting a project working locally to work on production. Something would break every few pushes and time would be wasted getting the devleopers and system administrators together to figure out a solution. After hearing so many good things about Docker and how it aims to solve the problems we were having in production, I suggested that we use Docker to develop our application and ship it to production.
+
+Knowing absolutely nothing about Docker, these are the problems I faced and the references I used to figure out a workflow for our developers. This is yet another blog post where I jot down my thoughts and decision making, and not really walking through anything.">
+  <meta name="twitter:description" content="I&rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked …">
+  <meta name="author" content="Brian Choy"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "bchoy.me",
+    
+    "url": "https:\/\/blog.bchoy.me"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/blog.bchoy.me"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/blog.bchoy.me",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/blog.bchoy.me\/post\/2015-12-28-dockerizing-a-node-application\/",
+          "name": "Dockerizing a node application"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "Brian Choy"
+  },
+  "headline": "Dockerizing a Node Application",
+  "description" : "I\x26rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked on were mature and had an established workflow. The code I pushed up to Github will end up magically working on the staging server and then to production. A few weeks ago I was given the opportunity see a new project grow through its infancy. I saw a lot of problems with getting a project working locally to work on production. Something would break every few pushes and time would be wasted getting the devleopers and system administrators together to figure out a solution. After hearing so many good things about Docker and how it aims to solve the problems we were having in production, I suggested that we use Docker to develop our application and ship it to production.\nKnowing absolutely nothing about Docker, these are the problems I faced and the references I used to figure out a workflow for our developers. This is yet another blog post where I jot down my thoughts and decision making, and not really walking through anything.\n",
+  "inLanguage" : "en",
+  "wordCount":  1888 ,
+  "datePublished" : "2015-12-28T16:32:20",
+  "dateModified" : "2015-12-28T16:32:20",
+  "image" : "https:\/\/blog.bchoy.me\/assets\/img\/avatar.jpg",
+  "keywords" : [ "" ],
+  "mainEntityOfPage" : "https:\/\/blog.bchoy.me\/post\/2015-12-28-dockerizing-a-node-application\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/blog.bchoy.me",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/blog.bchoy.me\/assets\/img\/avatar.jpg",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Dockerizing a Node Application" />
+<meta property="og:description" content="I&rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked on were mature and had an established workflow. The code I pushed up to Github will end up magically working on the staging server and then to production. A few weeks ago I was given the opportunity see a new project grow through its infancy. I saw a lot of problems with getting a project working locally to work on production. Something would break every few pushes and time would be wasted getting the devleopers and system administrators together to figure out a solution. After hearing so many good things about Docker and how it aims to solve the problems we were having in production, I suggested that we use Docker to develop our application and ship it to production.
+
+Knowing absolutely nothing about Docker, these are the problems I faced and the references I used to figure out a workflow for our developers. This is yet another blog post where I jot down my thoughts and decision making, and not really walking through anything.">
+<meta property="og:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
+<meta property="og:url" content="https://blog.bchoy.me/post/2015-12-28-dockerizing-a-node-application/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="bchoy.me" />
+
+  <meta name="twitter:title" content="Dockerizing a Node Application" />
+  <meta name="twitter:description" content="I&rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked …">
+  <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
+  <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://blog.bchoy.me/post/2015-12-28-dockerizing-a-node-application/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="bchoy.me" />
+
+  <meta name="generator" content="Hugo 0.55.6" />
+  <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://blog.bchoy.me/css/highlight.min.css" /><link rel="stylesheet" href="https://blog.bchoy.me/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://blog.bchoy.me">bchoy.me</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="bchoy.me" href="https://blog.bchoy.me">
+            <img class="avatar-img" src="https://blog.bchoy.me/assets/img/avatar.jpg" alt="bchoy.me" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Dockerizing a Node Application</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Posted on December 28, 2015
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;9&nbsp;minutes
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1888&nbsp;words
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Brian Choy
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>I&rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked on were mature and had an established workflow. The code I pushed up to Github will end up magically working on the staging server and then to production. A few weeks ago I was given the opportunity see a new project grow through its infancy. I saw a lot of problems with getting a project working locally to work on production. Something would break every few pushes and time would be wasted getting the devleopers and system administrators together to figure out a solution. After hearing so many good things about Docker and how it aims to solve the problems we were having in production, I suggested that we use Docker to develop our application and ship it to production.</p>
+
+<p>Knowing absolutely nothing about Docker, these are the problems I faced and the references I used to figure out a workflow for our developers. This is yet another blog post where I jot down my thoughts and decision making, and not really walking through anything.</p>
+
+<h2 id="why-use-docker">Why Use Docker?</h2>
+
+<p>We all develop on OSX here at my company. The current project I&rsquo;m working on is a Node.js + React application that works perfectly fine on OSX, but encounters some issues with node_modules on production. Our Jenkins build will result in failure due to some unforeseen issue costing us time to troubleshoot and fix. Ideally we would work in an environment that mirrors production as close as possible to avoid these issues. Docker comes close to that ideal. Theoretically if our application works in a Docker container on our machines, it will also work the same in production.</p>
+
+<h2 id="should-i-use-vagrant">Should I Use Vagrant?</h2>
+
+<p>Vagrant supports Docker out of the box. During the beginning stages of my research, the blogs I were reading recommended using Docker with Vagrant. After setting up Docker with Vagrant, I decided that this was unnecessary for my current project. For a one container ecosystem in an all OSX dev environment, Vagrant adds additional complexity for no real gain. There was no real need to mimic the same exact environment across everyone&rsquo;s machines - our Dockerfile sufficed for this project. However, I ran into the problem of syncing files to actively develop using a running container. When an image is created, it is created with the current files and is not updated on further change. We want to sync our files to develop without rebuilding the container over and over. Vagrant helps solve this problem, but I found docker-osx-dev to be the best choice for this project. More reading on syncing local folders to a Docker container:
+- <a href="http://oliverguenther.de/2015/05/docker-host-volume-synchronization/">http://oliverguenther.de/2015/05/docker-host-volume-synchronization/</a>
+- <a href="https://hharnisc.github.io/2015/09/16/developing-inside-docker-containers-with-osx.html">https://hharnisc.github.io/2015/09/16/developing-inside-docker-containers-with-osx.html</a></p>
+
+<p>More reading on Docker vs Vagrant:
+- <a href="https://stackoverflow.com/questions/16647069/should-i-use-vagrant-or-docker-for-creating-an-isolated-environment">https://stackoverflow.com/questions/16647069/should-i-use-vagrant-or-docker-for-creating-an-isolated-environment</a>
+- <a href="http://www.ociweb.com/resources/publications/sett/march-2015-docker-vs-vagrant/">http://www.ociweb.com/resources/publications/sett/march-2015-docker-vs-vagrant/</a>
+- <a href="https://www.mikelangelo-project.eu/2015/10/5-steps-to-boost-your-productivity-with-vagrant-and-docker/">https://www.mikelangelo-project.eu/2015/10/5-steps-to-boost-your-productivity-with-vagrant-and-docker/</a>
+- <a href="http://activelamp.com/blog/devops/docker-with-vagrant/">http://activelamp.com/blog/devops/docker-with-vagrant/</a>
+- <a href="http://blog.scottlowe.org/2015/02/10/using-docker-with-vagrant/">http://blog.scottlowe.org/2015/02/10/using-docker-with-vagrant/</a></p>
+
+<h2 id="how-to-start-dockerizing">How to Start Dockerizing?</h2>
+
+<p>How do I even start dockerizing this? It was a daunting task, but I was able to break it down over time and understand what I was doing. The first step was to install Docker via docker-machine. Docker runs natively on Linux - to run Docker on OSX, you will need <a href="https://www.virtualbox.org/wiki/Downloads">Virtualbox</a> to run the docker-machine VM. If you run into blog posts talking about boot2docker, it has been replaced with docker-machine. boot2docker was a Linux distribution made specifically to run Docker containers. I&rsquo;m assuming docker-machine to be something similar.</p>
+
+<p>Each shell you open, you will have to define which docker-machine VM you&rsquo;re using, else you&rsquo;ll run into the <code>Can't connect to docker daemon. Is 'docker -d' running on this host?</code> error. To avoid having to type <code>eval &quot;$(docker-machine env default)&quot;</code> over and over again in each shell I open, I just added it to my .bash_profile. This gives me access to all my docker commands. Some quick things you can type to get started:
+- docker ps: Lists all your running containers
+- docker ps -a: Lists all containers that exist on your system
+- docker images: Lists all your images</p>
+
+<h2 id="creating-a-dockerfile">Creating a Dockerfile</h2>
+
+<p>This is my Dockerfile for my Node.js project.</p>
+
+<pre><code>FROM ubuntu:14.04
+MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
+
+# Install needed packages
+RUN apt-get update &amp;&amp; apt-get install -y \
+      curl \
+      build-essential \
+      python \
+      zip;
+
+# Install nvm
+RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh;
+
+# Install node
+RUN cp -f ~/.nvm/nvm.sh ~/.nvm/nvm-tmp.sh; \
+    echo &quot;nvm install 4.2.3; nvm alias default 4.2.3; ln -s ~/.nvm/versions/node/v4.2.3/bin/node /usr/bin/node; ln -s ~/.nvm/versions/node/v4.2.3/bin/npm /usr/bin/npm&quot; &gt;&gt; ~/.nvm/nvm-tmp.sh; \
+    sh ~/.nvm/nvm-tmp.sh; \
+    rm ~/.nvm/nvm-tmp.sh;
+
+# Install npm 3.5.1
+RUN npm install npm@3.5.1 -g
+
+# Install dependencies with symlink to make work with volume mount
+RUN mkdir /app-dist &amp;&amp; mkdir /app-dist/node_modules
+ADD package.json /app-dist/package.json
+RUN cd /app-dist &amp;&amp; npm install
+RUN npm rebuild node-sass
+
+WORKDIR /src/app
+ADD . .
+EXPOSE 3010
+CMD [&quot;npm&quot;, &quot;run&quot;, &quot;dockerdev&quot;]
+</code></pre>
+
+<p>Breakdown of an example Dockerfile: <a href="https://nodesource.com/blog/dockerizing-your-nodejs-applications/">https://nodesource.com/blog/dockerizing-your-nodejs-applications/</a></p>
+
+<p>This Dockerfile tells Docker how to build out an image. With the Dockerfile, all images I create can be distributed and run locally or in production and be exactly the same. The comments I have in the Dockerfile pretty much explain what I&rsquo;m doing. The order of my tasks also matter due to the <a href="https://docs.docker.com/engine/articles/dockerfile_best-practices/">Docker build cache</a>. In a nutshell, each command is cached so that step does not have to be rebuilt unless changed. This significantly speeds up building an image by not recompiling things that are not changed. However this is not perfect and sometimes you will have to rebuild an image using the &ndash;no-cache flag. <code>ADD . .</code> is at the end because the directory we dev in has constantly changing files.</p>
+
+<h2 id="dockerignore">Dockerignore</h2>
+
+<p>.dockerignore:</p>
+
+<pre><code>log
+tmp
+.elasticbeanstalk/*
+.git
+.gitignore
+node_modules/*
+</code></pre>
+
+<p>Just like .gitignore, I have files that I don&rsquo;t want compiled in my image. This file contains my AWS configs, node_modules, and my entire git history. Reducing bloat is always good - especially since the bandwidth used to pull images really adds up (more on Docker registries another time).</p>
+
+<h2 id="building-the-container">Building the Container</h2>
+
+<p>I built the container using the following command: <code>docker build -t page-creator .</code></p>
+
+<p>This builds an image with the name page-creator while ignoring everything in the .dockerignore file. You can check the images you have on your system using <code>docker images</code>. Each build with the same name renames the older build to a blank name.</p>
+
+<p>Older Docker images eats up your hard drive space over time. You can clear out all your blank names with <code>docker rmi $(docker images | grep \&quot;^&lt;none&gt;\&quot; | awk \&quot;{print $3}\&quot;)</code>. To abstract running these commands and bloating up the hard drive with old images, I changed my npm start task to run the following Docker commands: <code>&quot;start&quot;: &quot;docker kill node; docker rm node; docker rmi $(docker images | grep \&quot;^&lt;none&gt;\&quot; | awk \&quot;{print $3}\&quot;); docker build -t page-builder .; docker run -it --name node -p 3000:3000 -p 3001:3001 -v $(pwd):/src/app --env-file=.env page-builder&quot; npm run dev</code>.</p>
+
+<p>I kill my container first because you cannot have two containers running with the same name. After that I remove it from my list of containers (that you can see with <code>docker ps -a</code>) and proceed to build a new image. Next I run the container with this command <code>docker run -d --name node -p 3000:3000 -p 3001:3001 -v $(pwd):/src/app --env-file=.env page-builder npm run dockerdev</code>
+This runs the app in detached mode (-d) and the container is named node. -p routes my local 3000 port to the docker-machine&rsquo;s port 3000 and local 3000 to docker-machine 3000. -v mounts my present working directory onto the folder where my app is in the container. That way my files are synced in development. My env file is called .env and page-builder is the image I&rsquo;m running. <code>npm run dev</code> is a custom command I made and it is the command my docker container will use to run. If no command is specified, the command specified in my Dockerfile will be run.</p>
+
+<h2 id="troubleshooting-errors">Troubleshooting Errors</h2>
+
+<p>I could have saved so much time if I knew how to properly debug my containers early on. Since this was a single container ecosystem, debugging was quite simple to me. To ssh into a container that is running, I run <code>docker exec -it node bash</code>. &lsquo;node&rsquo; being the name of my container. This allows me to poke around a running instance. However if my instance crashed, the first thing I do is run <code>docker logs node</code> to see the output that caused my error. If I need to explore the filesystem, I create a snapshot of my container and run it with bash.</p>
+
+<pre><code># find ID of your running container:
+docker ps
+
+# create image (snapshot) from container filesystem
+docker commit 12345678904b5 mysnapshot
+
+# explore this filesystem using bash (for example)
+docker run -t -i mysnapshot /bin/bash
+</code></pre>
+
+<p><a href="https://stackoverflow.com/questions/20813486/exploring-docker-containers-file-system">https://stackoverflow.com/questions/20813486/exploring-docker-containers-file-system</a></p>
+
+<h2 id="dealing-with-node-modules">Dealing with node_modules</h2>
+
+<p>The node_modules were a huge headache for me. Since I was mounting my pwd onto the container folder, my local node_modules were overwriting the ones in my application. Despite having the same version of node and npm on my local machine as the ones I&rsquo;m using in my container, my application does not run. A solution would be to delete my local node_modules folder and run npm install in my container, but it is incredibly inconvenient and time consuming to reinstall my node_modules each time I want to start developing. I solved this issue with a symlink. By deleting my local node_modules and creating a node_modules folder symlinked to /core-dist/node_modules, I now do not have a local node_modules folder that points to a real directory, but exists on my Docker container. The idea is to develop solely using the Docker container so the node_modules do not have to be functioning locally.
+For reference: <a href="http://kevzettler.com/programming/2015/06/07/rapid_local_development_vagrant_docker_node.html">http://kevzettler.com/programming/2015/06/07/rapid_local_development_vagrant_docker_node.html</a></p>
+
+<h2 id="ip-issues-across-the-local-machine-and-vm">IP Issues Across the Local Machine and VM</h2>
+
+<p>My app had a connection refused error on localhost:3000. This was an annoying one to fix because I haven&rsquo;t programmed much using Node.js and I spent a good aount of time figuring out if I was facing an issue with virtual machines or with Node.js. The answer is both. My issue was localhost is not the same on the virtual machine as it is on my actual physical machine. My local server did not work because webpackdevserver was operating on localhost and as I said before, localhost on the virtual machine is different from my physical machine&rsquo;s localhost. The simple fix that took me forever to figure out is to tell it to look at 0.0.0.0 instead of localhost.
+<img src="https://i.imgur.com/4HCMpqW.png" alt="" /></p>
+
+<h2 id="developing-in-docker">Developing in Docker</h2>
+
+<p>Mounting my pwd does not continuously sync the files in the container. It just mounts once and creates the container. This is where Vagrant would have been a viable solution to have files synced in real time to my Docker container as I was developing. However, I found an even better solution <a href="https://stackoverflow.com/questions/30090007/whats-the-right-way-to-setup-a-development-environment-on-os-x-with-docker">here</a>. <a href="https://github.com/brikis98/docker-osx-dev">docker-osx-dev</a> is a GitHub repo that does all of those tasks for you and gives you the ability to sync your local files to docker-machine to your running containers. This way watch tasks and react hotloader work perfectly. My current workflow is to have docker-osx-dev running, rsyncing my files over to my container from my VM. If the install doesn&rsquo;t work, just run it again until it works (seriously). The errors seem to resolve themselves across the three machines I&rsquo;ve tested this on.</p>
+
+<p>Setting up everything properly for staging and production comes next - <a href="http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/">http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/</a></p>
+
+        
+
+        
+
+        
+          
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://blog.bchoy.me/post/2015-11-02-deploying-to-elastic-beanstalk-jenkins/" data-toggle="tooltip" data-placement="top" title="Deploying to Elastic Beanstalk on git push with Jenkins">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://blog.bchoy.me/post/2016-02-28-docker-workflow-with-nodejs/" data-toggle="tooltip" data-placement="top" title="Creating a Docker Workflow with Node.js">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:bycEEE@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/bycEEE" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/brianchoy" title="LinkedIn">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="https://bchoy.me">Brian Choy</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2019
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://blog.bchoy.me">bchoy.me</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.55.6</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://blog.bchoy.me/js/main.js"></script>
+<script src="https://blog.bchoy.me/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://blog.bchoy.me/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
+
