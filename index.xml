@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bchoy.me</title>
@@ -8,10 +8,20 @@
     <language>en-us</language>
     <managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
     <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster>
-    <lastBuildDate>Thu, 20 Sep 2018 18:15:02 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 May 2019 18:15:02 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.bchoy.me/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>HackTheBox SwagShop</title>
+      <link>https://blog.bchoy.me/post/2019-05-24-hackthebox-swagshop/</link>
+      <pubDate>Sun, 19 May 2019 18:15:02 +0000</pubDate>
+      <author>bycEEE@gmail.com (Brian Choy)</author>
+      <guid>https://blog.bchoy.me/post/2019-05-24-hackthebox-swagshop/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2019-05-24-hackthebox-swagshop-1.png&#34; alt=&#34;Swag Shop info card&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Over a year has passed since I&amp;rsquo;ve last done anything related to penetration testing. I decided to tackle the SwagShop machine on HackTheBox to ease back into things since it has a nice friendly green &amp;ldquo;Easy&amp;rdquo; rating. Note: This post is hidden until the machine is &amp;ldquo;Retired&amp;rdquo; to avoid spoilers to the community.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes Clusters</title>
@@ -20,14 +30,10 @@
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2018-09-20-kubernetes-crypto-miner/</guid>
       <description>&lt;p&gt;Medium post: &lt;a href=&#34;https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205&#34;&gt;https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;The explosion of cryptocurrency in recent years spurred a wave of exploits targeting unsuspecting machines to mine cryptocurrency for the attackers. Earlier in the year, the JW Player DevOps team discovered one of the aforementioned miners running on our development and staging Kubernetes clusters.&lt;/p&gt;
-
 &lt;p&gt;To be clear, &lt;em&gt;our production cluster was not affected, no JW Player customer data was accessed or exposed, and service was uninterrupted&lt;/em&gt;. Malicious actors are not always intent on stealing information or taking a website down, they can be just as content (or more so) in stealing your compute power. We take any intrusion very seriously though, and wanted to share our findings to help other DevOps teams harden their systems.&lt;/p&gt;
-
 &lt;p&gt;This blog post is broken up into several parts detailing — discovery and diagnosis, our immediate response, discovering and replicating the attack vector, damage assessment, and plans for preventative measures to further protect our systems.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2018-09-20-kubernetes-crypto-miner-0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2018-09-20-kubernetes-crypto-miner-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -37,7 +43,6 @@
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2018-09-11-vmware-ssh-bug/</guid>
       <description>&lt;p&gt;When using VMWare to do work on my virtual machines, I came across an annoying bug where all my SSH connections failed:&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;$ ssh root@52.172.12.100
 packet_write_wait: Connection to 52.172.12.100 port 22: Broken pipe
 &lt;/code&gt;&lt;/pre&gt;</description>
@@ -50,11 +55,8 @@ packet_write_wait: Connection to 52.172.12.100 port 22: Broken pipe
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2018-01-05-overthewire-natas/</guid>
       <description>&lt;p&gt;Following up on my Bandit post, &lt;a href=&#34;http://overthewire.org/wargames/natas/&#34;&gt;OverTheWire Natas&lt;/a&gt; teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&amp;rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.&lt;/p&gt;
-
 &lt;h2 id=&#34;level-0&#34;&gt;Level 0&lt;/h2&gt;
-
 &lt;p&gt;The password to this level is listed on the natas game description:&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;Username: natas0
 Password: natas0
 URL:      http://natas0.natas.labs.overthewire.org
@@ -68,9 +70,7 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2017-12-26-overthewire-bandit/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;http://overthewire.org/wargames/bandit/&#34;&gt;OverTheWire Bandit&lt;/a&gt; is a capture the flag (CTF) game for beginners. I&amp;rsquo;ve recently regained interest in security and found this a fun way to get back into what originally led me to learn programming. These are quick notes for my solutions on level 0-27.&lt;/p&gt;
-
-&lt;h2 id=&#34;level-0-level-1&#34;&gt;Level 0 -&amp;gt; Level 1&lt;/h2&gt;
-
+&lt;h2 id=&#34;level-0---level-1&#34;&gt;Level 0 -&amp;gt; Level 1&lt;/h2&gt;
 &lt;p&gt;The password for the next level is stored in a file called readme located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.&lt;/p&gt;</description>
     </item>
     
@@ -81,9 +81,7 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2016-02-28-docker-workflow-with-nodejs/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.&lt;/p&gt;
-
 &lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
-
 &lt;p&gt;Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you&amp;rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev/qa/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.&lt;/p&gt;</description>
     </item>
     
@@ -94,7 +92,6 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-12-28-dockerizing-a-node-application/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked on were mature and had an established workflow. The code I pushed up to Github will end up magically working on the staging server and then to production. A few weeks ago I was given the opportunity see a new project grow through its infancy. I saw a lot of problems with getting a project working locally to work on production. Something would break every few pushes and time would be wasted getting the devleopers and system administrators together to figure out a solution. After hearing so many good things about Docker and how it aims to solve the problems we were having in production, I suggested that we use Docker to develop our application and ship it to production.&lt;/p&gt;
-
 &lt;p&gt;Knowing absolutely nothing about Docker, these are the problems I faced and the references I used to figure out a workflow for our developers. This is yet another blog post where I jot down my thoughts and decision making, and not really walking through anything.&lt;/p&gt;</description>
     </item>
     
@@ -114,12 +111,9 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-10-04-using-capistrano-to-deploy-rails-app/</guid>
       <description>&lt;p&gt;After using Docker to deploy last month, I&amp;rsquo;ve decided to try deploying using Capistrano and nginx for my current project.&lt;/p&gt;
-
 &lt;p&gt;Helpful links:
 &lt;a href=&#34;http://robmclarty.com/blog/how-to-deploy-a-rails-4-app-with-git-and-capistrano&#34;&gt;http://robmclarty.com/blog/how-to-deploy-a-rails-4-app-with-git-and-capistrano&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;&lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-automate-ruby-on-rails-application-deployments-using-capistrano&#34;&gt;https://www.digitalocean.com/community/tutorials/how-to-automate-ruby-on-rails-application-deployments-using-capistrano&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;&lt;a href=&#34;https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/nginx/oss/precise/deploy_app.html&#34;&gt;https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/nginx/oss/precise/deploy_app.html&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
@@ -130,15 +124,12 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-09-14-docker-and-rails-in-production/</guid>
       <description>&lt;p&gt;Last week, I deployed a Rails app in a Docker container onto AWS Elastic Beanstalk. It was an unncessarily time consuming task due to small gaps in my knowledge and unfamiliarity with Docker and Elastic Beanstalk. This blog post is written during my first month working as a junior system administrator (&amp;ldquo;devops&amp;rdquo;) and this is a recap of my experience to the best of my memory.&lt;/p&gt;
-
 &lt;p&gt;Super helpful links:
 &lt;a href=&#34;https://github.com/phusion/passenger-docker&#34;&gt;https://github.com/phusion/passenger-docker&lt;/a&gt;
 &lt;a href=&#34;https://intercityup.com/blog/deploy-rails-app-including-database-configuration-env-vars-assets-using-docker.html&#34;&gt;https://intercityup.com/blog/deploy-rails-app-including-database-configuration-env-vars-assets-using-docker.html&lt;/a&gt;
 &lt;a href=&#34;https://intercityup.com/blog/how-i-build-a-docker-image-for-my-rails-app.html&#34;&gt;https://intercityup.com/blog/how-i-build-a-docker-image-for-my-rails-app.html&lt;/a&gt;
 &lt;a href=&#34;https://rossfairbanks.com/2015/03/06/rails-app-on-docker-using-passenger-image.html&#34;&gt;https://rossfairbanks.com/2015/03/06/rails-app-on-docker-using-passenger-image.html&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;Thanks to these blog posts (amongst many others), I was able to cut down a lot of time out of learning how to deploy this rails app.&lt;/p&gt;
-
 &lt;p&gt;First thing&amp;rsquo;s first. I installed &lt;a href=&#34;https://docs.docker.com/machine/install-machine/&#34;&gt;docker-machine&lt;/a&gt;, which is the new boot2docker, and attempted to run my docker image containing the Rails app locally, in production, on my Macbook.&lt;/p&gt;</description>
     </item>
     
@@ -149,9 +140,7 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-07-29-setting-up-a-webdev-environment-on-windows/</guid>
       <description>&lt;p&gt;Developing on OSX is a dream. I love my Macbook and I love developing on it. However, I&amp;rsquo;ve always been a PC enthusiast and most of my time is spent on my desktop computer. I stick with Windows as my main operating system when I&amp;rsquo;m not developing because Linux offers a subpar gaming experience, and my entire music library resides on iTunes, which is not supported on Linux. I have happily turned this computer into a Hackintosh before for a few months when I started out web development, but rather than dual-boot into Linux/OSX, I decided to give virtualization a try.&lt;/p&gt;
-
 &lt;h2 id=&#34;why-use-vms&#34;&gt;Why use VMs?&lt;/h2&gt;
-
 &lt;p&gt;Simply put, my Windows machine completely outclasses my Macbook. The screen real estate and dedicated mouse/keyboard really speeds up my development. Futhermore, as a formal avid gamer, I&amp;rsquo;ve grown very accustomed to Windows and I just prefer to use it as my main OS. Dual booting is a completely viable option, save for the fact that I would have to boot back into Windows to play a game or listen to my music. I already have OSX on my Macbook in case I want to have a dedicated environment, so spinning up a VM seems to be a great choice for my development needs.&lt;/p&gt;</description>
     </item>
     
@@ -162,10 +151,8 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-07-09-deep-dream/</guid>
       <description>&lt;p&gt;Can robots dream? According to Google, they can. Trippy &amp;ldquo;deep dream&amp;rdquo; images like this are recently being posted all over the internet.
-&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-07-09-deep-dream-1.jpeg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-07-09-deep-dream-1.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;what-is-deep-dream&#34;&gt;What is deep dream?&lt;/h2&gt;
-
 &lt;p&gt;Google&amp;rsquo;s image recognition ability is very powerful. Google had become very good at identifying images. Given spicture of a dog, cat, or a bird, Google&amp;rsquo;s image search will be able to identify the animal properly. The deep dream software uses Google&amp;rsquo;s image recognition system to identify elements it recognizes, and pronounce it. Basically deep dream is the process of taking an image, finding all known elements of images it recognizes (for example it may associate a shape to a dog), makes that area more dog-like, and feed the results back into itself. After many iterations, the software attempts to make a picture more into the elements it recognizes. Different data-sets produce different results because deep dream is a field of machine learning. Machines learn through the data sets it is given, allowing different patterns to emerge depending on the data set the machine uses to recognize images.&lt;/p&gt;</description>
     </item>
     
@@ -176,11 +163,9 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-05-20-visual-data-of-a-relationship-over-a-year/</guid>
       <description>&lt;p&gt;My roommate and I were discussing about how we should create a webapp that tells you who is the better boyfriend/girlfriend in a relationship. This reminded me of a reddit post by &lt;a href=&#34;https://www.reddit.com/r/dataisbeautiful/comments/36d3dd/word_cloud_of_100000_messages_from_a_long/&#34;&gt;/u/Prometheus09&lt;/a&gt;. Inspired by what he did with his Whatsapp data, I decided to do the same thing using my Skype logs.&lt;/p&gt;
-
 &lt;p&gt;My last relationship went from November 2013 to April 2015. Unfortunately my Skype logs start from March 2014, so I&amp;rsquo;m missing about 4 months worth of data. Still, I had fun doing this and it gave me some insight into our relationship. Here is a relationship in 200,000+ messages over the course of 14 months worth of data.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-05-20-visual-data-of-a-relationship-over-a-year-1.png&#34; alt=&#34;Messages by month&#34; /&gt;
-&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-05-20-visual-data-of-a-relationship-over-a-year-2.png&#34; alt=&#34;Messages by hour&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-05-20-visual-data-of-a-relationship-over-a-year-1.png&#34; alt=&#34;Messages by month&#34;&gt;
+&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-05-20-visual-data-of-a-relationship-over-a-year-2.png&#34; alt=&#34;Messages by hour&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -189,9 +174,8 @@ URL:      http://natas0.natas.labs.overthewire.org
       <pubDate>Thu, 14 May 2015 20:33:54 +0000</pubDate>
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-05-14-playing-with-friends-on-agario/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-05-14-playing-with-friends-on-agario-1.png&#34; alt=&#34;&#34; /&gt;
+      <description>&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-05-14-playing-with-friends-on-agario-1.png&#34; alt=&#34;&#34;&gt;
 &lt;a href=&#34;http://agar.io&#34;&gt;Agar.io&lt;/a&gt; right now is one of the most popular browser games. You start off as a small blob, eating pieces smaller than you to grow, allowing you to eat other players who have a smaller mass than you. My classmates and I have been playing this game from time to time, however it was pretty difficult to play on the same server. Agar.io allows you to connect to a server in the same region, but you cannot specify which server and you&amp;rsquo;ll get thrown into a random room. This is incredibly frustrating when you&amp;rsquo;re trying to play with friends and you have to try over and over again to join the same room as your friends.&lt;/p&gt;
-
 &lt;p&gt;Good thing we can easily fix this with some jQuery. Notice when opening the console and picking a region, a websocket opens to ws://45.79.193.74:443. This is the IP and port that we want to give our friends.&lt;/p&gt;</description>
     </item>
     
@@ -201,8 +185,7 @@ URL:      http://natas0.natas.labs.overthewire.org
       <pubDate>Mon, 13 Apr 2015 21:19:02 +0000</pubDate>
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-04-13-writing-a-league-of-legends-api-wrapper/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-04-13-writing-a-league-api-wrapper-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+      <description>&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-04-13-writing-a-league-api-wrapper-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;League of Legends used to be one of my favorite games. One of my practice Rails sites is a LoL stats tracker that lets you look up play stats from &lt;a href=&#34;https://developer.riotgames.com/api/methods&#34;&gt;RiotGame&amp;rsquo;s API&lt;/a&gt;. Rather than use a gem that does all the work for me, I wrote my own wrapper to practice making my own API calls.&lt;/p&gt;</description>
     </item>
     
@@ -213,8 +196,7 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-03-28-iterm2-keyboard-shortcuts/</guid>
       <description>&lt;p&gt;I noticed people sluggishly using the arrow keys to fix a typo in a terminal command, wasting seconds that add up over time. Here are a couple of keyboard shortcuts I use that increased the quality of life when using the terminal, and allows for speedier in-line navigation.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-03-28-iterm2-keyboard-shortcuts-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-03-28-iterm2-keyboard-shortcuts-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -224,16 +206,11 @@ URL:      http://natas0.natas.labs.overthewire.org
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2015-02-08-no-plex-zone/</guid>
       <description>&lt;p&gt;I was around 15 when I started to play around with web and game server hosting. As a result, I became interested in owning my own dedicated server, but my 5mbps down/1mbps up connection did not make me a suitable host. After moving into an apartment where I don’t pay for electricity and has Verizon FIOS, I was able to finally build my own computer and learn how to be a sysadmin.&lt;/p&gt;
-
-&lt;hr /&gt;
-
+&lt;hr&gt;
 &lt;h2 id=&#34;hardware&#34;&gt;Hardware&lt;/h2&gt;
-
 &lt;p&gt;Doubling my main computer as a HTPC and hosting game servers on top of that only led to everyone having an inconsistent experience due to my resources being eaten up whenever I started up a game. Near 100% CPU and RAM utilization isn’t fun for anyone. I decided to build my own (dedicated) server. This was the fun part.&lt;/p&gt;
-
 &lt;p&gt;Since I have only built gaming rigs in the past, server grade hardware was unexplored territory. I had to research server grade motherboards, NAS drives, ECC RAM, Intel Xeon processors, etc. This was my final build after a week of research:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-02-08-no-plex-zone-1.jpg&#34; alt=&#34;My build&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-02-08-no-plex-zone-1.jpg&#34; alt=&#34;My build&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -242,7 +219,7 @@ URL:      http://natas0.natas.labs.overthewire.org
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/page/about/</guid>
-      <description>Something about me</description>
+      <description>Something about me </description>
     </item>
     
   </channel>

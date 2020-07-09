@@ -8,19 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <title>Creating a Docker Workflow with Node.js - bchoy.me</title>
-  <meta property="og:title" content="Creating a Docker Workflow with Node.js" />
-  <meta name="twitter:title" content="Creating a Docker Workflow with Node.js" />
   <meta name="description" content="Note: These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.
-
 The Problem
-
 Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you&rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev/qa/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.">
-  <meta property="og:description" content="Note: These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.
-
-The Problem
-
-Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you&rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev/qa/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.">
-  <meta name="twitter:description" content="Note: These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document …">
   <meta name="author" content="Brian Choy"/><script type="application/ld+json">
 {
     "@context": "http://schema.org",
@@ -69,7 +59,7 @@ Our development team occasionally has to switch between different projects. Each
     "name" : "Brian Choy"
   },
   "headline": "Creating a Docker Workflow with Node.js",
-  "description" : "Note: These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.\nThe Problem Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and\/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you\x26rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev\/qa\/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.\n",
+  "description" : "Note: These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.\nThe Problem Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and\/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you\u0026rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev\/qa\/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.\n",
   "inLanguage" : "en",
   "wordCount":  1946 ,
   "datePublished" : "2016-02-28T16:40:28",
@@ -92,9 +82,7 @@ Our development team occasionally has to switch between different projects. Each
 
 <meta property="og:title" content="Creating a Docker Workflow with Node.js" />
 <meta property="og:description" content="Note: These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.
-
 The Problem
-
 Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you&rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev/qa/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.">
 <meta property="og:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
 <meta property="og:url" content="https://blog.bchoy.me/post/2016-02-28-docker-workflow-with-nodejs/" />
@@ -106,14 +94,7 @@ Our development team occasionally has to switch between different projects. Each
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta property="og:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
-  <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://blog.bchoy.me/post/2016-02-28-docker-workflow-with-nodejs/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="bchoy.me" />
-
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.73.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -259,7 +240,9 @@ Our development team occasionally has to switch between different projects. Each
     &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1946&nbsp;words
   
   
-    &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Brian Choy
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Brian Choy
+    
   
   
 </span>
@@ -280,23 +263,14 @@ Our development team occasionally has to switch between different projects. Each
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
         <p><strong>Note:</strong> These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.</p>
-
 <h2 id="the-problem">The Problem</h2>
-
 <p>Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you&rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev/qa/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.</p>
-
 <h2 id="proposed-solution">Proposed Solution</h2>
-
 <p>We needed a standardized environment, reproducible across our developer&rsquo;s machines, Jenkins servers, and production servers. The two most popular technologies that solve this problem are Vagrant and Docker. Vagrant and Docker also helps us onboard new developers much more quickly. Before we started using Docker, new developers would have to follow a lengthy readme, download every necessary dependency, and configure their installations. Despite following the readme exactly, there may be some issues due to setups from previous projects and additional time is spent troubleshooting. With Vagrant and Docker, the environment is already preconfigured and isolated, allowing a new developer to get started with much less hassle.</p>
-
 <p>I chose to use Docker for our workflow primarily because of how lightweight it is. Running an entire virtual machine uses more system resources than running containers. Also, our front end projects all require Node.js, npm, and compass. Creating an image and using it as a base for all projects makes more sense than using Vagrant to run a completely isolated virtual machine for each one. Switching between projects is much faster and having a virtual machine for each project when they have very similar environments seems redundant. Furthermore, our Jenkins servers are running on small AWS EC2 instances. The overhead of multiple virtual machines on a machine is much more than having containers spun up from Docker images created from the same base image.</p>
-
 <h2 id="setting-up-docker">Setting up Docker</h2>
-
 <p>Since our company is in the beginning stages of embracing the DevOps philosophy, I&rsquo;ve made the decision to keep our setup simple for now. As we feel more comfortable with using Docker, I&rsquo;ll be setting up private repos on Docker Hub, Quay, or AWS ECR. At the moment, I have an image on a public repo serving as the project base. This image contains everything the application needs to run and compile assets with gulp and compass.</p>
-
 <p>Base Dockerfile:</p>
-
 <pre><code>FROM debian:8.3
 MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
 ENV NODE_VERSION=4.3.1 \
@@ -320,12 +294,8 @@ RUN ln -snf /bin/bash /bin/sh; \
     npm set progress=false
 
 CMD [&quot;/bin/bash&quot;]
-</code></pre>
-
-<p>I am using the Debian 8.3 base image because it&rsquo;s small enough, comes with a necessary packages out of the box, and has the correct version of ruby-compass that I need. The scope of our current work allows me to get away with the extra bloat. We also have just started using Docker. Optimizing and tweaking the base Docker image can be done later in case we run into issues and decide to favour Vagrant or another technology. Having additional bloat is well worth the time I would have spent building our project base image from a smaller base and finding out exactly what dependencies are needed.</p>
-
+</code></pre><p>I am using the Debian 8.3 base image because it&rsquo;s small enough, comes with a necessary packages out of the box, and has the correct version of ruby-compass that I need. The scope of our current work allows me to get away with the extra bloat. We also have just started using Docker. Optimizing and tweaking the base Docker image can be done later in case we run into issues and decide to favour Vagrant or another technology. Having additional bloat is well worth the time I would have spent building our project base image from a smaller base and finding out exactly what dependencies are needed.</p>
 <h3 id="bootstrapping-and-dealing-with-node-modules">Bootstrapping and Dealing with Node Modules</h3>
-
 <p>I have written an init.sh script to quickly create the containers needed and install the Node modules.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
 </span><span class="cp"></span>
@@ -333,35 +303,23 @@ CMD [&quot;/bin/bash&quot;]
 docker create -v /tmp/app --name node-modules thebarbariangroup/node-compass /bin/true
 <span class="nb">echo</span> <span class="s2">&#34;Installing node_modules to container...&#34;</span>
 docker run --rm --volumes-from node-modules -v <span class="nv">$PWD</span>/package.json:/tmp/app/package.json:ro thebarbariangroup/node-compass /bin/bash -c <span class="s2">&#34;cd /tmp/app; npm install&#34;</span>
-<span class="nb">echo</span> <span class="s2">&#34;Done!&#34;</span></code></pre></div>
-<p>The script creates a <code>node-modules</code> container specifically containing the node_modules folder. Node modules will be installed to <code>/tmp/app</code> and will be mounted onto the gulp container. A few months ago when I first started working with Docker, I&rsquo;ve seen many tutorials suggest installing Node modules with the Dockerfile.</p>
-
+<span class="nb">echo</span> <span class="s2">&#34;Done!&#34;</span>
+</code></pre></div><p>The script creates a <code>node-modules</code> container specifically containing the node_modules folder. Node modules will be installed to <code>/tmp/app</code> and will be mounted onto the gulp container. A few months ago when I first started working with Docker, I&rsquo;ve seen many tutorials suggest installing Node modules with the Dockerfile.</p>
 <pre><code>COPY package.json package.json
 RUN npm install
 COPY . .
 CMD [&quot;gulp&quot;]
-</code></pre>
-
-<p>The idea behind the above approach is to cache the Node modules by only installing them when <code>package.json</code> is changed. This makes sense, however if I want to add or remove modules, every single module will have to be reinstalled. Waiting a few minutes whenever a package needs to be installed disrupts the workflow for every developer and a lot of time is lost. By setting up a separate container, I avoid the need to cache Node modules. <code>package.json</code> is copied to <code>/tmp/app</code> as read-only and <code>$ npm install</code> is run with the new <code>package.json</code> on that container. The only change in workflow is remembering to run the init script instead of <code>$ npm install</code>. I was unable to overwrite its default function and use my script. More info on the solution I used can be found reading <a href="https://github.com/npm/npm/issues/8836">this GitHub issue</a>.</p>
-
+</code></pre><p>The idea behind the above approach is to cache the Node modules by only installing them when <code>package.json</code> is changed. This makes sense, however if I want to add or remove modules, every single module will have to be reinstalled. Waiting a few minutes whenever a package needs to be installed disrupts the workflow for every developer and a lot of time is lost. By setting up a separate container, I avoid the need to cache Node modules. <code>package.json</code> is copied to <code>/tmp/app</code> as read-only and <code>$ npm install</code> is run with the new <code>package.json</code> on that container. The only change in workflow is remembering to run the init script instead of <code>$ npm install</code>. I was unable to overwrite its default function and use my script. More info on the solution I used can be found reading <a href="https://github.com/npm/npm/issues/8836">this GitHub issue</a>.</p>
 <p>In addition to this, npm&rsquo;s progress bar was adding an incredible amount of build time. This issue can be viewed <a href="https://github.com/npm/npm/issues/11283">here</a> and is resolved by turning the progress bar off: <code>$ npm set progress=false</code>. The slowdown has been addressed and fixed in <a href="https://github.com/npm/npm/blob/master/CHANGELOG.md">npm v3.7.0</a>.</p>
-
 <h3 id="tackling-file-watching">Tackling File Watching</h3>
-
 <p>Gulp&rsquo;s watch task is essential to our workflow. Unfortunately, due to a limitation in VirtualBox, inotify-based file watchers do not work. Polling can be enabled, but it is slow and we&rsquo;re used to seeing our changes almost instantly. The best solution I&rsquo;ve found for this is using rsync to send files to Docker-Machine. The <a href="https://github.com/brikis98/docker-osx-dev">docker-osx-dev project</a> packages the rsync setup in a nice, easy to use script easily installable with brew.</p>
-
 <p>Once installed, any developer working on the project will have to run the docker-osx-dev script and file watching will be enabled. One nice feature is directories and files listed in the <code>.dockerignore</code> file are automatically not included. I was facing issues with my changes not being seen on the Docker container. Simply adding the generated static assets to the <code>.dockerignore</code> file fixed my problems.</p>
-
 <h3 id="the-problem-with-docker-osx-dev">The Problem with docker-osx-dev</h3>
-
 <p>docker-osx-dev is great when all your developers are on OSX. Very recently one of our projects required us to support development on Windows, and the docker-osx-dev script was no longer a valid solution. This is where Vagrant came into play for me. I used Vagrant to provision the environment and set up shared folders using rsync for both Windows and OSX (Linux untested). Unfortunately, setup for Windows still has additional steps because rsync is not installed by default. Cygwin, MinGW or cwRsync has to be installed and the latest Vagrant (1.8.1) has a bug where paths are not read correctly. Using the following solutions from these two GitHub issues fixed my rsync issues and allowed me to work on my Windows environment using cwRsync.
 <a href="https://github.com/mitchellh/vagrant/issues/6702#issuecomment-166503021">https://github.com/mitchellh/vagrant/issues/6702#issuecomment-166503021</a>
 <a href="https://github.com/mitchellh/vagrant/issues/3230#issuecomment-37757086">https://github.com/mitchellh/vagrant/issues/3230#issuecomment-37757086</a></p>
-
 <h3 id="running-the-project">Running the Project</h3>
-
 <p>Since I&rsquo;m using an already compiled image, my actual Dockerfile in this project is very short.</p>
-
 <pre><code>FROM thebarbariangroup/node-compass
 MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
 
@@ -371,10 +329,7 @@ RUN ln -s /tmp/app/node_modules node_modules
 COPY . .
 EXPOSE 3000
 CMD [&quot;npm&quot;, &quot;run&quot;, &quot;dockerdev&quot;]
-</code></pre>
-
-<p>This will symlink the Node modules in the node-modules container (which is mounted as a volume) and allow the application to use the modules from that container.</p>
-
+</code></pre><p>This will symlink the Node modules in the node-modules container (which is mounted as a volume) and allow the application to use the modules from that container.</p>
 <p>To run gulp, I&rsquo;ve modified <code>$ npm start</code> to run this shell script:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
 </span><span class="cp"></span>docker <span class="nb">kill</span> node
@@ -385,36 +340,23 @@ docker run -it <span class="se">\
 </span><span class="se"></span>        --name node <span class="se">\
 </span><span class="se"></span>        --volumes-from node-modules <span class="se">\
 </span><span class="se"></span>        -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/app:/src/app/app <span class="se">\
-</span><span class="se"></span>        -p <span class="m">3000</span>:3000 <span class="se">\
-</span><span class="se"></span>        thebarbariangroup/projectname</code></pre></div>
-<p><strong>Note:</strong> The names I&rsquo;m using for my containers (node-modules and node) are placeholders. More specific names should be used to avoid confusion with multiple projects.</p>
-
+</span><span class="se"></span>        -p 3000:3000 <span class="se">\
+</span><span class="se"></span>        thebarbariangroup/projectname
+</code></pre></div><p><strong>Note:</strong> The names I&rsquo;m using for my containers (node-modules and node) are placeholders. More specific names should be used to avoid confusion with multiple projects.</p>
 <p>When the project is built, the previous lingering container will be killed if running, and removed. Dangling images (blank image names) are also removed to keep your image list clean and free up disk space. Docker by default does not have a cleanup feature.</p>
-
 <p>The new <code>node</code> image will now build and a container will be run in interactive mode, allowing you to see gulp&rsquo;s output. The node-modules container is mounted as a volume, and my <code>app</code> folder (where my html, js, sass is contained) is mounted onto the new <code>node</code> container, enabling me to view my changes while developing. Port 3000 on the host is mapped to port 3000 on the container and <code>$ npm dockerdev</code> (a custom npm script to run gulp) is run. For some reason I&rsquo;m unable to run gulp directly due to a <code>gulp not found</code> error, despite it being installed. I&rsquo;m unsure as to why this happens.</p>
-
-<p>Your project is now visible on your Docker-Machine&rsquo;s IP on port 3000. To see your Docker-Machine IP, run <code>$ docker-machine [vm name] ip</code>. In my hosts file, I pointed <code>projectname</code> to my Docker-Machine IP so I can visit <a href="http://projectname:3000">http://projectname:3000</a> to view my app.</p>
-
+<p>Your project is now visible on your Docker-Machine&rsquo;s IP on port 3000. To see your Docker-Machine IP, run <code>$ docker-machine [vm name] ip</code>. In my hosts file, I pointed <code>projectname</code> to my Docker-Machine IP so I can visit http://projectname:3000 to view my app.</p>
 <h2 id="using-jenkins">Using Jenkins</h2>
-
 <p>Jenkins is the final step in our workflow. After a change is pushed to GitHub, Jenkins will build the container using the <code>$ gulp build:production</code> command and the static assets will be built in the container. To retrieve these assets, the files need to be copied from the container over to a directory on the Jenkin server&rsquo;s filesystem.
 <code>$ docker cp projectname:/file/path/within/container /host/path/target</code></p>
-
 <p>Jenkins will then take those compiled assets and upload them to an EC2 instance running Apache. Apache will then serve the newly compiled assets.</p>
-
 <p><strong>Note:</strong> I set up Docker manually in Jenkins when I started this project, but I&rsquo;m looking forward to trying out <a href="https://wiki.jenkins-ci.org/display/JENKINS/Docker+build+step+plugin">the Docker Build Step plugin</a> on my next project.</p>
-
 <h2 id="future-changes">Future Changes</h2>
-
 <p>Revising the base image and updating all projects is easy. The Dockerfile for my base image shown earlier installs a specific Node.js and npm version. In hindsight, I realized that those versions should be specified in each project&rsquo;s individual Dockerfile instead of in the base. That way each project can start out with an installation of nvm, but install its own version. I did not notice my error until after I introduced the Docker workflow to all of the developers. Fortunately, updating the base image was not a problem. This is how I handled my mistake.</p>
-
 <p>After removing the Node.js and npm installations from the Dockerfile for my base Docker image, I pushed the image up with the <code>1.0.0</code> tag. I reference this version number in my project&rsquo;s Dockerfile:</p>
-
 <pre><code>FROM thebarbariangroup/node-compass:1.0.0
 MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
-</code></pre>
-
-<p>Going forward, I will be tagging my base builds with a version number. Versioning the base image allows for more versatile updates. Now all developers will get the latest changes with a <code>git pull</code> because the Dockerfile is checked into the GitHub repo. Docker will handle the pulling of the latest image. Furthermore, different projects can reference different versions of the base image. If I chose to update my base image with more packages, future projects can point to <code>thebarbariangroup/node-compass:2.0.0</code> while older projects that do not need those packages can still reference <code>1.0.0</code>.</p>
+</code></pre><p>Going forward, I will be tagging my base builds with a version number. Versioning the base image allows for more versatile updates. Now all developers will get the latest changes with a <code>git pull</code> because the Dockerfile is checked into the GitHub repo. Docker will handle the pulling of the latest image. Furthermore, different projects can reference different versions of the base image. If I chose to update my base image with more packages, future projects can point to <code>thebarbariangroup/node-compass:2.0.0</code> while older projects that do not need those packages can still reference <code>1.0.0</code>.</p>
 
         
 
@@ -422,6 +364,7 @@ MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
 
         
           
+
           
         
       </article>
@@ -448,7 +391,8 @@ MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
   </div>
 </div>
 
-    <footer>
+      
+<footer>
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -489,7 +433,7 @@ MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2018
+            2019
           
 
           
@@ -499,7 +443,7 @@ MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.55.6</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>
@@ -524,6 +468,7 @@ MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
 
 
 
+    
   </body>
 </html>
 

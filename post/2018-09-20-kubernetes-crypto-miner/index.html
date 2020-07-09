@@ -8,29 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <title>How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes Clusters - bchoy.me</title>
-  <meta property="og:title" content="How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes Clusters" />
-  <meta name="twitter:title" content="How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes …" />
   <meta name="description" content="Medium post: https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205
-
 The explosion of cryptocurrency in recent years spurred a wave of exploits targeting unsuspecting machines to mine cryptocurrency for the attackers. Earlier in the year, the JW Player DevOps team discovered one of the aforementioned miners running on our development and staging Kubernetes clusters.
-
 To be clear, our production cluster was not affected, no JW Player customer data was accessed or exposed, and service was uninterrupted. Malicious actors are not always intent on stealing information or taking a website down, they can be just as content (or more so) in stealing your compute power. We take any intrusion very seriously though, and wanted to share our findings to help other DevOps teams harden their systems.
-
 This blog post is broken up into several parts detailing — discovery and diagnosis, our immediate response, discovering and replicating the attack vector, damage assessment, and plans for preventative measures to further protect our systems.
-
 ">
-  <meta property="og:description" content="Medium post: https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205
-
-The explosion of cryptocurrency in recent years spurred a wave of exploits targeting unsuspecting machines to mine cryptocurrency for the attackers. Earlier in the year, the JW Player DevOps team discovered one of the aforementioned miners running on our development and staging Kubernetes clusters.
-
-To be clear, our production cluster was not affected, no JW Player customer data was accessed or exposed, and service was uninterrupted. Malicious actors are not always intent on stealing information or taking a website down, they can be just as content (or more so) in stealing your compute power. We take any intrusion very seriously though, and wanted to share our findings to help other DevOps teams harden their systems.
-
-This blog post is broken up into several parts detailing — discovery and diagnosis, our immediate response, discovering and replicating the attack vector, damage assessment, and plans for preventative measures to further protect our systems.
-
-">
-  <meta name="twitter:description" content="Medium post: https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205
-
-The explosion of cryptocurrency in recent years …">
   <meta name="author" content="Brian Choy"/><script type="application/ld+json">
 {
     "@context": "http://schema.org",
@@ -81,7 +63,7 @@ The explosion of cryptocurrency in recent years …">
   "headline": "How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes Clusters",
   "description" : "Medium post: https:\/\/medium.com\/jw-player-engineering\/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205\nThe explosion of cryptocurrency in recent years spurred a wave of exploits targeting unsuspecting machines to mine cryptocurrency for the attackers. Earlier in the year, the JW Player DevOps team discovered one of the aforementioned miners running on our development and staging Kubernetes clusters.\nTo be clear, our production cluster was not affected, no JW Player customer data was accessed or exposed, and service was uninterrupted. Malicious actors are not always intent on stealing information or taking a website down, they can be just as content (or more so) in stealing your compute power. We take any intrusion very seriously though, and wanted to share our findings to help other DevOps teams harden their systems.\nThis blog post is broken up into several parts detailing — discovery and diagnosis, our immediate response, discovering and replicating the attack vector, damage assessment, and plans for preventative measures to further protect our systems.\n",
   "inLanguage" : "en",
-  "wordCount":  2551 ,
+  "wordCount":  2552 ,
   "datePublished" : "2018-09-20T18:15:02",
   "dateModified" : "2018-09-20T18:15:02",
   "image" : "https:\/\/blog.bchoy.me\/assets\/img\/avatar.jpg",
@@ -102,13 +84,9 @@ The explosion of cryptocurrency in recent years …">
 
 <meta property="og:title" content="How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes Clusters" />
 <meta property="og:description" content="Medium post: https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205
-
 The explosion of cryptocurrency in recent years spurred a wave of exploits targeting unsuspecting machines to mine cryptocurrency for the attackers. Earlier in the year, the JW Player DevOps team discovered one of the aforementioned miners running on our development and staging Kubernetes clusters.
-
 To be clear, our production cluster was not affected, no JW Player customer data was accessed or exposed, and service was uninterrupted. Malicious actors are not always intent on stealing information or taking a website down, they can be just as content (or more so) in stealing your compute power. We take any intrusion very seriously though, and wanted to share our findings to help other DevOps teams harden their systems.
-
 This blog post is broken up into several parts detailing — discovery and diagnosis, our immediate response, discovering and replicating the attack vector, damage assessment, and plans for preventative measures to further protect our systems.
-
 ">
 <meta property="og:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
 <meta property="og:url" content="https://blog.bchoy.me/post/2018-09-20-kubernetes-crypto-miner/" />
@@ -117,19 +95,11 @@ This blog post is broken up into several parts detailing — discovery and d
 
   <meta name="twitter:title" content="How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes …" />
   <meta name="twitter:description" content="Medium post: https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205
-
-The explosion of cryptocurrency in recent years …">
+The explosion of cryptocurrency in recent years spurred …">
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta property="og:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
-  <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://blog.bchoy.me/post/2018-09-20-kubernetes-crypto-miner/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="bchoy.me" />
-
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.73.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -272,10 +242,12 @@ The explosion of cryptocurrency in recent years …">
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;12&nbsp;minutes
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2551&nbsp;words
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2552&nbsp;words
   
   
-    &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Brian Choy
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Brian Choy
+    
   
   
 </span>
@@ -296,29 +268,17 @@ The explosion of cryptocurrency in recent years …">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
         <p>Medium post: <a href="https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205">https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205</a></p>
-
 <p>The explosion of cryptocurrency in recent years spurred a wave of exploits targeting unsuspecting machines to mine cryptocurrency for the attackers. Earlier in the year, the JW Player DevOps team discovered one of the aforementioned miners running on our development and staging Kubernetes clusters.</p>
-
 <p>To be clear, <em>our production cluster was not affected, no JW Player customer data was accessed or exposed, and service was uninterrupted</em>. Malicious actors are not always intent on stealing information or taking a website down, they can be just as content (or more so) in stealing your compute power. We take any intrusion very seriously though, and wanted to share our findings to help other DevOps teams harden their systems.</p>
-
 <p>This blog post is broken up into several parts detailing — discovery and diagnosis, our immediate response, discovering and replicating the attack vector, damage assessment, and plans for preventative measures to further protect our systems.</p>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-0.png" alt="" /></p>
-
+<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-0.png" alt=""></p>
 <h2 id="discovery">Discovery</h2>
-
 <p><strong>Day 0, 21:06 EST:</strong> Datadog alerted us (the DevOps team) to a high normalised load average on our staging environment. The cause of the high load averages was determined to be an increased load on one of our legitimate services. This was normal behaviour.</p>
-
 <p><strong>Day 1, 2018, 16:53 EST:</strong> Another Datadog alert was triggered with the same high normalised load average issue, this time on our development environment. That same service repeatedly triggered alerts from it constantly scaling up and scaling down on both development and staging environments. Due to the initial triage of the previous alert and the volume of incoming alerts of the same type, those alerts were muted until the flux stabilised.</p>
-
 <p><strong>Day 3, 17:40 EST:</strong> The increased load over the course of 4 days across both clusters was no longer considered normal. Further investigation was necessary to either address the increased load or tweak the Datadog monitors. I logged onto one of the Kubernetes instances via SSH and examined resource consumption using <code>top</code>. A <code>gcc</code> process ran at 100% CPU utilisation and was an immediate suspect for high load averages on the machine. This process was found to be running across every machine in the development and staging clusters.</p>
-
 <h2 id="diagnosis">Diagnosis</h2>
-
 <p><em>Note: All terminal output has been truncated to only show relevant information. A truncated output is denoted with an ellipsis <code>...</code> .</em></p>
-
 <p>Initially, I believed a defective container was launched through our internal deployment tool and ran <code>gcc</code>. However since the master nodes were affected, that hypothesis seemed incorrect. Since JW Player follows the practice of keeping infrastructure as code, I double checked our repositories for any applied <code>yaml</code> configurations or deployments that ran <code>gcc</code> and found nothing suspicious.</p>
-
 <p>For further visibility into why <code>gcc</code> would be running at all, I inspected the process:</p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">admin@ip-10-10-201-13:~$ cat /proc/29254/status
 Name:    gcc
@@ -328,9 +288,10 @@ Tgid:    <span class="m">29254</span>
 Ngid:    <span class="m">0</span>
 Pid:    <span class="m">29254</span>
 PPid:    <span class="m">3391</span>
-...</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">admin@ip-10-10-201-13:~$ ps aux <span class="p">|</span> grep <span class="m">3391</span>
-root      <span class="m">3391</span>  <span class="m">0</span>.0  <span class="m">0</span>.0 <span class="m">413632</span>  <span class="m">3740</span> ?        Sl   Sep05   <span class="m">0</span>:00 docker-containerd-shim 7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d /var/run/docker/libcontainerd/7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d docker-runc</code></pre></div>
-<p>Strange. A Docker container is running <code>gcc</code> despite our code base stating otherwise. Inspecting the Docker container reveals that Weave Scope was the parent process:</p>
+...
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">admin@ip-10-10-201-13:~$ ps aux <span class="p">|</span> grep <span class="m">3391</span>
+root      <span class="m">3391</span>  0.0  0.0 <span class="m">413632</span>  <span class="m">3740</span> ?        Sl   Sep05   0:00 docker-containerd-shim 7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d /var/run/docker/libcontainerd/7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d docker-runc
+</code></pre></div><p>Strange. A Docker container is running <code>gcc</code> despite our code base stating otherwise. Inspecting the Docker container reveals that Weave Scope was the parent process:</p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">admin@ip-10-10-201-13:~$ sudo docker inspect 7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d
 <span class="o">[</span>
     <span class="o">{</span>
@@ -352,72 +313,60 @@ root      <span class="m">3391</span>  <span class="m">0</span>.0  <span class="
             <span class="s2">&#34;Restarting&#34;</span>: false,
             <span class="s2">&#34;OOMKilled&#34;</span>: false,
             <span class="s2">&#34;Dead&#34;</span>: false,
-            <span class="s2">&#34;Pid&#34;</span>: <span class="m">3408</span>,
-            <span class="s2">&#34;ExitCode&#34;</span>: <span class="m">0</span>,
+            <span class="s2">&#34;Pid&#34;</span>: 3408,
+            <span class="s2">&#34;ExitCode&#34;</span>: 0,
             <span class="s2">&#34;Error&#34;</span>: <span class="s2">&#34;&#34;</span>,
             <span class="s2">&#34;StartedAt&#34;</span>: <span class="s2">&#34;2018-09-05T17:45:20.19489647Z&#34;</span>,
             <span class="s2">&#34;FinishedAt&#34;</span>: <span class="s2">&#34;0001-01-01T00:00:00Z&#34;</span>
         <span class="o">}</span>,
-        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,</code></pre></div>
-<p><a href="https://www.weave.works/oss/scope/">Weave Scope</a> is a tool used to monitor Kubernetes in real time, and there was no reason for it to be running <code>gcc</code>. At this point I found that the <code>&quot;gcc&quot;</code> binary was actually a cryptocurrency miner with the filename <code>gcc</code>.</p>
-
+        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,
+</code></pre></div><p><a href="https://www.weave.works/oss/scope/">Weave Scope</a> is a tool used to monitor Kubernetes in real time, and there was no reason for it to be running <code>gcc</code>. At this point I found that the <code>&quot;gcc&quot;</code> binary was actually a cryptocurrency miner with the filename <code>gcc</code>.</p>
 <p>objdump:</p>
-
 <pre><code>admin@ip-10-10-201-13:/$ objdump -sj .rodata /gcc
 ...
  f0c00 584d5269 6720322e 362e320a 20627569  XMRig 2.6.2. bui
  f0c10 6c74206f 6e204d61 79203330 20323031  lt on May 30 201
  f0c20 38207769 74682047 43430000 00000000  8 with GCC......
 ...
-</code></pre>
-
-<p>Furthermore, the binary was running from the host machine’s <code>root</code> directory and not from a container. Using Weave Scope to gain more insight into what this container was doing, an outbound connection to a mining pool further confirmed my suspicions.</p>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-1.png" alt="Weave Scope gcc outbound connection" /></p>
-
+</code></pre><p>Furthermore, the binary was running from the host machine’s <code>root</code> directory and not from a container. Using Weave Scope to gain more insight into what this container was doing, an outbound connection to a mining pool further confirmed my suspicions.</p>
+<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-1.png" alt="Weave Scope gcc outbound connection"></p>
 <h2 id="immediate-action">Immediate Action</h2>
-
 <p><strong>Day 3, 19:03 EST:</strong> After identifying Weave Scope to be the source of spawning the miner masquerading as <code>gcc</code>, the team was immediately notified. Working in parallel,</p>
-
 <ul>
-<li><p>Weave Scope was stopped and its deployment was removed from all our Kubernetes clusters.</p></li>
-
-<li><p>Access logs were checked for any signs of unauthorised access to our instances.</p></li>
-
-<li><p>The <code>gcc</code> process outbound connections were inspected and found to only communicate with a mining pool.</p></li>
-
-<li><p>A Google search for <code>XMRig</code> led to a [GitHub repository for a Monero miner](<a href="https://github.com/xmrig/xmrig](https://github.com/xmrig/xmrig">https://github.com/xmrig/xmrig](https://github.com/xmrig/xmrig</a>). Combing through the source confirmed that its only function is to mine Monero.</p></li>
-
-<li><p>One of the affected nodes was isolated from the cluster for future investigation.</p></li>
-
-<li><p>All nodes in each cluster were rotated out to ensure all affected entities were destroyed and rebuilt.</p></li>
+<li>
+<p>Weave Scope was stopped and its deployment was removed from all our Kubernetes clusters.</p>
+</li>
+<li>
+<p>Access logs were checked for any signs of unauthorised access to our instances.</p>
+</li>
+<li>
+<p>The <code>gcc</code> process outbound connections were inspected and found to only communicate with a mining pool.</p>
+</li>
+<li>
+<p>A Google search for <code>XMRig</code> led to a [GitHub repository for a Monero miner](<a href="https://github.com/xmrig/xmrig%5D(https://github.com/xmrig/xmrig)">https://github.com/xmrig/xmrig](https://github.com/xmrig/xmrig)</a>. Combing through the source confirmed that its only function is to mine Monero.</p>
+</li>
+<li>
+<p>One of the affected nodes was isolated from the cluster for future investigation.</p>
+</li>
+<li>
+<p>All nodes in each cluster were rotated out to ensure all affected entities were destroyed and rebuilt.</p>
+</li>
 </ul>
-
 <h2 id="discovering-the-attack-vector">Discovering the Attack Vector</h2>
-
 <p>Finding a cryptocurrency miner on our internal clusters was alarming and indicative of a vulnerability in the software we were running or an issue with our setup. Because Weave Scope was the parent process that spawned the miner, I checked for CVEs related to Weave and Weave Scope, sifted through the GitHub issues, and looked to see if any similar cases existed. No known vulnerabilities were published, no traces of DNS tampering or unauthorised access into our clusters was found, and the Docker image hash for Weave Scope matched the published image on DockerHub.</p>
-
 <p>The next step I took to determine an attack vector was launching a new barebones, isolated Kubernetes cluster with our existing deployment method. Watching over the entire process exposed the first issue — the Weave Scope load balancer security group was public facing and exposed to the world.</p>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-2.png" alt="Security group exposed to the world" /></p>
-
+<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-2.png" alt="Security group exposed to the world"></p>
 <p>Anyone with our load balancer URL can access the Weave Scope dashboard without any authentication. Having metrics exposed to prying eyes will provide attackers information to work with, however one Weave Scope feature, in particular, was abused. The documentation on <a href="https://github.com/weaveworks/scope">Weave Scope&rsquo;s Github repository</a> advertises that one of the features included is the ability to launch a command line on running containers:</p>
-
 <pre><code>Interact with and manage containers
 Launch a command line.
 
 Interact with your containers directly: pause, restart and stop containers. Launch a command line. All without leaving the scope browser window.
-</code></pre>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-3.png" alt="Weave-Scope can execute a shell" /></p>
-
+</code></pre><p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-3.png" alt="Weave-Scope can execute a shell"></p>
 <p>In the GUI, the terminal prompt icon presents a user with an interactive shell to the container. Even so, by design containers have a certain amount of separation from its host. An exposed load balancer along with our specific Kubernetes cluster configuration allowed arbitrary code to break out of the container and run on the host instance. Looking at the default Weave Scope <a href="https://www.weave.works/docs/scope/latest/installing/#k8s">configuration file</a> for load balancers for reference,</p>
-
 <ol>
-<li><p>k8s-service-type - Kubernetes service type (for running Scope in Standalone mode), can be either LoadBalancer or NodePort, by default this is unspecified (only internal access)</p>
-
+<li>
+<p>k8s-service-type - Kubernetes service type (for running Scope in Standalone mode), can be either LoadBalancer or NodePort, by default this is unspecified (only internal access)</p>
 <p>Our deployment was missing the annotation to make the load balancer internal:</p>
-
 <pre><code>  - apiVersion: v1
     kind: Service
     metadata:
@@ -441,9 +390,8 @@ Interact with your containers directly: pause, restart and stop containers. Laun
 ...
       type: LoadBalancer
 </code></pre></li>
-
-<li><p>The <code>weave-scope</code> container is running with the <code>--privileged</code> flag:</p>
-
+<li>
+<p>The <code>weave-scope</code> container is running with the <code>--privileged</code> flag:</p>
 <pre><code>        spec:
           containers:
             - name: scope-agent
@@ -454,9 +402,8 @@ Interact with your containers directly: pause, restart and stop containers. Laun
                 privileged: true
 ...
 </code></pre></li>
-
-<li><p>Files on the root file system were mounted onto the container:</p>
-
+<li>
+<p>Files on the root file system were mounted onto the container:</p>
 <pre><code>...
               volumeMounts:
                 - name: scope-plugins
@@ -467,28 +414,21 @@ Interact with your containers directly: pause, restart and stop containers. Laun
                   mountPath: /var/run/docker.sock
 ...
 </code></pre></li>
-
-<li><p>Containers are run as the <code>root</code> user.</p></li>
+<li>
+<p>Containers are run as the <code>root</code> user.</p>
+</li>
 </ol>
-
 <h2 id="replicating-the-attack">Replicating the Attack</h2>
-
 <p>Simulating the attacker, a <code>scope-agent</code> container would be ideal to run commands on due to having elevated privileges.</p>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-4.png" alt="Weave Scope exec shell access" /></p>
-
+<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-4.png" alt="Weave Scope exec shell access"></p>
 <p>Demonstrated above, the host volume can be mounted onto the Docker container. This matches the listing on the underlying host. I created a simple bash script to run in the background to show that it can run on the host machine as <code>root</code>.</p>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-5.png" alt="Bash script running on host machine as root" /></p>
-
+<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-5.png" alt="Bash script running on host machine as root"></p>
 <p>Through SSH on the host machine, the <code>gcc</code> file created through the <code>scope-agent</code> container is visible and running.</p>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-6.png" alt="Terminal output of host machine" /></p>
-
+<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-6.png" alt="Terminal output of host machine"></p>
 <p>Using the same method as in our original diagnosis, we see that <code>gcc</code> is running and identify the parent:</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">root@ip-10-30-184-17:/# ps aux <span class="p">|</span> grep gcc
-root      <span class="m">8864</span>  <span class="m">0</span>.0  <span class="m">0</span>.0   <span class="m">1524</span>     <span class="m">4</span> pts/7    S    <span class="m">16</span>:38   <span class="m">0</span>:00 ash ./gcc
-root     <span class="m">14730</span>  <span class="m">0</span>.0  <span class="m">0</span>.0  <span class="m">12784</span>   <span class="m">948</span> pts/4    S+   <span class="m">16</span>:39   <span class="m">0</span>:00 grep gcc
+root      <span class="m">8864</span>  0.0  0.0   <span class="m">1524</span>     <span class="m">4</span> pts/7    S    16:38   0:00 ash ./gcc
+root     <span class="m">14730</span>  0.0  0.0  <span class="m">12784</span>   <span class="m">948</span> pts/4    S+   16:39   0:00 grep gcc
 root@ip-10-30-184-17:/# cat /proc/8864/status
 Name:   busybox
 Umask:  <span class="m">0022</span>
@@ -496,10 +436,10 @@ State:  S <span class="o">(</span>sleeping<span class="o">)</span>
 Tgid:   <span class="m">8864</span>
 Ngid:   <span class="m">0</span>
 Pid:    <span class="m">8864</span>
-PPid:   <span class="m">21594</span></code></pre></div>
-<p>One slight difference here is the parent PID of the <code>gcc</code> bash script points to <code>/bin/ash</code> instead of the Docker container that spawned the process:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root     <span class="m">21284</span>  <span class="m">0</span>.0  <span class="m">0</span>.0  <span class="m">12784</span>  <span class="m">1028</span> pts/4    S+   <span class="m">16</span>:40   <span class="m">0</span>:00 grep <span class="m">21594</span>
-root     <span class="m">21594</span>  <span class="m">0</span>.0  <span class="m">0</span>.0   <span class="m">1536</span>   <span class="m">960</span> pts/7    Ss+  <span class="m">16</span>:30   <span class="m">0</span>:00 /bin/ash
+PPid:   <span class="m">21594</span>
+</code></pre></div><p>One slight difference here is the parent PID of the <code>gcc</code> bash script points to <code>/bin/ash</code> instead of the Docker container that spawned the process:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root     <span class="m">21284</span>  0.0  0.0  <span class="m">12784</span>  <span class="m">1028</span> pts/4    S+   16:40   0:00 grep <span class="m">21594</span>
+root     <span class="m">21594</span>  0.0  0.0   <span class="m">1536</span>   <span class="m">960</span> pts/7    Ss+  16:30   0:00 /bin/ash
 root@ip-10-30-184-17:/# cat /proc/21594/status
 Name:   ash
 Umask:  <span class="m">0022</span>
@@ -507,11 +447,11 @@ State:  S <span class="o">(</span>sleeping<span class="o">)</span>
 Tgid:   <span class="m">21594</span>
 Ngid:   <span class="m">0</span>
 Pid:    <span class="m">21594</span>
-PPid:   <span class="m">21578</span></code></pre></div>
-<p>The parent of that process is a Docker container:</p>
+PPid:   <span class="m">21578</span>
+</code></pre></div><p>The parent of that process is a Docker container:</p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root@ip-10-30-184-17:/# ps aux <span class="p">|</span> grep <span class="m">21578</span>
-root     <span class="m">21578</span>  <span class="m">0</span>.0  <span class="m">0</span>.0 <span class="m">199064</span>  <span class="m">3756</span> ?        Sl   <span class="m">16</span>:30   <span class="m">0</span>:00 docker-containerd-shim b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a /var/run/docker/libcontainerd/b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a docker-runc
-root     <span class="m">24923</span>  <span class="m">0</span>.0  <span class="m">0</span>.0  <span class="m">12784</span>   <span class="m">988</span> pts/4    S+   <span class="m">16</span>:40   <span class="m">0</span>:00 grep <span class="m">21578</span>
+root     <span class="m">21578</span>  0.0  0.0 <span class="m">199064</span>  <span class="m">3756</span> ?        Sl   16:30   0:00 docker-containerd-shim b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a /var/run/docker/libcontainerd/b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a docker-runc
+root     <span class="m">24923</span>  0.0  0.0  <span class="m">12784</span>   <span class="m">988</span> pts/4    S+   16:40   0:00 grep <span class="m">21578</span>
 root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a
 <span class="o">[</span>
     <span class="o">{</span>
@@ -533,19 +473,16 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
             <span class="s2">&#34;Restarting&#34;</span>: false,
             <span class="s2">&#34;OOMKilled&#34;</span>: false,
             <span class="s2">&#34;Dead&#34;</span>: false,
-            <span class="s2">&#34;Pid&#34;</span>: <span class="m">7338</span>,
-            <span class="s2">&#34;ExitCode&#34;</span>: <span class="m">0</span>,
+            <span class="s2">&#34;Pid&#34;</span>: 7338,
+            <span class="s2">&#34;ExitCode&#34;</span>: 0,
             <span class="s2">&#34;Error&#34;</span>: <span class="s2">&#34;&#34;</span>,
             <span class="s2">&#34;StartedAt&#34;</span>: <span class="s2">&#34;2018-09-20T16:22:57.100773796Z&#34;</span>,
             <span class="s2">&#34;FinishedAt&#34;</span>: <span class="s2">&#34;2018-09-20T16:22:56.994841933Z&#34;</span>
         <span class="o">}</span>,
-        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,</code></pre></div>
-<p>The slight difference may be attributed to the attack being automated and more sophisticated than the manual reproduction described. This example is also only one of several ways to break out of a privileged container. If applied to all Weave <code>scope-agent</code> containers, the miner can be executed on all instances since <code>scope-agent</code> is running on each instance to gather metrics.</p>
-
+        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,
+</code></pre></div><p>The slight difference may be attributed to the attack being automated and more sophisticated than the manual reproduction described. This example is also only one of several ways to break out of a privileged container. If applied to all Weave <code>scope-agent</code> containers, the miner can be executed on all instances since <code>scope-agent</code> is running on each instance to gather metrics.</p>
 <h2 id="damage-assessment">Damage Assessment</h2>
-
 <p>An unwanted application gaining access to the <code>root</code> directory on all of our Kubernetes nodes is alarming. In addition to our immediate steps, further analysis was imperative to ensure that our data has not been accessed or compromised in any way.</p>
-
 <ul>
 <li>Access logs show there were no outside logins into the host machines.</li>
 <li>The Kubernetes API was not accessed by the intruder.</li>
@@ -553,53 +490,41 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
 <li>The entire extent of damage done was having 100% CPU usage on one core on each of our Kubernetes instances in our development and staging environments. Pod scheduling and service was uninterrupted.</li>
 <li>The production cluster was completely unaffected.</li>
 </ul>
-
 <p>When designing our Kubernetes 1.10 cluster, we wanted to take advantage of the new and improved RBAC changes since 1.7.4. In the event of a more malicious attack, our current design already contains measures in place to limit access.</p>
-
 <ul>
 <li>Our RBAC permissions restricted Weave Scope’s access, scoping it to only the <code>weave</code> namespace. If the Kubernetes API was queried for sensitive information such as our Kubernetes secrets, those requests would be denied.</li>
 <li>Despite being able to break out of the container and access the underlying host filesystem, no sensitive information is stored on our Kubernetes nodes.</li>
 <li>No published exploits or CVEs have been reported for our Kubernetes and Docker versions that would allow an attacker to retrieve output from commands run on the underlying host. Even if an attacker were to install and run a listener on the host to run arbitrary code, they would not be able to connect back due to the way our load balancer listeners and networking are set up.</li>
 </ul>
-
 <p>To wrap up our damage assessment, an audit was done on all our Kubernetes and custom deployment <code>yaml</code> configuration files, and security groups, to ensure our services were not unintendedly public facing or misconfigured.</p>
-
 <h2 id="consequences-of-manual-modifications">Consequences of Manual Modifications</h2>
-
 <p>The oversight of creating a public load balancer open to the world for an internal dashboard is not normal for our team. Our AWS CloudTrail logs showed that Kubernetes initially attached a security group defaulting to <code>0.0.0.0/0</code> access to port 80 when the load balancer was created. The security group was then properly configured to block all ingress traffic from non white-listed IPs through a manual edit on the AWS Console. However that voids my claim on how the attack was performed.</p>
-
 <p>After pinpointing the deleted load balancer, its CloudTrail history contains the creation date along with a detailed event containing the security group’s identifier. Looking up that security group’s history shows that the manual edit made to firewall off unwanted traffic was reverted by Kubernetes shortly afterward.</p>
-
-<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-7.png" alt="CloudTrail logs for deleted load balancers" /></p>
-
+<p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-7.png" alt="CloudTrail logs for deleted load balancers"></p>
 <p>Questions regarding Kubernetes reverting security group edits are present in the project’s GitHub issues. In <a href="https://github.com/kubernetes/kubernetes/issues/49445#issuecomment-391697863">this particular issue</a>, a Kubernetes contributor explains:</p>
-
 <blockquote>
 <p>&hellip;the way Kubernetes works, the ELB is owned by Kubernetes and you should never be forced to modify the resource manually&hellip;</p>
 </blockquote>
-
 <p>We normally strictly adhere to the practice of having infrastructure as code and the load balancer should have been defined as internal, or the security group rules should have been defined in our Kubernetes <code>yaml</code> configuration files. In hindsight, a redeploy of Weave Scope would have reverted the manual change and needed to be manually edited back in.</p>
-
 <h2 id="recap">Recap</h2>
-
 <p>At JW Player, the DevOps team has frequent code reviews and weekly architectural discussions. Prior to this incident, we had many planning sessions and discussions around upgrading our existing Kubernetes 1.7.4 cluster to 1.10.x. A mix of untimely events and decisions allowed this miner to make its way onto our clusters.</p>
-
 <ol>
-<li><p>We recently migrated to a new Kubernetes version onto a new cluster with different instance sizes. Unprecedented behaviour was expected during this period.</p></li>
-
-<li><p>Response time to this incident was slightly dulled by untimely alerts for a legitimate service creating noise and almost masking this issue.</p></li>
-
-<li><p>Some decisions were inherited from older infrastructure and stuck around, such as running containers as the <code>root</code> user.</p></li>
-
-<li><p>A manual change was made to a Kubernetes managed resource.</p></li>
+<li>
+<p>We recently migrated to a new Kubernetes version onto a new cluster with different instance sizes. Unprecedented behaviour was expected during this period.</p>
+</li>
+<li>
+<p>Response time to this incident was slightly dulled by untimely alerts for a legitimate service creating noise and almost masking this issue.</p>
+</li>
+<li>
+<p>Some decisions were inherited from older infrastructure and stuck around, such as running containers as the <code>root</code> user.</p>
+</li>
+<li>
+<p>A manual change was made to a Kubernetes managed resource.</p>
+</li>
 </ol>
-
 <h2 id="next-steps">Next Steps</h2>
-
 <p>Learning from this lesson and moving forward, we have plans in place to harden our security. First, we learned monitoring on load is not the most effective measurement to determine if there is an issue with the Kubernetes clusters. Our first step is to improve alerting and diagnosis by first determining more insightful monitors, then tweaking them to give us assurance that there is, in fact, an anomaly present instead of being dulled to multiple alarms from an influx in workload.</p>
-
 <p>To prevent this particular attack and future attacks from happening, we are researching use of tools such as <code>falcon</code> or <code>sysdig</code> for behavioural monitoring, and anomaly and intrusion detection. <code>Istio</code> and <code>Linkerd</code> may be useful in capturing and controlling end to end network traffic to observe and prevent unauthorised access. We are also analysing the computational cost of scanning Docker images and containers for known vulnerabilities.</p>
-
 <p>To improve our process as a team, some time in our architectural discussions has been partitioned to revisit choices made in the past such as containers running as <code>root</code>. We also acknowledge that some information has been siloed off to certain team members, and embracing DevOps means this information should be shared. Communication is integral to our team, and being aware of these faults enables us s to make time to shift focus onto giving each engineer more visibility on big projects such as a large scale Kubernetes version migration.</p>
 
         
@@ -608,6 +533,7 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
 
         
           
+
           
         
       </article>
@@ -620,6 +546,10 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
             </li>
           
           
+            <li class="next">
+              <a href="https://blog.bchoy.me/post/2019-05-24-hackthebox-swagshop/" data-toggle="tooltip" data-placement="top" title="HackTheBox SwagShop">Next Post &rarr;</a>
+            </li>
+          
         </ul>
       
 
@@ -630,7 +560,8 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
   </div>
 </div>
 
-    <footer>
+      
+<footer>
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -671,7 +602,7 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2018
+            2019
           
 
           
@@ -681,7 +612,7 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.55.6</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>
@@ -706,6 +637,7 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
 
 
 
+    
   </body>
 </html>
 
