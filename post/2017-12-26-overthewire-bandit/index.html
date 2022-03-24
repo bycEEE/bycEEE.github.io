@@ -94,7 +94,7 @@ The password for the next level is stored in a file called readme located in the
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta name="generator" content="Hugo 0.73.0" />
+  <meta name="generator" content="Hugo 0.95.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -265,8 +265,8 @@ The password for the next level is stored in a file called readme located in the
         <p><a href="http://overthewire.org/wargames/bandit/">OverTheWire Bandit</a> is a capture the flag (CTF) game for beginners. I&rsquo;ve recently regained interest in security and found this a fun way to get back into what originally led me to learn programming. These are quick notes for my solutions on level 0-27.</p>
 <h2 id="level-0---level-1">Level 0 -&gt; Level 1</h2>
 <p>The password for the next level is stored in a file called readme located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.</p>
-<pre><code>→ ssh bandit.labs.overthewire.org -p 2220 -l bandit0
-</code></pre><pre><code>bandit0@bandit:~$ ls -al
+<pre tabindex="0"><code>→ ssh bandit.labs.overthewire.org -p 2220 -l bandit0
+</code></pre><pre tabindex="0"><code>bandit0@bandit:~$ ls -al
 total 24
 drwxr-xr-x  2 root    root    4096 Nov 13 15:58 .
 drwxr-xr-x 29 root    root    4096 Nov 13 15:57 ..
@@ -278,15 +278,15 @@ bandit0@bandit:~$ cat readme
 boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 </code></pre><h2 id="level-1---level-2">Level 1 -&gt; Level 2</h2>
 <p>The password for the next level is stored in a file called - located in the home directory.</p>
-<pre><code>bandit1@bandit:~$ cat ./-
+<pre tabindex="0"><code>bandit1@bandit:~$ cat ./-
 CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 </code></pre><h2 id="level-2---level-3">Level 2 -&gt; Level 3</h2>
 <p>The password for the next level is stored in a file called spaces in this filename located in the home directory.</p>
-<pre><code>bandit2@bandit:~$ cat spaces\ in\ this\ filename
+<pre tabindex="0"><code>bandit2@bandit:~$ cat spaces\ in\ this\ filename
 UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 </code></pre><h2 id="level-3---level-4">Level 3 -&gt; Level 4</h2>
 <p>The password for the next level is stored in a hidden file in the inhere directory.</p>
-<pre><code>bandit3@bandit:~$ cd inhere
+<pre tabindex="0"><code>bandit3@bandit:~$ cd inhere
 bandit3@bandit:~/inhere$ ls -al
 total 12
 drwxr-xr-x 2 root    root    4096 Nov 13 15:58 .
@@ -297,7 +297,7 @@ pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 </code></pre><h2 id="level-4---level-5">Level 4 -&gt; Level 5</h2>
 <p>The password for the next level is stored in the only human-readable file in the inhere directory. Tip: if your terminal is messed up, try the “reset” command.</p>
 <p>I decided to use the <code>file</code> command to determine which files are human-readable.</p>
-<pre><code>bandit4@bandit:~/inhere$ file ./*
+<pre tabindex="0"><code>bandit4@bandit:~/inhere$ file ./*
 ./-file00: data
 ./-file01: data
 ./-file02: data
@@ -308,7 +308,7 @@ pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 ./-file07: ASCII text
 ./-file08: data
 ./-file09: data
-bandit4@bandit:~/inhere$ file ./* | grep &quot;ASCII text&quot;
+bandit4@bandit:~/inhere$ file ./* | grep &#34;ASCII text&#34;
 ./-file07: ASCII text
 bandit4@bandit:~/inhere$ ls -al
 total 48
@@ -324,7 +324,7 @@ total 48
 -rw-r----- 1 bandit5 bandit4   33 Nov 13 15:58 -file09
 drwxr-xr-x 2 root    root    4096 Nov 13 15:58 .
 drwxr-xr-x 3 root    root    4096 Nov 13 15:58 ..
-bandit4@bandit:~/inhere$ file ./* | grep &quot;ASCII text&quot;
+bandit4@bandit:~/inhere$ file ./* | grep &#34;ASCII text&#34;
 ./-file07: ASCII text
 bandit4@bandit:~/inhere$ cat ./-file07
 koReBOKuIDDepwhWk7jZC0RTdopnAYKh
@@ -336,7 +336,7 @@ koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 <li>not executable</li>
 </ul>
 <p>I looked for files with size 1033 bytes that are not executable. Since I only returned one output, I&rsquo;m able to check to see if it&rsquo;s human-readable using <code>cat</code>.</p>
-<pre><code>bandit5@bandit:~$ find . -type f -size 1033c ! -executable
+<pre tabindex="0"><code>bandit5@bandit:~$ find . -type f -size 1033c ! -executable
 ./inhere/maybehere07/.file2
 bandit5@bandit:~$ cat ./inhere/maybehere07/.file2
 DXjZPULLxYr17uwoI01bNLQbtFemEgo7
@@ -348,12 +348,12 @@ DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 <li>33 bytes in size</li>
 </ul>
 <p>Using <code>find</code> again with the arguments that fit the above requirements. I routed all STDERR outputs to <code>/dev/null</code> for a cleaner output.</p>
-<pre><code>bandit6@bandit:~$ find / -user bandit7 -group bandit6 -size 33c 2&gt;/dev/null
+<pre tabindex="0"><code>bandit6@bandit:~$ find / -user bandit7 -group bandit6 -size 33c 2&gt;/dev/null
 /var/lib/dpkg/info/bandit7.password
 </code></pre><h2 id="level-7---level-8">Level 7 -&gt; Level 8</h2>
 <p>The password for the next level is stored in the file data.txt next to the word millionth.</p>
 <p>Using <code>grep</code> to see what the file looks like around the word &lsquo;millionth&rsquo;. Once I had a sense of how the file is structured, I used <code>awk</code> to get my desired output.</p>
-<pre><code>bandit7@bandit:~$ grep -C 3 millionth data.txt
+<pre tabindex="0"><code>bandit7@bandit:~$ grep -C 3 millionth data.txt
 go  vilygVSBNRzRXSZFzIeSbajhHHRrjgln
 controversially p1JE4gkWuFxTpk55Zfo3xqLe3RqhWtHX
 conspiracies    tbkj5iLjadNfPTCslAvnU9nyFeHBfu1o
@@ -361,16 +361,16 @@ millionth   cvX2JJa4CFALtqS87jk27qwqGhBM9plV
 wardrooms   ERG4eyK8q5eIP554LQysscc5oQuEGV8c
 admissions  4vOZpSuzFUMNqJtrXVcNaheXuGDbrPCo
 wearying    kS75kziqMp5mUopzJTKaJRf0SIBDWLGf
-bandit7@bandit:~$ awk '/millionth/ {print $2}' data.txt
+bandit7@bandit:~$ awk &#39;/millionth/ {print $2}&#39; data.txt
 cvX2JJa4CFALtqS87jk27qwqGhBM9plV
 </code></pre><h2 id="level-8---level-9">Level 8 -&gt; Level 9</h2>
 <p>The password for the next level is stored in the file data.txt and is the only line of text that occurs only once.</p>
-<pre><code>bandit8@bandit:~$ cat data.txt | sort | uniq -u
+<pre tabindex="0"><code>bandit8@bandit:~$ cat data.txt | sort | uniq -u
 UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 </code></pre><h2 id="level-9---level-10">Level 9 -&gt; Level 10</h2>
 <p>The password for the next level is stored in the file data.txt in one of the few human-readable strings, beginning with several ‘=’ characters.</p>
 <p><code>strings</code> prints out human-readable strings. My initial output using regex filtering was missing the password, so I used a simpler search.</p>
-<pre><code>bandit9@bandit:~$ strings data.txt | grep -e &quot;^[=+]&quot;
+<pre tabindex="0"><code>bandit9@bandit:~$ strings data.txt | grep -e &#34;^[=+]&#34;
 ========== theOkM
 =hrV`
 ========== password
@@ -386,7 +386,7 @@ L=8@
 ========== password
 ========== is
 H)=QU
-&gt;]&quot;.x=
+&gt;]&#34;.x=
 {=u/,i_
 {=jh
 =GUl
@@ -397,33 +397,33 @@ e=y:
 ~BX=
 </code></pre><h2 id="level-10---level-11">Level 10 -&gt; Level 11</h2>
 <p>The password for the next level is stored in the file data.txt, which contains base64 encoded data.</p>
-<pre><code>bandit10@bandit:~$ base64 -d data.txt
+<pre tabindex="0"><code>bandit10@bandit:~$ base64 -d data.txt
 The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
 </code></pre><h2 id="level-11---level-12">Level 11 -&gt; Level 12</h2>
 <p>The password for the next level is stored in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions.</p>
 <p>[https://en.wikipedia.org/wiki/ROT13]ROT13(<a href="https://en.wikipedia.org/wiki/ROT13">https://en.wikipedia.org/wiki/ROT13</a>) is a simple cipher where you rotate 13 places. I used <code>tr</code> to shift my text by 13 letters.</p>
-<pre><code>bandit11@bandit:~$ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+<pre tabindex="0"><code>bandit11@bandit:~$ cat data.txt | tr &#39;A-Za-z&#39; &#39;N-ZA-Mn-za-m&#39;
 The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 </code></pre><h2 id="level-12---level-13">Level 12 -&gt; Level 13</h2>
 <p>The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir. For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv (read the manpages!)</p>
 <p>As recommended, I created a new directory and copied the file to it.</p>
-<pre><code>bandit12@bandit:~$ mkdir /tmp/bandit12data
+<pre tabindex="0"><code>bandit12@bandit:~$ mkdir /tmp/bandit12data
 bandit12@bandit:~$ cp data.txt /tmp/bandit12data
 bandit12@bandit:~$ cd /tmp/bandit12data
 </code></pre><p>Since this is a hexdump, I used <code>xxd</code> to convert it back to the original binary. then checked its file type.</p>
-<pre><code>bandit12@bandit:/tmp/bandit12data$ xxd -r data.txt data.orig
+<pre tabindex="0"><code>bandit12@bandit:/tmp/bandit12data$ xxd -r data.txt data.orig
 bandit12@bandit:/tmp/bandit12data$ file data.orig
-data.orig: gzip compressed data, was &quot;data2.bin&quot;, last modified: Mon Nov 13 14:58:07 2017, max compression, from Unix
+data.orig: gzip compressed data, was &#34;data2.bin&#34;, last modified: Mon Nov 13 14:58:07 2017, max compression, from Unix
 </code></pre><p>For gzip, I used zcat to output the decompressed file to one with the original name since I did not want to continually change the suffix. I then check the file information to see what it was compressed with and used the corresponding tool to decompress. Many decompressions later&hellip;</p>
-<pre><code>bandit12@bandit:/tmp/bandit12data$ gzip -d data.orig
+<pre tabindex="0"><code>bandit12@bandit:/tmp/bandit12data$ gzip -d data.orig
 gzip: data.orig: unknown suffix -- ignored
 bandit12@bandit:/tmp/bandit12data$ zcat data.orig &gt; data2.bin
 bandit12@bandit:/tmp/bandit12data$ file data2.bin
 data2.bin: bzip2 compressed data, block size = 900k
 bandit12@bandit:/tmp/bandit12data$ bzip2 -d data2.bin
-bzip2: Can't guess original name for data2.bin -- using data2.bin.out
+bzip2: Can&#39;t guess original name for data2.bin -- using data2.bin.out
 bandit12@bandit:/tmp/bandit12data$ file data2.bin.out
-data2.bin.out: gzip compressed data, was &quot;data4.bin&quot;, last modified: Mon Nov 13 14:58:07 2017, max compression, from Unix
+data2.bin.out: gzip compressed data, was &#34;data4.bin&#34;, last modified: Mon Nov 13 14:58:07 2017, max compression, from Unix
 bandit12@bandit:/tmp/bandit12data$ zcat data2.bin.out &gt; data4.bin
 bandit12@bandit:/tmp/bandit12data$ file data4.bin
 data4.bin: POSIX tar archive (GNU)
@@ -436,13 +436,13 @@ data6.bin
 bandit12@bandit:/tmp/bandit12data$ file data6.bin
 data6.bin: bzip2 compressed data, block size = 900k
 bandit12@bandit:/tmp/bandit12data$ bzip2 -d data6.bin
-bzip2: Can't guess original name for data6.bin -- using data6.bin.out
+bzip2: Can&#39;t guess original name for data6.bin -- using data6.bin.out
 bandit12@bandit:/tmp/bandit12data$ file data6.bin.out
 data6.bin.out: POSIX tar archive (GNU)
 bandit12@bandit:/tmp/bandit12data$ tar -xvf data6.bin.out
 data8.bin
 bandit12@bandit:/tmp/bandit12data$ file data8.bin
-data8.bin: gzip compressed data, was &quot;data9.bin&quot;, last modified: Mon Nov 13 14:58:07 2017, max compression, from Unix
+data8.bin: gzip compressed data, was &#34;data9.bin&#34;, last modified: Mon Nov 13 14:58:07 2017, max compression, from Unix
 bandit12@bandit:/tmp/bandit12data$ zcat data8.bin &gt; data9.bin
 bandit12@bandit:/tmp/bandit12data$ file data9.bin
 data9.bin: ASCII text
@@ -450,7 +450,7 @@ bandit12@bandit:/tmp/bandit12data$ cat data9.bin
 The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 </code></pre><h2 id="level-13---level-14">Level 13 -&gt; Level 14</h2>
 <p>The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. Note: localhost is a hostname that refers to the machine you are working on.</p>
-<pre><code>bandit13@bandit:~$ ls -al
+<pre tabindex="0"><code>bandit13@bandit:~$ ls -al
 total 24
 drwxr-xr-x  2 root     root     4096 Nov 13 15:58 .
 drwxr-xr-x 29 root     root     4096 Nov 13 15:57 ..
@@ -465,11 +465,11 @@ bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
 </code></pre><h2 id="level-14---level-15">Level 14 -&gt; Level 15</h2>
 <p>The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.</p>
-<pre><code>bandit14@bandit:~$ telnet localhost 30000
+<pre tabindex="0"><code>bandit14@bandit:~$ telnet localhost 30000
 Trying ::1...
 Trying 127.0.0.1...
 Connected to localhost.
-Escape character is '^]'.
+Escape character is &#39;^]&#39;.
 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
 Correct!
 BfMYroe26WYalil77FoDi9qh59eK5xNr
@@ -477,7 +477,7 @@ BfMYroe26WYalil77FoDi9qh59eK5xNr
 Connection closed by foreign host.
 </code></pre><h2 id="level-15---level-16">Level 15 -&gt; Level 16</h2>
 <p>The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL encryption.</p>
-<pre><code>bandit15@bandit:~$ openssl s_client -connect localhost:30001 -ign_eof
+<pre tabindex="0"><code>bandit15@bandit:~$ openssl s_client -connect localhost:30001 -ign_eof
 CONNECTED(00000003)
 depth=0 CN = bandit
 verify error:num=18:self signed certificate
@@ -532,14 +532,14 @@ SSL-Session:
     SRP username: None
     TLS session ticket lifetime hint: 7200 (seconds)
     TLS session ticket:
-    0000 - 8d 8d 08 76 bd 8b dc 4e-f1 f1 6b ed 03 44 22 c5   ...v...N..k..D&quot;.
+    0000 - 8d 8d 08 76 bd 8b dc 4e-f1 f1 6b ed 03 44 22 c5   ...v...N..k..D&#34;.
     0010 - a2 c4 d0 9a de fa 4b 9f-a3 df 92 4a 73 f0 08 6d   ......K....Js..m
     0020 - c0 51 85 d0 51 84 30 b5-e7 57 fb c5 fd be 04 2a   .Q..Q.0..W.....*
     0030 - 31 63 59 03 9a ac b8 b5-ce 82 78 72 67 d7 63 78   1cY.......xrg.cx
     0040 - d6 93 b1 c5 4a de 52 de-91 6c 28 03 f6 aa 86 06   ....J.R..l(.....
     0050 - b8 5f 1e 09 52 be a0 21-92 f4 a6 01 05 fd ca e2   ._..R..!........
     0060 - 36 b7 26 28 6c 1a 75 98-b4 12 5d 18 d6 43 52 e7   6.&amp;(l.u...]..CR.
-    0070 - a5 22 bc d4 36 a1 49 da-c7 7f db a7 5d ed 2c 7a   .&quot;..6.I.....].,z
+    0070 - a5 22 bc d4 36 a1 49 da-c7 7f db a7 5d ed 2c 7a   .&#34;..6.I.....].,z
     0080 - 87 c1 53 88 75 51 2b 0a-36 d5 03 69 b3 13 f1 f1   ..S.uQ+.6..i....
     0090 - ee 73 6e ca 2a 9d 8a 26-ae b5 20 8b 71 f9 09 06   .sn.*..&amp;.. .q...
 
@@ -555,7 +555,7 @@ closed
 </code></pre><h2 id="level-16---level-17">Level 16 -&gt; Level 17</h2>
 <p>The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.</p>
 <p>First I scanned the port range to see which ports were open and supports SSLv3.</p>
-<pre><code>bandit16@bandit:~$ nmap --script ssl-enum-ciphers -p 31000-32000 localhost
+<pre tabindex="0"><code>bandit16@bandit:~$ nmap --script ssl-enum-ciphers -p 31000-32000 localhost
 
 Starting Nmap 7.01 ( https://nmap.org ) at 2017-12-26 23:36 CET
 Nmap scan report for localhost (127.0.0.1)
@@ -589,38 +589,38 @@ PORT      STATE SERVICE
 
 Nmap done: 1 IP address (1 host up) scanned in 0.84 seconds
 </code></pre><p>I only have 2 ports returned, so I manually tested them.</p>
-<pre><code>bandit16@bandit:~$ echo cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client -connect localhost:31518 -ign_eof
+<pre tabindex="0"><code>bandit16@bandit:~$ echo cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client -connect localhost:31518 -ign_eof
 bandit16@bandit:~$ echo cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client -connect localhost:31790 -ign_eof
 </code></pre><p>The latter yieled an RSA private key which I saved to a file and used to ssh into level 17.</p>
-<pre><code>bandit16@bandit:/tmp$ mkdir /tmp/bandit17
+<pre tabindex="0"><code>bandit16@bandit:/tmp$ mkdir /tmp/bandit17
 bandit16@bandit:/tmp$ cd /tmp/bandit17
 bandit16@bandit:/tmp$ vim id_rsa
 bandit16@bandit:/tmp$ chmod 600 id_rsa
 bandit16@bandit:/tmp$ ssh -i id_rsa bandit17@localhost
 </code></pre><h2 id="level-17---level-18">Level 17 -&gt; Level 18</h2>
 <p>There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new</p>
-<pre><code>bandit17@bandit:~$ diff passwords.new passwords.old
+<pre tabindex="0"><code>bandit17@bandit:~$ diff passwords.new passwords.old
 42c42
 &lt; kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
 ---
 &gt; 7cDk1R96wgw11eEuTk1zgbjAindhpUA5
 </code></pre><h2 id="level-18---level-19">Level 18 -&gt; Level 19</h2>
 <p>The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.</p>
-<pre><code>→ ssh bandit.labs.overthewire.org -p 2220 -l bandit18 -t &quot;bash --noprofile --norc&quot;
+<pre tabindex="0"><code>→ ssh bandit.labs.overthewire.org -p 2220 -l bandit18 -t &#34;bash --noprofile --norc&#34;
 This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
-bandit18@bandit.labs.overthewire.org's password:
+bandit18@bandit.labs.overthewire.org&#39;s password:
 bash-4.3$ cat readme
 IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 </code></pre><h2 id="level-19---level-20">Level 19 -&gt; Level 20</h2>
 <p>To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.</p>
-<pre><code>bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
+<pre tabindex="0"><code>bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 </code></pre><h2 id="level-20---level-21">Level 20 -&gt; Level 21</h2>
 <p>There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).</p>
 <p>NOTE: Changes to the infrastructure made this level more difficult. You will need to figure out a way to launch multiple commands in the same Docker instance.</p>
 <p>NOTE 2: Try connecting to your own network daemon to see if it works as you think</p>
 <p>Due to the infrastructure changes mentioned in note 1, launching a new shell will connect to a newly spawned Docker container. To avoid this, I have two sessions opened in <code>tmux</code> in the same shell. The first shell will listen in on a random port I choose (34100), and the second shell will run the <code>suconnect</code> binary.</p>
-<pre><code>Session 1:
+<pre tabindex="0"><code>Session 1:
 bandit20@bandit:~$ nc -l 31400
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
@@ -631,7 +631,7 @@ Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 Password matches, sending next password
 </code></pre><h2 id="level-21---level-22">Level 21 -&gt; Level 22</h2>
 <p>A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.</p>
-<pre><code>bandit21@bandit:~$ ls -al /etc/cron.d
+<pre tabindex="0"><code>bandit21@bandit:~$ ls -al /etc/cron.d
 total 28
 drwxr-xr-x   2 root root 4096 Nov 13 15:58 .
 drwxr-xr-x 101 root root 4096 Dec 16 14:19 ..
@@ -652,7 +652,7 @@ Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
 </code></pre><h2 id="level-22---level-23">Level 22 -&gt; Level 23</h2>
 <p>A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.</p>
 <p>NOTE: Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints.</p>
-<pre><code>bandit22@bandit:~$ ls -al /etc/cron.d
+<pre tabindex="0"><code>bandit22@bandit:~$ ls -al /etc/cron.d
 total 28
 drwxr-xr-x   2 root root 4096 Nov 13 15:58 .
 drwxr-xr-x 101 root root 4096 Dec 16 14:19 ..
@@ -668,14 +668,14 @@ bandit22@bandit:~$ cat /usr/bin/cronjob_bandit23.sh
 ##!/bin/bash
 
 myname=$(whoami)
-mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+mytarget=$(echo I am user $myname | md5sum | cut -d &#39; &#39; -f 1)
 
-echo &quot;Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget&quot;
+echo &#34;Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget&#34;
 
 cat /etc/bandit_pass/$myname &gt; /tmp/$mytarget
 bandit22@bandit:~$ whoami
 bandit22
-bandit22@bandit:~$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+bandit22@bandit:~$ echo I am user bandit23 | md5sum | cut -d &#39; &#39; -f 1
 8ca319486bfbbc3663ea0fbe81326349
 bandit22@bandit:~$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
@@ -683,55 +683,54 @@ jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 <p>A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.</p>
 <p>NOTE: This level requires you to create your own first shell-script. This is a very big step and you should be proud of yourself when you beat this level!</p>
 <p>NOTE 2: Keep in mind that your shell script is removed once executed, so you may want to keep a copy around.</p>
-<pre><code>bandit23@bandit:/var/spool/bandit24$ cat /usr/bin/cronjob_bandit24.sh
+<pre tabindex="0"><code>bandit23@bandit:/var/spool/bandit24$ cat /usr/bin/cronjob_bandit24.sh
 ##!/bin/bash
 
 myname=$(whoami)
 
 cd /var/spool/$myname
-echo &quot;Executing and deleting all scripts in /var/spool/$myname:&quot;
+echo &#34;Executing and deleting all scripts in /var/spool/$myname:&#34;
 for i in * .*;
 do
-    if [ &quot;$i&quot; != &quot;.&quot; -a &quot;$i&quot; != &quot;..&quot; ];
+    if [ &#34;$i&#34; != &#34;.&#34; -a &#34;$i&#34; != &#34;..&#34; ];
     then
-    echo &quot;Handling $i&quot;
+    echo &#34;Handling $i&#34;
     timeout -s 9 60 ./$i
     rm -f ./$i
     fi
 done
 </code></pre><p>A previous level mentioned that passwords are stored in this file: <code>/etc/bandit_pass/bandit24</code>. Since the script will be executed before it is deleted, the following bash script will export the contents of the file to something accessable to my current <code>bandit23</code> user. Note that the script has to have execute permissions to run.</p>
-<pre><code>bandit23@bandit:~$ cd /var/spool/bandit24
+<pre tabindex="0"><code>bandit23@bandit:~$ cd /var/spool/bandit24
 bandit23@bandit:/var/spool/bandit24$ vim script.sh
 bandit23@bandit:/var/spool/bandit24$ chmod 777 script.sh
-</code></pre><pre><code>##!/bin/bash
+</code></pre><pre tabindex="0"><code>##!/bin/bash
 mkdir /tmp/bandit24tmp
 cat /etc/bandit_pass/bandit24 &gt; /tmp/bandit24tmp/password.txt
-</code></pre><pre><code>bandit23@bandit:/var/spool/bandit24$ cat /tmp/bandit24tmp/password.txt
+</code></pre><pre tabindex="0"><code>bandit23@bandit:/var/spool/bandit24$ cat /tmp/bandit24tmp/password.txt
 UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 </code></pre><h2 id="level-24---level-25">Level 24 -&gt; Level 25</h2>
 <p>A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.</p>
 <p>I first checked to see the output of sending the password and pin to port 30002 via <code>netcat</code>.</p>
-<pre><code>bandit24@bandit:~$ echo UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ 0000 | nc localhost 30002
+<pre tabindex="0"><code>bandit24@bandit:~$ echo UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ 0000 | nc localhost 30002
 I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
 Wrong! Please enter the correct pincode. Try again.
 Exiting.
 </code></pre><p>After inspecting the output, I wrote a quick script to brute force all 10000 combinations and outputted to a file.</p>
-<pre><code>bandit24@bandit:~$ mkdir /tmp/bandit24tmp
-for i in $(seq -f &quot;%04g&quot; 0 9999); do echo UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ $i | nc localhost 30002; done &gt; /tmp/bandit24tmp/output.txt
+<pre tabindex="0"><code>bandit24@bandit:~$ mkdir /tmp/bandit24tmp
+for i in $(seq -f &#34;%04g&#34; 0 9999); do echo UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ $i | nc localhost 30002; done &gt; /tmp/bandit24tmp/output.txt
 </code></pre><p>Then we grab the only unique output.</p>
-<pre><code>bandit24@bandit:~$ sort /tmp/bandit24tmp/output.txt | uniq -u
+<pre tabindex="0"><code>bandit24@bandit:~$ sort /tmp/bandit24tmp/output.txt | uniq -u
 
 Correct!
 The password of user bandit25 is uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
-
 </code></pre><h2 id="level-25---level-26">Level 25 -&gt; Level 26</h2>
 <p>Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not /bin/bash, but something else. Find out what it is, how it works and how to break out of it.</p>
 <p>This one took me a while to figure out. The SSH key to log in is clearly located in the home directory, however SSH&rsquo;ing into bandit26@localhost causes the connection to close.</p>
 <p>I first looked at what shell the user was using:</p>
-<pre><code>bandit25@bandit:~$ getent passwd bandit26 | cut -d: -f7
+<pre tabindex="0"><code>bandit25@bandit:~$ getent passwd bandit26 | cut -d: -f7
 /usr/bin/showtext```
 </code></pre><p>Upon further inspection, <code>/usr/bin/showtext</code> is a shell script:</p>
-<pre><code>bandit25@bandit:~$ cat /usr/bin/showtext
+<pre tabindex="0"><code>bandit25@bandit:~$ cat /usr/bin/showtext
 #!/bin/sh
 
 export TERM=linux
@@ -817,7 +816,7 @@ exit 0
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2019
+            2020
           
 
           
@@ -827,7 +826,7 @@ exit 0
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.95.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>

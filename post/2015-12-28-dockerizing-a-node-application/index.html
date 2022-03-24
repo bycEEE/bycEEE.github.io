@@ -92,7 +92,7 @@ Knowing absolutely nothing about Docker, these are the problems I faced and the 
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta name="generator" content="Hugo 0.73.0" />
+  <meta name="generator" content="Hugo 0.95.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -288,7 +288,7 @@ Knowing absolutely nothing about Docker, these are the problems I faced and the 
 </ul>
 <h2 id="creating-a-dockerfile">Creating a Dockerfile</h2>
 <p>This is my Dockerfile for my Node.js project.</p>
-<pre><code>FROM ubuntu:14.04
+<pre tabindex="0"><code>FROM ubuntu:14.04
 MAINTAINER Brian Choy &lt;bchoy@barbariangroup.com&gt;
 
 # Install needed packages
@@ -303,7 +303,7 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh
 
 # Install node
 RUN cp -f ~/.nvm/nvm.sh ~/.nvm/nvm-tmp.sh; \
-    echo &quot;nvm install 4.2.3; nvm alias default 4.2.3; ln -s ~/.nvm/versions/node/v4.2.3/bin/node /usr/bin/node; ln -s ~/.nvm/versions/node/v4.2.3/bin/npm /usr/bin/npm&quot; &gt;&gt; ~/.nvm/nvm-tmp.sh; \
+    echo &#34;nvm install 4.2.3; nvm alias default 4.2.3; ln -s ~/.nvm/versions/node/v4.2.3/bin/node /usr/bin/node; ln -s ~/.nvm/versions/node/v4.2.3/bin/npm /usr/bin/npm&#34; &gt;&gt; ~/.nvm/nvm-tmp.sh; \
     sh ~/.nvm/nvm-tmp.sh; \
     rm ~/.nvm/nvm-tmp.sh;
 
@@ -319,12 +319,12 @@ RUN npm rebuild node-sass
 WORKDIR /src/app
 ADD . .
 EXPOSE 3010
-CMD [&quot;npm&quot;, &quot;run&quot;, &quot;dockerdev&quot;]
+CMD [&#34;npm&#34;, &#34;run&#34;, &#34;dockerdev&#34;]
 </code></pre><p>Breakdown of an example Dockerfile: <a href="https://nodesource.com/blog/dockerizing-your-nodejs-applications/">https://nodesource.com/blog/dockerizing-your-nodejs-applications/</a></p>
 <p>This Dockerfile tells Docker how to build out an image. With the Dockerfile, all images I create can be distributed and run locally or in production and be exactly the same. The comments I have in the Dockerfile pretty much explain what I&rsquo;m doing. The order of my tasks also matter due to the <a href="https://docs.docker.com/engine/articles/dockerfile_best-practices/">Docker build cache</a>. In a nutshell, each command is cached so that step does not have to be rebuilt unless changed. This significantly speeds up building an image by not recompiling things that are not changed. However this is not perfect and sometimes you will have to rebuild an image using the &ndash;no-cache flag. <code>ADD . .</code> is at the end because the directory we dev in has constantly changing files.</p>
 <h2 id="dockerignore">Dockerignore</h2>
 <p>.dockerignore:</p>
-<pre><code>log
+<pre tabindex="0"><code>log
 tmp
 .elasticbeanstalk/*
 .git
@@ -338,8 +338,8 @@ node_modules/*
 <p>I kill my container first because you cannot have two containers running with the same name. After that I remove it from my list of containers (that you can see with <code>docker ps -a</code>) and proceed to build a new image. Next I run the container with this command <code>docker run -d --name node -p 3000:3000 -p 3001:3001 -v $(pwd):/src/app --env-file=.env page-builder npm run dockerdev</code>
 This runs the app in detached mode (-d) and the container is named node. -p routes my local 3000 port to the docker-machine&rsquo;s port 3000 and local 3000 to docker-machine 3000. -v mounts my present working directory onto the folder where my app is in the container. That way my files are synced in development. My env file is called .env and page-builder is the image I&rsquo;m running. <code>npm run dev</code> is a custom command I made and it is the command my docker container will use to run. If no command is specified, the command specified in my Dockerfile will be run.</p>
 <h2 id="troubleshooting-errors">Troubleshooting Errors</h2>
-<p>I could have saved so much time if I knew how to properly debug my containers early on. Since this was a single container ecosystem, debugging was quite simple to me. To ssh into a container that is running, I run <code>docker exec -it node bash</code>. &lsquo;node&rsquo; being the name of my container. This allows me to poke around a running instance. However if my instance crashed, the first thing I do is run <code>docker logs node</code> to see the output that caused my error. If I need to explore the filesystem, I create a snapshot of my container and run it with bash.</p>
-<pre><code># find ID of your running container:
+<p>I could have saved so much time if I knew how to properly debug my containers early on. Since this was a single container ecosystem, debugging was quite simple to me. To ssh into a container that is running, I run <code>docker exec -it node bash</code>. &rsquo;node&rsquo; being the name of my container. This allows me to poke around a running instance. However if my instance crashed, the first thing I do is run <code>docker logs node</code> to see the output that caused my error. If I need to explore the filesystem, I create a snapshot of my container and run it with bash.</p>
+<pre tabindex="0"><code># find ID of your running container:
 docker ps
 
 # create image (snapshot) from container filesystem
@@ -433,7 +433,7 @@ For reference: <a href="http://kevzettler.com/programming/2015/06/07/rapid_local
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2019
+            2020
           
 
           
@@ -443,7 +443,7 @@ For reference: <a href="http://kevzettler.com/programming/2015/06/07/rapid_local
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.95.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>

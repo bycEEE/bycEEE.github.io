@@ -99,7 +99,7 @@ Helpful links: …">
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta name="generator" content="Hugo 0.73.0" />
+  <meta name="generator" content="Hugo 0.95.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -273,11 +273,11 @@ Helpful links: …">
 <p><a href="https://www.digitalocean.com/community/tutorials/how-to-automate-ruby-on-rails-application-deployments-using-capistrano">https://www.digitalocean.com/community/tutorials/how-to-automate-ruby-on-rails-application-deployments-using-capistrano</a></p>
 <p><a href="https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/nginx/oss/precise/deploy_app.html">https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/nginx/oss/precise/deploy_app.html</a></p>
 <p>/etc/nginx/sites-enabled/myapp.conf</p>
-<pre><code>server {
+<pre tabindex="0"><code>server {
     listen 80;
     server_name mydomain.com;
 
-    # Tell Nginx and Passenger where your app's 'public' directory is
+    # Tell Nginx and Passenger where your app&#39;s &#39;public&#39; directory is
     root /var/www/myapp/current/public;
 
     # Turn on Passenger
@@ -285,35 +285,35 @@ Helpful links: …">
     passenger_ruby /home/bchoy/.rvm/gems/ruby-2.2.3/wrappers/ruby;
 }
 </code></pre><p>Required the following in my Capfile:</p>
-<pre><code>require 'capistrano/passenger # Restarts Passenger'
-require 'capistrano/rails/assets # Precompiles assets'
-require 'capistrano/rvm # Uses RVM'
-require 'capistrano/bundler # Runs bundle install'
+<pre tabindex="0"><code>require &#39;capistrano/passenger # Restarts Passenger&#39;
+require &#39;capistrano/rails/assets # Precompiles assets&#39;
+require &#39;capistrano/rvm # Uses RVM&#39;
+require &#39;capistrano/bundler # Runs bundle install&#39;
 </code></pre><p>deploy.rb precompile assets:</p>
-<pre><code># set the locations that we will look for changed assets to determine whether to precompile
+<pre tabindex="0"><code># set the locations that we will look for changed assets to determine whether to precompile
 set :assets_dependencies, %w(app/assets lib/assets vendor/assets Gemfile.lock config/routes.rb)
 
 # clear the previous precompile task
-Rake::Task[&quot;deploy:assets:precompile&quot;].clear_actions
+Rake::Task[&#34;deploy:assets:precompile&#34;].clear_actions
 class PrecompileRequired &lt; StandardError; end
 
 # set the locations that we will look for changed assets to determine whether to precompile
 set :assets_dependencies, %w(app/assets lib/assets vendor/assets Gemfile.lock config/routes.rb)
 
 # clear the previous precompile task
-Rake::Task[&quot;deploy:assets:precompile&quot;].clear_actions
+Rake::Task[&#34;deploy:assets:precompile&#34;].clear_actions
 class PrecompileRequired &lt; StandardError; end
 
 namespace :deploy do
   namespace :assets do
-    desc &quot;Precompile assets&quot;
+    desc &#34;Precompile assets&#34;
     task :precompile do
       on roles(fetch(:assets_roles)) do
         within release_path do
           with rails_env: fetch(:rails_env) do
             begin
               # find the most recent release
-              latest_release = capture(:ls, '-xr', releases_path).split[1]
+              latest_release = capture(:ls, &#39;-xr&#39;, releases_path).split[1]
 
               # precompile if this is the first deploy
               raise PrecompileRequired unless latest_release
@@ -321,19 +321,19 @@ namespace :deploy do
               latest_release_path = releases_path.join(latest_release)
 
               # precompile if the previous deploy failed to finish precompiling
-              execute(:ls, latest_release_path.join('assets_manifest_backup')) rescue raise(PrecompileRequired)
+              execute(:ls, latest_release_path.join(&#39;assets_manifest_backup&#39;)) rescue raise(PrecompileRequired)
 
               fetch(:assets_dependencies).each do |dep|
                 # execute raises if there is a diff
-                execute(:diff, '-Naur', release_path.join(dep), latest_release_path.join(dep)) rescue raise(PrecompileRequired)
+                execute(:diff, &#39;-Naur&#39;, release_path.join(dep), latest_release_path.join(dep)) rescue raise(PrecompileRequired)
               end
 
-              info(&quot;Skipping asset precompile, no asset diff found&quot;)
+              info(&#34;Skipping asset precompile, no asset diff found&#34;)
 
               # copy over all of the assets from the last release
-              execute(:cp, '-r', latest_release_path.join('public', fetch(:assets_prefix)), release_path.join('public', fetch(:assets_prefix)))
+              execute(:cp, &#39;-r&#39;, latest_release_path.join(&#39;public&#39;, fetch(:assets_prefix)), release_path.join(&#39;public&#39;, fetch(:assets_prefix)))
             rescue PrecompileRequired
-              execute(:rake, &quot;assets:precompile&quot;)
+              execute(:rake, &#34;assets:precompile&#34;)
             end
           end
         end
@@ -418,7 +418,7 @@ end
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2019
+            2020
           
 
           
@@ -428,7 +428,7 @@ end
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.95.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>

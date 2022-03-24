@@ -95,7 +95,7 @@ Agar.io right now is one of the most popular browser games. You start off as a s
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta name="generator" content="Hugo 0.73.0" />
+  <meta name="generator" content="Hugo 0.95.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -268,13 +268,13 @@ Agar.io right now is one of the most popular browser games. You start off as a s
 <p>Good thing we can easily fix this with some jQuery. Notice when opening the console and picking a region, a websocket opens to ws://45.79.193.74:443. This is the IP and port that we want to give our friends.</p>
 <p><img src="/assets/img/posts/2015-05-14-playing-with-friends-on-agario-2.png" alt=""></p>
 <p>Now we can create an input box for us to input the ip:port.</p>
-<pre><code>$(&quot;#playBtn&quot;).before(&quot;&lt;input id='address' class='form-control' placeholder='Enter ip:port (ex. 45.79.194.77:443)' maxlength='19'&gt;&lt;/input&gt;&lt;p&gt;&lt;/p&gt;&quot;)
+<pre tabindex="0"><code>$(&#34;#playBtn&#34;).before(&#34;&lt;input id=&#39;address&#39; class=&#39;form-control&#39; placeholder=&#39;Enter ip:port (ex. 45.79.194.77:443)&#39; maxlength=&#39;19&#39;&gt;&lt;/input&gt;&lt;p&gt;&lt;/p&gt;&#34;)
 </code></pre><p>We now add a button to connect us to the server.</p>
-<pre><code>$(&quot;#playBtn&quot;).before(&quot;&lt;button disabled type='button' id='addressBtn' onclick='connect(\&quot;ws://\&quot; + $(\&quot;#address\&quot;).val())' class='btn btn-play btn-primary btn-needs-server'&gt;Change Server&lt;/button&gt;&lt;p&gt;&lt;/p&gt;&quot;)
+<pre tabindex="0"><code>$(&#34;#playBtn&#34;).before(&#34;&lt;button disabled type=&#39;button&#39; id=&#39;addressBtn&#39; onclick=&#39;connect(\&#34;ws://\&#34; + $(\&#34;#address\&#34;).val())&#39; class=&#39;btn btn-play btn-primary btn-needs-server&#39;&gt;Change Server&lt;/button&gt;&lt;p&gt;&lt;/p&gt;&#34;)
 </code></pre><p>Voila. Now everyone can connect to the same Agar.io server and play together! Just make sure to type the following jQuery into the console before you pick a region.
 <img src="/assets/img/posts/2015-05-14-playing-with-friends-on-agario-3.png" alt=""></p>
-<pre><code>$(&quot;#playBtn&quot;).before(&quot;&lt;input id='address' class='form-control' placeholder='Enter ip:port (ex. 45.79.194.77:443)' maxlength='19'&gt;&lt;/input&gt;&lt;p&gt;&lt;/p&gt;&quot;)
-</code></pre><pre><code>$(&quot;#playBtn&quot;).before(&quot;&lt;button disabled type='button' id='addressBtn' onclick='connect(\&quot;ws://\&quot; + $(\&quot;#address\&quot;).val())' class='btn btn-play btn-primary btn-needs-server'&gt;Change Server&lt;/button&gt;&lt;p&gt;&lt;/p&gt;&quot;)
+<pre tabindex="0"><code>$(&#34;#playBtn&#34;).before(&#34;&lt;input id=&#39;address&#39; class=&#39;form-control&#39; placeholder=&#39;Enter ip:port (ex. 45.79.194.77:443)&#39; maxlength=&#39;19&#39;&gt;&lt;/input&gt;&lt;p&gt;&lt;/p&gt;&#34;)
+</code></pre><pre tabindex="0"><code>$(&#34;#playBtn&#34;).before(&#34;&lt;button disabled type=&#39;button&#39; id=&#39;addressBtn&#39; onclick=&#39;connect(\&#34;ws://\&#34; + $(\&#34;#address\&#34;).val())&#39; class=&#39;btn btn-play btn-primary btn-needs-server&#39;&gt;Change Server&lt;/button&gt;&lt;p&gt;&lt;/p&gt;&#34;)
 </code></pre>
 
         
@@ -352,7 +352,7 @@ Agar.io right now is one of the most popular browser games. You start off as a s
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2019
+            2020
           
 
           
@@ -362,7 +362,7 @@ Agar.io right now is one of the most popular browser games. You start off as a s
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.95.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>

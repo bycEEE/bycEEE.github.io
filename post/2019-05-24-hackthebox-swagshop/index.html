@@ -93,7 +93,7 @@ Over a year has passed since I&rsquo;ve last done anything related to penetratio
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta name="generator" content="Hugo 0.73.0" />
+  <meta name="generator" content="Hugo 0.95.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -265,7 +265,7 @@ Over a year has passed since I&rsquo;ve last done anything related to penetratio
 <p>Over a year has passed since I&rsquo;ve last done anything related to penetration testing. I decided to tackle the SwagShop machine on HackTheBox to ease back into things since it has a nice friendly green &ldquo;Easy&rdquo; rating. Note: This post is hidden until the machine is &ldquo;Retired&rdquo; to avoid spoilers to the community.</p>
 <h2 id="enumeration-and-information-gathering">Enumeration and Information Gathering</h2>
 <p>First thing&rsquo;s first. HackTheBox gives out the machine IP, so I run a quick <code>nmap</code> scan to look for open ports.</p>
-<pre><code>$ nmap -v -sS -A -T4 10.10.10.140
+<pre tabindex="0"><code>$ nmap -v -sS -A -T4 10.10.10.140
 ...
 PORT   STATE SERVICE VERSION
 22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
@@ -283,7 +283,7 @@ PORT   STATE SERVICE VERSION
 </code></pre><p>There&rsquo;s a couple key pieces of information I got from that scan. There&rsquo;s only two visible services at the moment - <code>OpenSSH 7.2p2</code> and <code>Apache httpd 2.4.18</code>. I check out what&rsquo;s running on the web server since that seems like a likely place to find a vulnerability.</p>
 <p><img src="/assets/img/posts/2019-05-24-hackthebox-swagshop-2.png" alt="Magento storefront"></p>
 <p>A quick visit using the browser shows that the site is running Magento. Based on the look of the page, it seems to be an old version as well. I ran <code>nikto</code> in the background while looking up some CVEs for Magento to see what vulnerabilities have been reported.</p>
-<pre><code>$ nikto -h 10.10.10.140
+<pre tabindex="0"><code>$ nikto -h 10.10.10.140
 ...
 + OSVDB-3268: /app/: Directory indexing found.
 + OSVDB-3092: /app/: This might be interesting...
@@ -299,7 +299,7 @@ PORT   STATE SERVICE VERSION
 ...
 </code></pre><p><code>Nikto</code> gives me a pretty good idea of where to look around for more information. The website was carelessly uploaded with unneeded files that can reveal useful information such as a version number.</p>
 <p><code>/RELEASE_NOTES.txt</code>:</p>
-<pre><code>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<pre tabindex="0"><code>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ] NOTE: Current Release Notes are maintained at:                                 [
 ]                                                                                [
@@ -325,10 +325,10 @@ Fixed: PayPal Standard does not display on frontend during checkout with some me
 <h2 id="local-privilege-escalation">Local Privilege Escalation</h2>
 <p>Next step will be figuring out how to escalate user permissions to gain <code>root</code> access. After doing some basic enumeration, I noticed something strange in the <code>/etc/sudoers</code> file:</p>
 <p><img src="/assets/img/posts/2019-05-24-hackthebox-swagshop-5.png" alt="File system extension"></p>
-<pre><code>www-data ALL=NOPASSWD:/usr/bin/vi /var/www/html/*
+<pre tabindex="0"><code>www-data ALL=NOPASSWD:/usr/bin/vi /var/www/html/*
 </code></pre><p>That very last line grants passwordless <code>sudo</code> to <code>www-data</code>, the user I&rsquo;m currently logged in as, only when using <code>vi</code> in the <code>/var/www/html/*</code> directory.</p>
 <p><code>vi</code> and <code>vim</code> both have a feature to <a href="https://sanctum.geek.nz/arabesque/shell-from-vi/">exit back to shell</a> with <code>:sh</code>, and <code>sudo</code> is permitted when targeting a specific directory. I can escalate myself to <code>root</code> by using <code>vi</code> to exit back to drop back to the shell that was spawned from the <code>root</code> user because it was executed using <code>sudo</code>:</p>
-<pre><code>sudo vi /var/www/html/test -c '!sh'
+<pre tabindex="0"><code>sudo vi /var/www/html/test -c &#39;!sh&#39;
 </code></pre><p>The output is messed up since the shell was not configured properly, but no matter.</p>
 <p><img src="/assets/img/posts/2019-05-24-hackthebox-swagshop-6.png" alt="File system extension"></p>
 <h4 id="side-note">Side Note:</h4>
@@ -406,7 +406,7 @@ Fixed: PayPal Standard does not display on frontend during checkout with some me
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2019
+            2020
           
 
           
@@ -416,7 +416,7 @@ Fixed: PayPal Standard does not display on frontend during checkout with some me
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.95.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>

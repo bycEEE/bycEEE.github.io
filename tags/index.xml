@@ -7,10 +7,6 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
-    <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster>
-    
-	<atom:link href="https://blog.bchoy.me/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster><atom:link href="https://blog.bchoy.me/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

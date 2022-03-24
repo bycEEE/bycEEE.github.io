@@ -8,10 +8,15 @@
     <language>en-us</language>
     <managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
     <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster>
-    <lastBuildDate>Sun, 19 May 2019 18:15:02 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.bchoy.me/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Thu, 09 Jul 2020 16:17:39 +0000</lastBuildDate><atom:link href="https://blog.bchoy.me/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using Terraform and Kops Templating to Create Kubernetes Clusters</title>
+      <link>https://blog.bchoy.me/draft/2020-07-09-kops-templating/</link>
+      <pubDate>Thu, 09 Jul 2020 16:17:39 +0000</pubDate>
+      <author>bycEEE@gmail.com (Brian Choy)</author>
+      <guid>https://blog.bchoy.me/draft/2020-07-09-kops-templating/</guid>
+      <description>At JWPlayer we run multiple Kubernetes clusters, using Terraform to provision infrastructure, kops to create and manage clusters, and helmfile for core deployments. This post aims to provide insight into our infrastructure, the problems we ran into using Terraform and kops, and details on our new cluster creation and management strategy. This post will be divided into 2 parts - the first will cover Terraform and kops, the second will focus on helmfile.</description>
+    </item>
     
     <item>
       <title>HackTheBox SwagShop</title>
@@ -43,7 +48,7 @@
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2018-09-11-vmware-ssh-bug/</guid>
       <description>&lt;p&gt;When using VMWare to do work on my virtual machines, I came across an annoying bug where all my SSH connections failed:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ ssh root@52.172.12.100
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ssh root@52.172.12.100
 packet_write_wait: Connection to 52.172.12.100 port 22: Broken pipe
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -57,7 +62,7 @@ packet_write_wait: Connection to 52.172.12.100 port 22: Broken pipe
       <description>&lt;p&gt;Following up on my Bandit post, &lt;a href=&#34;http://overthewire.org/wargames/natas/&#34;&gt;OverTheWire Natas&lt;/a&gt; teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&amp;rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.&lt;/p&gt;
 &lt;h2 id=&#34;level-0&#34;&gt;Level 0&lt;/h2&gt;
 &lt;p&gt;The password to this level is listed on the natas game description:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Username: natas0
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Username: natas0
 Password: natas0
 URL:      http://natas0.natas.labs.overthewire.org
 &lt;/code&gt;&lt;/pre&gt;</description>
@@ -211,6 +216,26 @@ URL:      http://natas0.natas.labs.overthewire.org
 &lt;p&gt;Doubling my main computer as a HTPC and hosting game servers on top of that only led to everyone having an inconsistent experience due to my resources being eaten up whenever I started up a game. Near 100% CPU and RAM utilization isn’t fun for anyone. I decided to build my own (dedicated) server. This was the fun part.&lt;/p&gt;
 &lt;p&gt;Since I have only built gaming rigs in the past, server grade hardware was unexplored territory. I had to research server grade motherboards, NAS drives, ECC RAM, Intel Xeon processors, etc. This was my final build after a week of research:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://blog.bchoy.me/assets/img/posts/2015-02-08-no-plex-zone-1.jpg&#34; alt=&#34;My build&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.bchoy.me/draft/2020-07-08-bank-vaults-acm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>bycEEE@gmail.com (Brian Choy)</author>
+      <guid>https://blog.bchoy.me/draft/2020-07-08-bank-vaults-acm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.bchoy.me/draft/helmfile/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>bycEEE@gmail.com (Brian Choy)</author>
+      <guid>https://blog.bchoy.me/draft/helmfile/</guid>
+      <description>Something about helmfile
+Create a docker container with the following:
+FROM alpine:3.11 AS builder WORKDIR /opt/builder # declare build and environment variables ARG KUBECTL_VERSION ARG HELM_VERSION ARG HELM_DIFF_VERSION ARG HELMFILE_VERSION # get required packages RUN apk --update --no-cache add bash \  ca-certificates \  git \  gnupg \  curl # get kubectl ADD https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl ./kubectl RUN chmod +x ./kubectl # get helm ADD https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz /tmp RUN tar -zxvf /tmp/helm* -C /tmp \  &amp;amp;&amp;amp; mv /tmp/linux-amd64/helm .</description>
     </item>
     
     <item>

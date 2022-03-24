@@ -99,7 +99,7 @@ The explosion of cryptocurrency in recent years spurred …">
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta name="generator" content="Hugo 0.73.0" />
+  <meta name="generator" content="Hugo 0.95.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -280,49 +280,49 @@ The explosion of cryptocurrency in recent years spurred …">
 <p><em>Note: All terminal output has been truncated to only show relevant information. A truncated output is denoted with an ellipsis <code>...</code> .</em></p>
 <p>Initially, I believed a defective container was launched through our internal deployment tool and ran <code>gcc</code>. However since the master nodes were affected, that hypothesis seemed incorrect. Since JW Player follows the practice of keeping infrastructure as code, I double checked our repositories for any applied <code>yaml</code> configurations or deployments that ran <code>gcc</code> and found nothing suspicious.</p>
 <p>For further visibility into why <code>gcc</code> would be running at all, I inspected the process:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">admin@ip-10-10-201-13:~$ cat /proc/29254/status
-Name:    gcc
-Umask:    <span class="m">0022</span>
-State:    S <span class="o">(</span>sleeping<span class="o">)</span>
-Tgid:    <span class="m">29254</span>
-Ngid:    <span class="m">0</span>
-Pid:    <span class="m">29254</span>
-PPid:    <span class="m">3391</span>
-...
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">admin@ip-10-10-201-13:~$ ps aux <span class="p">|</span> grep <span class="m">3391</span>
-root      <span class="m">3391</span>  0.0  0.0 <span class="m">413632</span>  <span class="m">3740</span> ?        Sl   Sep05   0:00 docker-containerd-shim 7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d /var/run/docker/libcontainerd/7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d docker-runc
-</code></pre></div><p>Strange. A Docker container is running <code>gcc</code> despite our code base stating otherwise. Inspecting the Docker container reveals that Weave Scope was the parent process:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">admin@ip-10-10-201-13:~$ sudo docker inspect 7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d
-<span class="o">[</span>
-    <span class="o">{</span>
-        <span class="s2">&#34;Id&#34;</span>: <span class="s2">&#34;7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d&#34;</span>,
-        <span class="s2">&#34;Created&#34;</span>: <span class="s2">&#34;2018-09-05T17:45:20.073800454Z&#34;</span>,
-        <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/home/weave/scope&#34;</span>,
-        <span class="s2">&#34;Args&#34;</span>: <span class="o">[</span>
-            <span class="s2">&#34;--mode=probe&#34;</span>,
-            <span class="s2">&#34;--probe-only&#34;</span>,
-            <span class="s2">&#34;--probe.docker.bridge=docker0&#34;</span>,
-            <span class="s2">&#34;--probe.docker=true&#34;</span>,
-            <span class="s2">&#34;--probe.kubernetes=true&#34;</span>,
-            <span class="s2">&#34;weave-scope-app.weave.svc.cluster.local:80&#34;</span>
-        <span class="o">]</span>,
-        <span class="s2">&#34;State&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;Status&#34;</span>: <span class="s2">&#34;running&#34;</span>,
-            <span class="s2">&#34;Running&#34;</span>: true,
-            <span class="s2">&#34;Paused&#34;</span>: false,
-            <span class="s2">&#34;Restarting&#34;</span>: false,
-            <span class="s2">&#34;OOMKilled&#34;</span>: false,
-            <span class="s2">&#34;Dead&#34;</span>: false,
-            <span class="s2">&#34;Pid&#34;</span>: 3408,
-            <span class="s2">&#34;ExitCode&#34;</span>: 0,
-            <span class="s2">&#34;Error&#34;</span>: <span class="s2">&#34;&#34;</span>,
-            <span class="s2">&#34;StartedAt&#34;</span>: <span class="s2">&#34;2018-09-05T17:45:20.19489647Z&#34;</span>,
-            <span class="s2">&#34;FinishedAt&#34;</span>: <span class="s2">&#34;0001-01-01T00:00:00Z&#34;</span>
-        <span class="o">}</span>,
-        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,
-</code></pre></div><p><a href="https://www.weave.works/oss/scope/">Weave Scope</a> is a tool used to monitor Kubernetes in real time, and there was no reason for it to be running <code>gcc</code>. At this point I found that the <code>&quot;gcc&quot;</code> binary was actually a cryptocurrency miner with the filename <code>gcc</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">admin@ip-10-10-201-13:~$ cat /proc/29254/status
+</span></span><span class="line"><span class="cl">Name:    gcc
+</span></span><span class="line"><span class="cl">Umask:    <span class="m">0022</span>
+</span></span><span class="line"><span class="cl">State:    S <span class="o">(</span>sleeping<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Tgid:    <span class="m">29254</span>
+</span></span><span class="line"><span class="cl">Ngid:    <span class="m">0</span>
+</span></span><span class="line"><span class="cl">Pid:    <span class="m">29254</span>
+</span></span><span class="line"><span class="cl">PPid:    <span class="m">3391</span>
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">admin@ip-10-10-201-13:~$ ps aux <span class="p">|</span> grep <span class="m">3391</span>
+</span></span><span class="line"><span class="cl">root      <span class="m">3391</span>  0.0  0.0 <span class="m">413632</span>  <span class="m">3740</span> ?        Sl   Sep05   0:00 docker-containerd-shim 7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d /var/run/docker/libcontainerd/7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d docker-runc
+</span></span></code></pre></div><p>Strange. A Docker container is running <code>gcc</code> despite our code base stating otherwise. Inspecting the Docker container reveals that Weave Scope was the parent process:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">admin@ip-10-10-201-13:~$ sudo docker inspect 7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Id&#34;</span>: <span class="s2">&#34;7f8f77e3ad08b863841cadc833577f27062ed398546f663a8a77f778ba6c8d3d&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Created&#34;</span>: <span class="s2">&#34;2018-09-05T17:45:20.073800454Z&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/home/weave/scope&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Args&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--mode=probe&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe-only&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe.docker.bridge=docker0&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe.docker=true&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe.kubernetes=true&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;weave-scope-app.weave.svc.cluster.local:80&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;State&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Status&#34;</span>: <span class="s2">&#34;running&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Running&#34;</span>: true,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Paused&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Restarting&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;OOMKilled&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Dead&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Pid&#34;</span>: 3408,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;ExitCode&#34;</span>: 0,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Error&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;StartedAt&#34;</span>: <span class="s2">&#34;2018-09-05T17:45:20.19489647Z&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;FinishedAt&#34;</span>: <span class="s2">&#34;0001-01-01T00:00:00Z&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,
+</span></span></code></pre></div><p><a href="https://www.weave.works/oss/scope/">Weave Scope</a> is a tool used to monitor Kubernetes in real time, and there was no reason for it to be running <code>gcc</code>. At this point I found that the <code>&quot;gcc&quot;</code> binary was actually a cryptocurrency miner with the filename <code>gcc</code>.</p>
 <p>objdump:</p>
-<pre><code>admin@ip-10-10-201-13:/$ objdump -sj .rodata /gcc
+<pre tabindex="0"><code>admin@ip-10-10-201-13:/$ objdump -sj .rodata /gcc
 ...
  f0c00 584d5269 6720322e 362e320a 20627569  XMRig 2.6.2. bui
  f0c10 6c74206f 6e204d61 79203330 20323031  lt on May 30 201
@@ -357,7 +357,7 @@ root      <span class="m">3391</span>  0.0  0.0 <span class="m">413632</span>  <
 <p>The next step I took to determine an attack vector was launching a new barebones, isolated Kubernetes cluster with our existing deployment method. Watching over the entire process exposed the first issue — the Weave Scope load balancer security group was public facing and exposed to the world.</p>
 <p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-2.png" alt="Security group exposed to the world"></p>
 <p>Anyone with our load balancer URL can access the Weave Scope dashboard without any authentication. Having metrics exposed to prying eyes will provide attackers information to work with, however one Weave Scope feature, in particular, was abused. The documentation on <a href="https://github.com/weaveworks/scope">Weave Scope&rsquo;s Github repository</a> advertises that one of the features included is the ability to launch a command line on running containers:</p>
-<pre><code>Interact with and manage containers
+<pre tabindex="0"><code>Interact with and manage containers
 Launch a command line.
 
 Interact with your containers directly: pause, restart and stop containers. Launch a command line. All without leaving the scope browser window.
@@ -367,18 +367,18 @@ Interact with your containers directly: pause, restart and stop containers. Laun
 <li>
 <p>k8s-service-type - Kubernetes service type (for running Scope in Standalone mode), can be either LoadBalancer or NodePort, by default this is unspecified (only internal access)</p>
 <p>Our deployment was missing the annotation to make the load balancer internal:</p>
-<pre><code>  - apiVersion: v1
+<pre tabindex="0"><code>  - apiVersion: v1
     kind: Service
     metadata:
       name: weave-scope-app
       annotations:
         cloud.weave.works/launcher-info: |-
           {
-            &quot;original-request&quot;: {
-              &quot;url&quot;: &quot;/k8s/v1.8/scope.yaml?k8s-service-type=LoadBalancer&quot;,
-              &quot;date&quot;: &quot;Thu Sep 20 2018 17:37:19 GMT+0000 (UTC)&quot;
+            &#34;original-request&#34;: {
+              &#34;url&#34;: &#34;/k8s/v1.8/scope.yaml?k8s-service-type=LoadBalancer&#34;,
+              &#34;date&#34;: &#34;Thu Sep 20 2018 17:37:19 GMT+0000 (UTC)&#34;
             },
-            &quot;email-address&quot;: &quot;support@weave.works&quot;
+            &#34;email-address&#34;: &#34;support@weave.works&#34;
           }
 ...
     spec:
@@ -392,11 +392,11 @@ Interact with your containers directly: pause, restart and stop containers. Laun
 </code></pre></li>
 <li>
 <p>The <code>weave-scope</code> container is running with the <code>--privileged</code> flag:</p>
-<pre><code>        spec:
+<pre tabindex="0"><code>        spec:
           containers:
             - name: scope-agent
 ...
-              image: 'docker.io/weaveworks/scope:1.9.1'
+              image: &#39;docker.io/weaveworks/scope:1.9.1&#39;
               imagePullPolicy: IfNotPresent
               securityContext:
                 privileged: true
@@ -404,7 +404,7 @@ Interact with your containers directly: pause, restart and stop containers. Laun
 </code></pre></li>
 <li>
 <p>Files on the root file system were mounted onto the container:</p>
-<pre><code>...
+<pre tabindex="0"><code>...
               volumeMounts:
                 - name: scope-plugins
                   mountPath: /var/run/scope/plugins
@@ -426,61 +426,61 @@ Interact with your containers directly: pause, restart and stop containers. Laun
 <p>Through SSH on the host machine, the <code>gcc</code> file created through the <code>scope-agent</code> container is visible and running.</p>
 <p><img src="/assets/img/posts/2018-09-20-kubernetes-crypto-miner-6.png" alt="Terminal output of host machine"></p>
 <p>Using the same method as in our original diagnosis, we see that <code>gcc</code> is running and identify the parent:</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">root@ip-10-30-184-17:/# ps aux <span class="p">|</span> grep gcc
-root      <span class="m">8864</span>  0.0  0.0   <span class="m">1524</span>     <span class="m">4</span> pts/7    S    16:38   0:00 ash ./gcc
-root     <span class="m">14730</span>  0.0  0.0  <span class="m">12784</span>   <span class="m">948</span> pts/4    S+   16:39   0:00 grep gcc
-root@ip-10-30-184-17:/# cat /proc/8864/status
-Name:   busybox
-Umask:  <span class="m">0022</span>
-State:  S <span class="o">(</span>sleeping<span class="o">)</span>
-Tgid:   <span class="m">8864</span>
-Ngid:   <span class="m">0</span>
-Pid:    <span class="m">8864</span>
-PPid:   <span class="m">21594</span>
-</code></pre></div><p>One slight difference here is the parent PID of the <code>gcc</code> bash script points to <code>/bin/ash</code> instead of the Docker container that spawned the process:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root     <span class="m">21284</span>  0.0  0.0  <span class="m">12784</span>  <span class="m">1028</span> pts/4    S+   16:40   0:00 grep <span class="m">21594</span>
-root     <span class="m">21594</span>  0.0  0.0   <span class="m">1536</span>   <span class="m">960</span> pts/7    Ss+  16:30   0:00 /bin/ash
-root@ip-10-30-184-17:/# cat /proc/21594/status
-Name:   ash
-Umask:  <span class="m">0022</span>
-State:  S <span class="o">(</span>sleeping<span class="o">)</span>
-Tgid:   <span class="m">21594</span>
-Ngid:   <span class="m">0</span>
-Pid:    <span class="m">21594</span>
-PPid:   <span class="m">21578</span>
-</code></pre></div><p>The parent of that process is a Docker container:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root@ip-10-30-184-17:/# ps aux <span class="p">|</span> grep <span class="m">21578</span>
-root     <span class="m">21578</span>  0.0  0.0 <span class="m">199064</span>  <span class="m">3756</span> ?        Sl   16:30   0:00 docker-containerd-shim b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a /var/run/docker/libcontainerd/b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a docker-runc
-root     <span class="m">24923</span>  0.0  0.0  <span class="m">12784</span>   <span class="m">988</span> pts/4    S+   16:40   0:00 grep <span class="m">21578</span>
-root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a
-<span class="o">[</span>
-    <span class="o">{</span>
-        <span class="s2">&#34;Id&#34;</span>: <span class="s2">&#34;b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a&#34;</span>,
-        <span class="s2">&#34;Created&#34;</span>: <span class="s2">&#34;2018-09-20T15:59:01.868162531Z&#34;</span>,
-        <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/home/weave/scope&#34;</span>,
-        <span class="s2">&#34;Args&#34;</span>: <span class="o">[</span>
-            <span class="s2">&#34;--mode=probe&#34;</span>,
-            <span class="s2">&#34;--probe-only&#34;</span>,
-            <span class="s2">&#34;--probe.docker.bridge=docker0&#34;</span>,
-            <span class="s2">&#34;--probe.docker=true&#34;</span>,
-            <span class="s2">&#34;--probe.kubernetes=true&#34;</span>,
-            <span class="s2">&#34;weave-scope-app.weave.svc.cluster.local:80&#34;</span>
-        <span class="o">]</span>,
-        <span class="s2">&#34;State&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;Status&#34;</span>: <span class="s2">&#34;running&#34;</span>,
-            <span class="s2">&#34;Running&#34;</span>: true,
-            <span class="s2">&#34;Paused&#34;</span>: false,
-            <span class="s2">&#34;Restarting&#34;</span>: false,
-            <span class="s2">&#34;OOMKilled&#34;</span>: false,
-            <span class="s2">&#34;Dead&#34;</span>: false,
-            <span class="s2">&#34;Pid&#34;</span>: 7338,
-            <span class="s2">&#34;ExitCode&#34;</span>: 0,
-            <span class="s2">&#34;Error&#34;</span>: <span class="s2">&#34;&#34;</span>,
-            <span class="s2">&#34;StartedAt&#34;</span>: <span class="s2">&#34;2018-09-20T16:22:57.100773796Z&#34;</span>,
-            <span class="s2">&#34;FinishedAt&#34;</span>: <span class="s2">&#34;2018-09-20T16:22:56.994841933Z&#34;</span>
-        <span class="o">}</span>,
-        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,
-</code></pre></div><p>The slight difference may be attributed to the attack being automated and more sophisticated than the manual reproduction described. This example is also only one of several ways to break out of a privileged container. If applied to all Weave <code>scope-agent</code> containers, the miner can be executed on all instances since <code>scope-agent</code> is running on each instance to gather metrics.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@ip-10-30-184-17:/# ps aux <span class="p">|</span> grep gcc
+</span></span><span class="line"><span class="cl">root      <span class="m">8864</span>  0.0  0.0   <span class="m">1524</span>     <span class="m">4</span> pts/7    S    16:38   0:00 ash ./gcc
+</span></span><span class="line"><span class="cl">root     <span class="m">14730</span>  0.0  0.0  <span class="m">12784</span>   <span class="m">948</span> pts/4    S+   16:39   0:00 grep gcc
+</span></span><span class="line"><span class="cl">root@ip-10-30-184-17:/# cat /proc/8864/status
+</span></span><span class="line"><span class="cl">Name:   busybox
+</span></span><span class="line"><span class="cl">Umask:  <span class="m">0022</span>
+</span></span><span class="line"><span class="cl">State:  S <span class="o">(</span>sleeping<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Tgid:   <span class="m">8864</span>
+</span></span><span class="line"><span class="cl">Ngid:   <span class="m">0</span>
+</span></span><span class="line"><span class="cl">Pid:    <span class="m">8864</span>
+</span></span><span class="line"><span class="cl">PPid:   <span class="m">21594</span>
+</span></span></code></pre></div><p>One slight difference here is the parent PID of the <code>gcc</code> bash script points to <code>/bin/ash</code> instead of the Docker container that spawned the process:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">root     <span class="m">21284</span>  0.0  0.0  <span class="m">12784</span>  <span class="m">1028</span> pts/4    S+   16:40   0:00 grep <span class="m">21594</span>
+</span></span><span class="line"><span class="cl">root     <span class="m">21594</span>  0.0  0.0   <span class="m">1536</span>   <span class="m">960</span> pts/7    Ss+  16:30   0:00 /bin/ash
+</span></span><span class="line"><span class="cl">root@ip-10-30-184-17:/# cat /proc/21594/status
+</span></span><span class="line"><span class="cl">Name:   ash
+</span></span><span class="line"><span class="cl">Umask:  <span class="m">0022</span>
+</span></span><span class="line"><span class="cl">State:  S <span class="o">(</span>sleeping<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Tgid:   <span class="m">21594</span>
+</span></span><span class="line"><span class="cl">Ngid:   <span class="m">0</span>
+</span></span><span class="line"><span class="cl">Pid:    <span class="m">21594</span>
+</span></span><span class="line"><span class="cl">PPid:   <span class="m">21578</span>
+</span></span></code></pre></div><p>The parent of that process is a Docker container:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">root@ip-10-30-184-17:/# ps aux <span class="p">|</span> grep <span class="m">21578</span>
+</span></span><span class="line"><span class="cl">root     <span class="m">21578</span>  0.0  0.0 <span class="m">199064</span>  <span class="m">3756</span> ?        Sl   16:30   0:00 docker-containerd-shim b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a /var/run/docker/libcontainerd/b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a docker-runc
+</span></span><span class="line"><span class="cl">root     <span class="m">24923</span>  0.0  0.0  <span class="m">12784</span>   <span class="m">988</span> pts/4    S+   16:40   0:00 grep <span class="m">21578</span>
+</span></span><span class="line"><span class="cl">root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Id&#34;</span>: <span class="s2">&#34;b9652096ff9a8b524f7d9ce7688e9709fb24bcc31ffa7e7c3484c8cf117cc56a&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Created&#34;</span>: <span class="s2">&#34;2018-09-20T15:59:01.868162531Z&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/home/weave/scope&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Args&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--mode=probe&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe-only&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe.docker.bridge=docker0&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe.docker=true&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;--probe.kubernetes=true&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;weave-scope-app.weave.svc.cluster.local:80&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;State&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Status&#34;</span>: <span class="s2">&#34;running&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Running&#34;</span>: true,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Paused&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Restarting&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;OOMKilled&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Dead&#34;</span>: false,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Pid&#34;</span>: 7338,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;ExitCode&#34;</span>: 0,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Error&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;StartedAt&#34;</span>: <span class="s2">&#34;2018-09-20T16:22:57.100773796Z&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;FinishedAt&#34;</span>: <span class="s2">&#34;2018-09-20T16:22:56.994841933Z&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Image&#34;</span>: <span class="s2">&#34;sha256:4b07159e407beba7d74f1986d3b90e3103f33b87269991400ca2fd1eedf1f4eb&#34;</span>,
+</span></span></code></pre></div><p>The slight difference may be attributed to the attack being automated and more sophisticated than the manual reproduction described. This example is also only one of several ways to break out of a privileged container. If applied to all Weave <code>scope-agent</code> containers, the miner can be executed on all instances since <code>scope-agent</code> is running on each instance to gather metrics.</p>
 <h2 id="damage-assessment">Damage Assessment</h2>
 <p>An unwanted application gaining access to the <code>root</code> directory on all of our Kubernetes nodes is alarming. In addition to our immediate steps, further analysis was imperative to ensure that our data has not been accessed or compromised in any way.</p>
 <ul>
@@ -602,7 +602,7 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2019
+            2020
           
 
           
@@ -612,7 +612,7 @@ root@ip-10-30-184-17:/# docker inspect b9652096ff9a8b524f7d9ce7688e9709fb24bcc31
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.95.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>

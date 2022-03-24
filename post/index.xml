@@ -8,11 +8,7 @@
     <language>en-us</language>
     <managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
     <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster>
-    <lastBuildDate>Sun, 19 May 2019 18:15:02 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.bchoy.me/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 19 May 2019 18:15:02 +0000</lastBuildDate><atom:link href="https://blog.bchoy.me/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HackTheBox SwagShop</title>
       <link>https://blog.bchoy.me/post/2019-05-24-hackthebox-swagshop/</link>
@@ -43,7 +39,7 @@
       <author>bycEEE@gmail.com (Brian Choy)</author>
       <guid>https://blog.bchoy.me/post/2018-09-11-vmware-ssh-bug/</guid>
       <description>&lt;p&gt;When using VMWare to do work on my virtual machines, I came across an annoying bug where all my SSH connections failed:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ ssh root@52.172.12.100
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ssh root@52.172.12.100
 packet_write_wait: Connection to 52.172.12.100 port 22: Broken pipe
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -57,7 +53,7 @@ packet_write_wait: Connection to 52.172.12.100 port 22: Broken pipe
       <description>&lt;p&gt;Following up on my Bandit post, &lt;a href=&#34;http://overthewire.org/wargames/natas/&#34;&gt;OverTheWire Natas&lt;/a&gt; teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&amp;rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.&lt;/p&gt;
 &lt;h2 id=&#34;level-0&#34;&gt;Level 0&lt;/h2&gt;
 &lt;p&gt;The password to this level is listed on the natas game description:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Username: natas0
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Username: natas0
 Password: natas0
 URL:      http://natas0.natas.labs.overthewire.org
 &lt;/code&gt;&lt;/pre&gt;</description>

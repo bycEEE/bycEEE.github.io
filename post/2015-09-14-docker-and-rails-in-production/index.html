@@ -104,7 +104,7 @@ First thing&rsquo;s first. I installed docker-machine, which is the new boot2doc
   <meta name="twitter:image" content="https://blog.bchoy.me/assets/img/avatar.jpg" />
   <meta name="twitter:card" content="summary" />
   <link href='https://blog.bchoy.me/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta name="generator" content="Hugo 0.73.0" />
+  <meta name="generator" content="Hugo 0.95.0" />
   <link rel="alternate" href="https://blog.bchoy.me/index.xml" type="application/rss+xml" title="bchoy.me"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.bchoy.me/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -281,14 +281,14 @@ First thing&rsquo;s first. I installed docker-machine, which is the new boot2doc
 <p>Thanks to these blog posts (amongst many others), I was able to cut down a lot of time out of learning how to deploy this rails app.</p>
 <p>First thing&rsquo;s first. I installed <a href="https://docs.docker.com/machine/install-machine/">docker-machine</a>, which is the new boot2docker, and attempted to run my docker image containing the Rails app locally, in production, on my Macbook.</p>
 <p>Here is the Dockerfile that I used:</p>
-<pre><code>FROM phusion/passenger-ruby22:0.9.17
+<pre tabindex="0"><code>FROM phusion/passenger-ruby22:0.9.17
 MAINTAINER Brian Choy &lt;bycEEE@gmail.com&gt;
 
 # Set correct environment variables.
 ENV HOME /root
 
-# Use baseimage-docker's init system.
-CMD [&quot;/sbin/my_init&quot;]
+# Use baseimage-docker&#39;s init system.
+CMD [&#34;/sbin/my_init&#34;]
 
 # Start Nginx / Passenger
 RUN rm -f /etc/service/nginx/down
@@ -321,7 +321,7 @@ EXPOSE 80
 RUN apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 </code></pre><p>The reason why I used passenger-docker is included on their <a href="https://github.com/phusion/passenger-docker#why_use">GitHub</a>. Basically they&rsquo;re maintaining a Ubuntu 14.04 base image that is tweaked and configured properly for Docker.</p>
 <p>My nginx.conf:</p>
-<pre><code>server {
+<pre tabindex="0"><code>server {
   listen 80;
   server_name websiteurl.com;
   root /home/app/public;
@@ -332,7 +332,7 @@ RUN apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
   passenger_ruby /usr/bin/ruby2.2;
 }
 </code></pre><p>My rails-env.conf</p>
-<pre><code>env APP_DB_DATABASE;
+<pre tabindex="0"><code>env APP_DB_DATABASE;
 env APP_DB_HOST;
 env APP_DB_PASSWORD;
 env APP_DB_USERNAME;
@@ -345,9 +345,9 @@ env TWITTER_API_KEY;
 env TWITTER_API_SECRET;
 </code></pre><p>These Rails environment variables are now accessible to me and can be changed via my AWS console. My database also resides in AWS RDS so I did not set up a local MySQL database to connect to.</p>
 <p>Running my app:</p>
-<pre><code>docker run --rm -p 80:80 myappname
+<pre tabindex="0"><code>docker run --rm -p 80:80 myappname
 </code></pre><p>Shell access to my container to poke around for errors:</p>
-<pre><code>sudo docker exec -i -t 665b4a1e17b6 bash
+<pre tabindex="0"><code>sudo docker exec -i -t 665b4a1e17b6 bash
 </code></pre><p>Afterwards just go to your AWS account, spin up another instance of Elastic Beanstalk, add in all your environment variables, and make sure RAILS_ENV is set to production in your environment variables.</p>
 <p>I&rsquo;m sure there were way more pain points in this process not mentioned in this blog post and I probably blocked them out of my memory. So far I can relax and be satisfied that this works, but eventually I&rsquo;ll have to do this again. Will update this blog post or make another one in the future with more info.</p>
 
@@ -426,7 +426,7 @@ env TWITTER_API_SECRET;
 
           &nbsp;&bull;&nbsp;&copy;
           
-            2019
+            2020
           
 
           
@@ -436,7 +436,7 @@ env TWITTER_API_SECRET;
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.95.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
           
         </p>
       </div>
