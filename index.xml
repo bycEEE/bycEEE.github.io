@@ -7,6 +7,15 @@
             <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster><copyright>bchoy.me</copyright><lastBuildDate>Wed, 11 Jan 2023 21:52:02 &#43;0000</lastBuildDate>
             <atom:link href="https://bchoy.me/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>About Me</title>
+    <link>https://bchoy.me/about/</link>
+    <pubDate>Thu, 12 Jan 2023 02:37:03 &#43;0000</pubDate>
+    <author>Brian Choy</author>
+    <guid>https://bchoy.me/about/</guid>
+    <description><![CDATA[Who Am I Professionally? Nowadays I&rsquo;m mostly a DevOps and Site Reliability Engineer, specialising in building cloud infrastructure with AWS, Kubernetes, SaltStack, and Terraform. For the past 7 years some of my primary responsibilities were:
+Responsibilities Building and maintaining infrastructure for startups and enterprise. Provision machines and deploy software. Ensure high availability for all core services. Multi-cloud disaster recovery procedure and documentation. Reproduce production environments locally for developers. Create CI/CD pipelines to automate developer workflow and deployment.]]></description>
+</item>
+<item>
     <title>bchoy.me ver.1.22474487139...</title>
     <link>https://bchoy.me/posts/bchoy-me-ver-1-22474487139/</link>
     <pubDate>Wed, 11 Jan 2023 21:52:02 &#43;0000</pubDate>
@@ -96,18 +105,6 @@ Original Directory Structure Redone Directory Structure I didn&rsquo;t even have
     <author>Brian Choy</author>
     <guid>https://bchoy.me/posts/deploying-to-elastic-beanstalk-jenkins/</guid>
     <description><![CDATA[<p>Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push.</p>]]></description>
-</item>
-<item>
-    <title>Using Capistrano to Deploy Rails App</title>
-    <link>https://bchoy.me/posts/using-capistrano-to-deploy-rails-app/</link>
-    <pubDate>Fri, 02 Oct 2015 15:32:20 &#43;0000</pubDate>
-    <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/using-capistrano-to-deploy-rails-app/</guid>
-    <description><![CDATA[<p>After using Docker to deploy last month, I&rsquo;ve decided to try deploying using Capistrano and nginx for my current project.</p>
-<p>Helpful links:
-<a href="http://robmclarty.com/blog/how-to-deploy-a-rails-4-app-with-git-and-capistrano" target="_blank" rel="noopener noreffer ">http://robmclarty.com/blog/how-to-deploy-a-rails-4-app-with-git-and-capistrano</a></p>
-<p><a href="https://www.digitalocean.com/community/tutorials/how-to-automate-ruby-on-rails-application-deployments-using-capistrano" target="_blank" rel="noopener noreffer ">https://www.digitalocean.com/community/tutorials/how-to-automate-ruby-on-rails-application-deployments-using-capistrano</a></p>
-<p><a href="https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/nginx/oss/precise/deploy_app.html" target="_blank" rel="noopener noreffer ">https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/nginx/oss/precise/deploy_app.html</a></p>]]></description>
 </item>
 </channel>
 </rss>
