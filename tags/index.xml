@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Tags on bchoy.me</title>
-    <link>https://blog.bchoy.me/tags/</link>
-    <description>Recent content in Tags on bchoy.me</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
-    <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster><atom:link href="https://blog.bchoy.me/tags/index.xml" rel="self" type="application/rss+xml" />
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Tags - Tag - bchoy.me</title>
+        <link>https://bchoy.me/tags/</link>
+        <description>Tags - Tag - bchoy.me</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
+            <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster><copyright>bchoy.me</copyright><atom:link href="https://bchoy.me/tags/" rel="self" type="application/rss+xml" /></channel>
 </rss>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>No Plex Zone - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="No Plex Zone" />
+<meta property="og:description" content="I was around 15 when I started to play around with web and game server hosting. As a result, I became interested in owning my own dedicated server, but my 5mbps down/1mbps up connection did not make me a suitable host. After moving into an apartment where I don’t pay for electricity and has Verizon FIOS, I was able to finally build my own computer and learn how to be a sysadmin.
+
+Hardware
+Doubling my main computer as a HTPC and hosting game servers on top of that only led to everyone having an inconsistent experience due to my resources being eaten up whenever I started up a game. Near 100% CPU and RAM utilization isn’t fun for anyone. I decided to build my own (dedicated) server. This was the fun part.
+Since I have only built gaming rigs in the past, server grade hardware was unexplored territory. I had to research server grade motherboards, NAS drives, ECC RAM, Intel Xeon processors, etc. This was my final build after a week of research:
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bchoy.me/posts/no-plex-zone/" /><meta property="og:image" content="https://bchoy.me/posts/no-plex-zone/featured-image.jpg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-02-08T20:07:00-05:00" />
+<meta property="article:modified_time" content="2023-01-12T00:29:57-08:00" /><meta property="og:site_name" content="bchoy.me" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bchoy.me/posts/no-plex-zone/featured-image.jpg"/>
+<meta name="twitter:title" content="No Plex Zone"/>
+<meta name="twitter:description" content="I was around 15 when I started to play around with web and game server hosting. As a result, I became interested in owning my own dedicated server, but my 5mbps down/1mbps up connection did not make me a suitable host. After moving into an apartment where I don’t pay for electricity and has Verizon FIOS, I was able to finally build my own computer and learn how to be a sysadmin.
+
+Hardware
+Doubling my main computer as a HTPC and hosting game servers on top of that only led to everyone having an inconsistent experience due to my resources being eaten up whenever I started up a game. Near 100% CPU and RAM utilization isn’t fun for anyone. I decided to build my own (dedicated) server. This was the fun part.
+Since I have only built gaming rigs in the past, server grade hardware was unexplored territory. I had to research server grade motherboards, NAS drives, ECC RAM, Intel Xeon processors, etc. This was my final build after a week of research:
+"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://bchoy.me/posts/no-plex-zone/" /><link rel="next" href="https://bchoy.me/posts/iterm2-keyboard-shortcuts/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "No Plex Zone",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bchoy.me\/posts\/no-plex-zone\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/bchoy.me\/posts\/no-plex-zone\/featured-image.jpg",
+                            "width":  500 ,
+                            "height":  209 
+                        }],"genre": "posts","wordcount":  1565 ,
+        "url": "https:\/\/bchoy.me\/posts\/no-plex-zone\/","datePublished": "2015-02-08T20:07:00-05:00","dateModified": "2023-01-12T00:29:57-08:00","license": "bchoy.me","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Brian Choy"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="bchoy.me">bchoy.me</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Blog </a><a class="menu-item" href="/about"> About </a><a class="menu-item" href="/resume"> Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="bchoy.me">bchoy.me</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Blog</a><a class="menu-item" href="/about" title="">About</a><a class="menu-item" href="/resume" title="">Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">No Plex Zone</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="02-08-2015">02-08-2015</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1565 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/featured-image.jpg"
+        data-srcset="/posts/no-plex-zone/featured-image.jpg, /posts/no-plex-zone/featured-image.jpg 1.5x, /posts/no-plex-zone/featured-image.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/featured-image.jpg"
+        title="/posts/no-plex-zone/featured-image.jpg" /></div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#ipmi">IPMI</a></li>
+    <li><a href="#ssh">SSH</a></li>
+    <li><a href="#data-redundancy-and-file-systems">Data Redundancy and File Systems</a></li>
+    <li><a href="#server-software">Server Software</a></li>
+    <li><a href="#resource-management">Resource Management</a>
+      <ul>
+        <li><a href="#future-plans">Future Plans</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>I was around 15 when I started to play around with web and game server hosting. As a result, I became interested in owning my own dedicated server, but my 5mbps down/1mbps up connection did not make me a suitable host. After moving into an apartment where I don’t pay for electricity and has Verizon FIOS, I was able to finally build my own computer and learn how to be a sysadmin.</p>
+<hr>
+<h2 id="hardware">Hardware</h2>
+<p>Doubling my main computer as a HTPC and hosting game servers on top of that only led to everyone having an inconsistent experience due to my resources being eaten up whenever I started up a game. Near 100% CPU and RAM utilization isn’t fun for anyone. I decided to build my own (dedicated) server. This was the fun part.</p>
+<p>Since I have only built gaming rigs in the past, server grade hardware was unexplored territory. I had to research server grade motherboards, NAS drives, ECC RAM, Intel Xeon processors, etc. This was my final build after a week of research:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/hardware.jpg"
+        data-srcset="/posts/no-plex-zone/hardware.jpg, /posts/no-plex-zone/hardware.jpg 1.5x, /posts/no-plex-zone/hardware.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/hardware.jpg"
+        title="My build" width="500" height="454" /></p>
+<p>Not bad for an initial start. My goals for this box is to host a couple of game servers (Minecraft, Terraria) and a HTPC server. I had a 120gb SSD I was using to boot OSX on my main computer that was re-purposed as the boot drive to my dedicated. Also, I picked up a 3TB WD RED HDD from somewhere else prior to this order. I was ecstatic when I put my setup together and it ran without any hitches right off the bat.</p>
+<p>Some stuff that I discovered when doing research on hardware:</p>
+<ul>
+<li>Intel Xeons E3s are basically i7s that have no onboard graphics, cannot be overclocked, but typically have more cores, and supports ECC RAM.</li>
+<li>ECC RAM. Never heard of it until I started researching server grade components. Error-correcting code memory (ECC memory) is a type of computer data storage that can detect and correct the most common kinds of internal data corruption. ECC memory is used in most computers where data corruption cannot be tolerated under any circumstances, such as for scientific or financial computing (Wikipedia). Being able to catch and correct errors is very important for data integrity, preventing application crashes, and preventing system crashes.</li>
+<li>SATA cables and SATA drives work perfectly fine with SAS mobo ports.</li>
+</ul>
+<hr>
+<h2 id="ipmi">IPMI</h2>
+<p>IPMI or Intelligent Platform Management Interface is awesome. This is my first time working with an IPMI enabled motherboard, and it made setting up the computer completely painless. I don’t fully understand IPMI, nor do I utilize the majority of its features, but it basically lets me remotely turn on and off my computer over a LAN port. It also allows me full remote control and offers information from hardware sensors (temperatures).</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/ipmi-device.jpg"
+        data-srcset="/posts/no-plex-zone/ipmi-device.jpg, /posts/no-plex-zone/ipmi-device.jpg 1.5x, /posts/no-plex-zone/ipmi-device.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/ipmi-device.jpg"
+        title="IPMI Device" width="500" height="313" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/ipmi-sensors.jpg"
+        data-srcset="/posts/no-plex-zone/ipmi-sensors.jpg, /posts/no-plex-zone/ipmi-sensors.jpg 1.5x, /posts/no-plex-zone/ipmi-sensors.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/ipmi-sensors.jpg"
+        title="IPMI Sensors" width="500" height="307" /></p>
+<p>The UI isn’t top notch, but the functionality is the important thing. I was able to install my OS over the air and set up my system for SSH instead of relying on the KVM console.</p>
+<hr>
+<h2 id="ssh">SSH</h2>
+<p><strong>Secure Shell (SSH)</strong> <em>is a cryptographic network protocol for securing data communication. It establishes a secure channel over an insecure network in a client-server architecture, connecting an SSH client application with a SSH server. Common applications include remote command-line login, remote command execution, but any network service can be secured with SSH.</em></p>
+<p>Everything I do to manage my server is through SSH. There would be absolutely no way to control my computer otherwise since it isn’t attached to a screen, keyboard, or mouse. In my simplest explanation, SSH connects you to your computer over any network and allows command line access to it as long as you’re authenticated and have your user permissions set up properly.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/putty.jpg"
+        data-srcset="/posts/no-plex-zone/putty.jpg, /posts/no-plex-zone/putty.jpg 1.5x, /posts/no-plex-zone/putty.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/putty.jpg"
+        title="Putty" width="500" height="317" /></p>
+<hr>
+<h2 id="data-redundancy-and-file-systems">Data Redundancy and File Systems</h2>
+<p>Understanding this and making the right decision took the most time. Hardware research was a distant second. First off, I’m going to discuss RAID very briefly.</p>
+<p><strong>RAID</strong> <em>(originally redundant array of inexpensive disks; now commonly redundant array of independent disks) is a data storage virtualization technology that combines multiple disk drive components into a logical unit for the purposes of data redundancy or performance improvement.</em></p>
+<p>Hardware failures happen, and RAID levels greater than 0 are used as fault tolerance to preserve data in the event of hard disk failure. The more popularly used RAID setups are RAID0, RAID1, RAID5, and RAID6.</p>
+<ul>
+<li>RAID0: Writes to two disks with the goal of speed/performance. If one disk fails, all the data on both disk is lost.</li>
+<li>RAID1: Mirrors data on two disks. Data is only lost if both disks fail.</li>
+<li>RAID5: In setups with 3 or more disks, parity is distributed across all disks. One disk will be used to rebuild lost data if a drive fails. All data is lost if two or more drives fail.</li>
+<li>RAID6: Same as RAID5, but requires a total of four or or more disks, and two disks will be used to rebuild data if a drive fails. All data is lost if three or more drives fail.</li>
+</ul>
+<p>Because I have 4x 3TB hard drives for my HTPC, RAID5 was the best choice for me. However, the research I’ve done led me to software RAID. Rather than spend money on a raid controller, RAID software and some operating systems offer a similar feature set. This is where things got messy. There was a lot to take in, a lot of material to read up on, and if I made the wrong choice there was a chance that I would have lost all my data switching to another RAID software. Here is a chart that helped me make my choice.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/raid-chart.jpg"
+        data-srcset="/posts/no-plex-zone/raid-chart.jpg, /posts/no-plex-zone/raid-chart.jpg 1.5x, /posts/no-plex-zone/raid-chart.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/raid-chart.jpg"
+        title="Alt RAID chart" width="500" height="383" /></p>
+<p>In my opinion, ZFS is the best choice when it comes to data integrity and data redundancy. It is an amazing file system that makes real time snapshots and preserves data integrity. However, it is inflexible because it does not allow me to expand my array, and the amount of RAM it uses increases as more data is added for the real time snapshots. It also keeps all the drives spinning when anything is accessed, and is simply overkill for a home server with a focus on serving media files. For my needs, SnapRAID was the best choice due to the ability to add more drives, and its low resource consumption. I have a cron job set to run every day at 2AM to take a snapshot of my data. Also, I’ve been told many times and had it drilled into my head that RAID is not a backup. SnapRAID actually advertises itself as a backup program, which I found interesting. For pooling, I decided to go with the mhddfs file system instead of AUFS.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/file-system-setup.jpg"
+        data-srcset="/posts/no-plex-zone/file-system-setup.jpg, /posts/no-plex-zone/file-system-setup.jpg 1.5x, /posts/no-plex-zone/file-system-setup.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/file-system-setup.jpg"
+        title="File System setup" width="500" height="281" /></p>
+<hr>
+<h2 id="server-software">Server Software</h2>
+<p>After this wall of text and pictures, I still don’t have any purpose for my server. It simply has pooled storage now. The first thing I did was set up my game servers. Steam, Minecraft, and Terraria were simple enough to get running. The problem I ran into was how I had to keep opening instances of my SSH client (Putty) to run each server, and whenever I closed my windows, the connection will terminate and my server will end. Screen addresses these issues.</p>
+<p><em>Screen is a full-screen window manager that multiplexes a physical terminal between several processes, typically interactive shells.</em></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/screen.jpg"
+        data-srcset="/posts/no-plex-zone/screen.jpg, /posts/no-plex-zone/screen.jpg 1.5x, /posts/no-plex-zone/screen.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/screen.jpg"
+        title="Screen" width="500" height="317" /></p>
+<p>Pretty neat. It lets me create as many “windows” as possible and detach/reattach them as I see fit.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/minecraft-screen.jpg"
+        data-srcset="/posts/no-plex-zone/minecraft-screen.jpg, /posts/no-plex-zone/minecraft-screen.jpg 1.5x, /posts/no-plex-zone/minecraft-screen.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/minecraft-screen.jpg"
+        title="Minecraft Screen" width="500" height="317" /></p>
+<p>Next comes Plex Media Server, which is the best media server I’ve used because it lets me stream content to my laptop or phone, and it lets me invite other Plex users to view my media. My original goal was to host a Plex server on my main PC to stream TV shows to my girlfriend when she was on her college campus since she didn’t have a TV and could not torrent on their network. I sidetracked a bit. The “No Plex Zone” name also came from a play on words with Plex Media server and the popular Rae Sremmurd - No Flex Zone song.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/plex.jpg"
+        data-srcset="/posts/no-plex-zone/plex.jpg, /posts/no-plex-zone/plex.jpg 1.5x, /posts/no-plex-zone/plex.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/plex.jpg"
+        title="Plex" width="500" height="311" /></p>
+<hr>
+<h2 id="resource-management">Resource Management</h2>
+<p>One important skill that I need to learn is how to manage system resources and react accordingly. Although there is no real load on my dedicated server, I thought it would be nice to familiarize myself with some tools in case some problems arise.</p>
+<p><strong>Top:</strong> See if any processes are using an abnormal amount of CPU usage. Top also shows CPU usage in relation to how many cores the process, which is why some processes report over 100% usage.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/top.jpg"
+        data-srcset="/posts/no-plex-zone/top.jpg, /posts/no-plex-zone/top.jpg 1.5x, /posts/no-plex-zone/top.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/top.jpg"
+        title="Top" width="500" height="317" /></p>
+<p><strong>Nethogs:</strong> My network monitor to see if any of my processes is taking up an abnormal amount of bandwidth.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="nethogs.jpg"
+        data-srcset="nethogs.jpg, nethogs.jpg 1.5x, nethogs.jpg 2x"
+        data-sizes="auto"
+        alt="nethogs.jpg"
+        title="Nethogs" /></p>
+<p><strong>Sensors:</strong> View temperature on all my components. Also lets me view and control my fan speeds.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/sensors.jpg"
+        data-srcset="/posts/no-plex-zone/sensors.jpg, /posts/no-plex-zone/sensors.jpg 1.5x, /posts/no-plex-zone/sensors.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/sensors.jpg"
+        title="Sensors" width="500" height="317" /></p>
+<p><strong>Webmin:</strong> Web interface for everything else. It’s cheating, but as a novice I find it helpful from time to time. I don’t rely on it much, and I plan to learn how to do everything via command line eventually.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/no-plex-zone/webmin.jpg"
+        data-srcset="/posts/no-plex-zone/webmin.jpg, /posts/no-plex-zone/webmin.jpg 1.5x, /posts/no-plex-zone/webmin.jpg 2x"
+        data-sizes="auto"
+        alt="/posts/no-plex-zone/webmin.jpg"
+        title="Webmin" width="500" height="368" /></p>
+<hr>
+<h3 id="future-plans">Future Plans</h3>
+<p>Setting up this dedicated server was a learning experience. One of the career paths I’ve considered was being a sysadmin or a network engineer. Without formal education though, it was hard for me to enter the field. Having a box to play with taught me a lot of valuable skills. Later on in the future I wish to be comfortable enough to run servers in a business environment. Additionally, I want to learn more about security and vulnerabilities.</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 01-12-2023&nbsp;<a class="git-hash" href="https://github.com/bycEEE/bycEEE.github.io//commit/ab44d31d2f77368727e97f55ac9ad08617abc5c7" target="_blank" title="commit by Brian Choy(bycEEE@gmail.com) ab44d31d2f77368727e97f55ac9ad08617abc5c7: Redo site, add blog post, add loveit theme">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>ab44d31</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/posts/iterm2-keyboard-shortcuts/" class="next" rel="next" title="iTerm2 Keyboard Shortcuts">iTerm2 Keyboard Shortcuts<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2015 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://bchoy.me" target="_blank">Brian Choy</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
