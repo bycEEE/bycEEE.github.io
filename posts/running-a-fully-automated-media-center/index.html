@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Creating a Fully Automated Media Server - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="Creating a Fully Automated Media Server" />
-<meta property="og:description" content="No Plex Zone 8 years ago I started No Plex Zone because my girlfriend during college could not watch her favourite shows on campus. During that time I wanted to get started in my career and decided to build a Plex server and load it up with things we wanted to watch. My friends asked me if they could also use my Plex server and I happily obliged. Then the requests came in." />
+        <title>Running a Fully Automated Media Server - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="Running a Fully Automated Media Server" />
+<meta property="og:description" content="No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bchoy.me/posts/running-a-fully-automated-media-center/" /><meta property="og:image" content="https://bchoy.me/posts/running-a-fully-automated-media-center/featured-image.jpg"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-04-30T21:49:32+00:00" />
 <meta property="article:modified_time" content="2023-04-30T21:49:32+00:00" /><meta property="og:site_name" content="bchoy.me" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://bchoy.me/posts/running-a-fully-automated-media-center/featured-image.jpg"/>
-<meta name="twitter:title" content="Creating a Fully Automated Media Server"/>
-<meta name="twitter:description" content="No Plex Zone 8 years ago I started No Plex Zone because my girlfriend during college could not watch her favourite shows on campus. During that time I wanted to get started in my career and decided to build a Plex server and load it up with things we wanted to watch. My friends asked me if they could also use my Plex server and I happily obliged. Then the requests came in."/>
+<meta name="twitter:title" content="Running a Fully Automated Media Server"/>
+<meta name="twitter:description" content="No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable."/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -23,7 +23,7 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Creating a Fully Automated Media Server",
+        "headline": "Running a Fully Automated Media Server",
         "inLanguage": "en",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -33,7 +33,7 @@
                             "url": "https:\/\/bchoy.me\/posts\/running-a-fully-automated-media-center\/featured-image.jpg",
                             "width":  1054 ,
                             "height":  596 
-                        }],"genre": "posts","wordcount":  1552 ,
+                        }],"genre": "posts","wordcount":  1348 ,
         "url": "https:\/\/bchoy.me\/posts\/running-a-fully-automated-media-center\/","datePublished": "2023-04-30T21:49:32+00:00","dateModified": "2023-04-30T21:49:32+00:00","license": "bchoy.me","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -105,10 +105,10 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Creating a Fully Automated Media Server</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Running a Fully Automated Media Server</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="04-30-2023">04-30-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1552 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="04-30-2023">04-30-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1348 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -127,6 +127,8 @@
     <li><a href="#no-cloud-zone">No Cloud Zone</a></li>
     <li><a href="#automation">Automation</a>
       <ul>
+        <li><a href="#user-flow">User Flow</a></li>
+        <li><a href="#core-infrastructure">Core Infrastructure</a></li>
         <li><a href="#media-automation">Media Automation</a></li>
         <li><a href="#cloud-sync-and-playback">Cloud Sync and Playback</a></li>
         <li><a href="#other-tools">Other Tools</a></li>
@@ -135,113 +137,92 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="no-plex-zone">No Plex Zone</h2>
-<p>8 years ago I started <a href="2015-02-08-no-plex-zone.md" rel="">No Plex Zone</a> because my
-girlfriend during college could not watch her favourite shows on campus. During
-that time I wanted to get started in my career and decided to build a Plex
-server and load it up with things we wanted to watch. My friends asked me if
-they could also use my Plex server and I happily obliged. Then the requests came
-in. &ldquo;Hey can you put this on?&rdquo;, &ldquo;This episode didn&rsquo;t download.&rdquo;, &ldquo;Is this movie
-out yet?&rdquo;. I didn&rsquo;t mind it, but over time the community around Plex grew and
-many great tools came out to provide a fully automated experience.</p>
+<p>8 years ago I started <a href="2015-02-08-no-plex-zone.md" rel="">No Plex Zone</a>. It was a great
+foray into building my own home lab and learning Linux. I initially just wanted
+to watch movies and shows in my college campus, and before long my friends asked
+me if they could also watch stuff on my Plex server too. I happily obliged and
+manually grabbed new releases when asked. This process quickly became
+unsustainable. The community around Plex grew significantly since then, with
+many great tools available to host a fully automated media server. This was
+written with the focus of explaining to friends how my media server works.</p>
 <h2 id="no-cloud-zone">No Cloud Zone</h2>
-<p>The new and improved No Plex Zone is no longer hosted in a closet at my parents'
-home. Ignoring my mom&rsquo;s immeasurable disappointment in no longer having a big
-black box taking up space, No Plex Zone is now being reliably hosted in a data
-center with dedicated 1gbps uplink and beefy enough stats for transcoding and
-application hosting.</p>
-<div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>Server Specifications<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><ul>
-<li>Intel Core i7-7700</li>
-<li>1x SSD M.2 NVMe 512 GB</li>
-<li>2x HDD SATA 4,0 TB Enterprise</li>
-<li>4x RAM 16384 MB DDR4</li>
-</ul>
-</div>
-        </div>
-    </div>
-<p>In addition to the main server being hosted on the cloud (technically on-prem I
-guess), all media is now hosted on the now defunct <a href="https://support.google.com/a/answer/6034782?hl=en" target="_blank" rel="noopener noreffer ">G Suite Business edition</a> plan. 8TB of local space is great, but not enough.
-Fortunately Google grandfathered my unlimited storage component of that plan
-into the new Google Workspace.</p>
+<p>Everything is now hosted in a data center. The 10mbps upload in my new apartment
+rendered streaming completely useless outside of my home network (thanks
+Spectrum). Sadly I couldn&rsquo;t continue my home lab for this project, but I
+placated myself with a new shiny dedicated server with 1gbps uplink and Google
+Drive as a storage backend.</p>
 <h2 id="automation">Automation</h2>
-<p>The first iteration of this media serving project was simply hosting Plex in a
-Docker container and pointing it at a directory containing all of my media. No
-Cloud Zone is much much more complex.</p>
-<p>Before diving into each component and how everything works, this is what the
-typical user experience looks like.</p>
-<ol>
-<li>There are two ways to request.
-<figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/requestrr.png" title="/posts/running-a-fully-automated-media-center/images/requestrr.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/requestrr.png" data-sub-html="<h2>Request via Requestrr</h2>">
-           <img
-               class="lazyload"
-               src="/svg/loading.min.svg"
-               data-src="/posts/running-a-fully-automated-media-center/images/requestrr.png"
-               data-srcset="/posts/running-a-fully-automated-media-center/images/requestrr.png, /posts/running-a-fully-automated-media-center/images/requestrr.png 1.5x, /posts/running-a-fully-automated-media-center/images/requestrr.png 2x"
-               data-sizes="auto"
-               alt="/posts/running-a-fully-automated-media-center/images/requestrr.png" width="604" height="598" />
-       </a><figcaption class="image-caption">Request via Requestrr</figcaption>
-       </figure>
-<figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/overseerr.png" title="/posts/running-a-fully-automated-media-center/images/overseerr.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/overseerr.png" data-sub-html="<h2>Request via Overseerr</h2>">
-           <img
-               class="lazyload"
-               src="/svg/loading.min.svg"
-               data-src="/posts/running-a-fully-automated-media-center/images/overseerr.png"
-               data-srcset="/posts/running-a-fully-automated-media-center/images/overseerr.png, /posts/running-a-fully-automated-media-center/images/overseerr.png 1.5x, /posts/running-a-fully-automated-media-center/images/overseerr.png 2x"
-               data-sizes="auto"
-               alt="/posts/running-a-fully-automated-media-center/images/overseerr.png" width="1195" height="818" />
-       </a><figcaption class="image-caption">Request via Overseerr</figcaption>
-       </figure></li>
-<li>Once a movie has been requested, the requested media usually shows up within
-the next 10 minutes.
-<figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" title="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" data-sub-html="<h2>Movie successfully requested</h2>">
-           <img
-               class="lazyload"
-               src="/svg/loading.min.svg"
-               data-src="/posts/running-a-fully-automated-media-center/images/plex-request-success.png"
-               data-srcset="/posts/running-a-fully-automated-media-center/images/plex-request-success.png, /posts/running-a-fully-automated-media-center/images/plex-request-success.png 1.5x, /posts/running-a-fully-automated-media-center/images/plex-request-success.png 2x"
-               data-sizes="auto"
-               alt="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" width="1433" height="766" />
-       </a><figcaption class="image-caption">Movie successfully requested</figcaption>
-       </figure></li>
-</ol>
+<h3 id="user-flow">User Flow</h3>
+<p>Before diving into all the moving pieces, this is what the user experience looks
+like. If a movie or show is not available on Plex, there are two interfaces to
+request new media:</p>
+<p><figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/requestrr.png" title="/posts/running-a-fully-automated-media-center/images/requestrr.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/requestrr.png" data-sub-html="<h2>Request via Discord</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/running-a-fully-automated-media-center/images/requestrr.png"
+            data-srcset="/posts/running-a-fully-automated-media-center/images/requestrr.png, /posts/running-a-fully-automated-media-center/images/requestrr.png 1.5x, /posts/running-a-fully-automated-media-center/images/requestrr.png 2x"
+            data-sizes="auto"
+            alt="/posts/running-a-fully-automated-media-center/images/requestrr.png" width="604" height="598" />
+    </a><figcaption class="image-caption">Request via Discord</figcaption>
+    </figure>
+<figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/overseerr.png" title="/posts/running-a-fully-automated-media-center/images/overseerr.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/overseerr.png" data-sub-html="<h2>Request via Browser</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/running-a-fully-automated-media-center/images/overseerr.png"
+            data-srcset="/posts/running-a-fully-automated-media-center/images/overseerr.png, /posts/running-a-fully-automated-media-center/images/overseerr.png 1.5x, /posts/running-a-fully-automated-media-center/images/overseerr.png 2x"
+            data-sizes="auto"
+            alt="/posts/running-a-fully-automated-media-center/images/overseerr.png" width="1195" height="818" />
+    </a><figcaption class="image-caption">Request via Browser</figcaption>
+    </figure></p>
+<p>If the requested media does not exist, it will be automatically downloaded when
+available and notify the requester. There are no manual steps other than
+deciding what to watch and hitting a button. Automation achieved!</p>
 <p>If the requested media does not exist, it will be downloaded when available and
 notify the requester via Discord. Automation achieved!</p>
-<div class="details admonition warning open">
+<figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" title="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" data-sub-html="<h2>Movie successfully requested</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/running-a-fully-automated-media-center/images/plex-request-success.png"
+            data-srcset="/posts/running-a-fully-automated-media-center/images/plex-request-success.png, /posts/running-a-fully-automated-media-center/images/plex-request-success.png 1.5x, /posts/running-a-fully-automated-media-center/images/plex-request-success.png 2x"
+            data-sizes="auto"
+            alt="/posts/running-a-fully-automated-media-center/images/plex-request-success.png" width="1433" height="766" />
+    </a><figcaption class="image-caption">Movie successfully requested</figcaption>
+    </figure>
+<h3 id="core-infrastructure">Core Infrastructure</h3>
+<p>No Plex Zone was originally installed and configured by manually running
+commands. Since I was learning Linux and didn&rsquo;t document anything, it was hard
+to manage and make changes. All software was run by connecting to the machine
+and manually executing the startup command. Now everything is documented in code
+and does not require direct ssh access to make any changes.</p>
+<div class="details admonition info open">
         <div class="details-summary admonition-title">
-            <i class="icon fas fa-exclamation-triangle fa-fw" aria-hidden="true"></i>Behind the Scenes<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>Quick Overview of Infrastructure<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content"><p>Before discussing the actual flow of what happens to actually get the media onto
-Plex after a successful request, I will provide a quick overview of the core
-infrastructure to give a more comprehensive view on how No Cloud Zone works in
-its entirety. Later down the road I may put up another post on the code and how
-each component is implemented.</p>
-<h3 id="server-management">Server Management</h3>
+            <div class="admonition-content"><h3 id="server-management">Server Management</h3>
 <ul>
-<li>Ansible: Provision and configure the bare-metal severs with core dependencies,
-configuration, and software.</li>
-<li>Nomad: Orchestrates running containers while ensuring proper deployment and
-restarting applications that die for whatever reason.</li>
-<li>UnionFS: Overlays multiple directories into one mount point.</li>
-<li>Duplicacy: Automated backups of stateful containers.</li>
-<li>Prometheus: Provides metrics for host and containers.</li>
-<li>Vector: Log collection to debug potential issues.</li>
-<li>Loki: Log aggregation.</li>
-<li>Grafana: Visualises metrics and logs for hosts and containers.</li>
-<li>Uptime Kuma: Simple monitoring tool for uptime at a glance.</li>
+<li>Ansible: Provision the server with core OS dependencies, container
+orchestration software (Nomad), networking tweaks, and mount paths for Google
+Drive via UnionFS.</li>
+<li>Nomad: Deploys and manages every other piece of software.</li>
+<li>Duplicacy: Automatic backups of stateful containers. This includes local
+application configurations and databases.</li>
+<li>Prometheus: Collect metrics.</li>
+<li>Loki: Aggregate all logs.</li>
+<li>Vector: Formats and routes logs and metrics.</li>
+<li>Grafana: Visualises metrics and logs.</li>
+<li>Uptime Kuma: Simple monitoring to alert when an application is down.</li>
 </ul>
 <h3 id="web">Web</h3>
 <ul>
-<li>Traefik: Web server with automatic container discovery with Nomad, allowing
-software to be accessible via browser.</li>
-<li>Authelia: Single Sign-On for running web apps, providing authentication and
-MFA.</li>
-<li>CloudFlare: Domain name access for web apps, and CDN for better peering and
-performance for static content.</li>
+<li>Traefik: Reverse proxy with automatic container discovery with Nomad to allow
+external traffic to access exposed applications.</li>
+<li>Authelia: Single Sign-On and authentication for applications.</li>
+<li>CloudFlare: Assigns domain names for each web app, provides full HTTPS, and a
+CDN for better peering.</li>
 </ul>
 <h3 id="media-servers">Media Servers</h3>
 <ul>
@@ -253,9 +234,10 @@ performance for static content.</li>
     </div>
 <h3 id="media-automation">Media Automation</h3>
 <p>The <a href="https://wiki.servarr.com" target="_blank" rel="noopener noreffer ">*Arr stack</a> is the heart of the automation
-process. This software stack is designed to automatically grab, sort, organise,
-and monitor media. When a request is sent in from Discord or Overseerr, it is
-sent to one of the following for processing:</p>
+process. This software suite is designed to be a one stop solution to
+automatically monitor, grab, sort, orgranise, and import media. When a request
+is sent from the Discord bot (Requestrr) or the web request frontend (Overseerr),
+it is routed to one of the following:</p>
 <ul>
 <li>Radarr: Movies.</li>
 <li>Sonarr: TV.</li>
@@ -265,14 +247,10 @@ sent to one of the following for processing:</p>
 <p>Other:</p>
 <ul>
 <li>Prowlarr: Indexer management.</li>
-<li>Autobrr: Download automation.</li>
+<li>Autobrr: Additional download monitoring and filtering.</li>
 </ul>
-<p>Each of the above, except for Prowlarr, is designed specifically for the listed
-type of media. To find available media, an indexer and download client need to
-be configured. An indexer is a usenet or torrent tracker, and a download client
-would either be a usenet or bittorrent client. Prowlarr is a tool that optimises
-searches across different trackers, and configures the other media automation
-tools accordingly with preferred trackers and associated settings.</p>
+<p>Prowlarr is used to add, configure, and sync indexers to the appropriate member
+of the *Arr stack for effective searching of wanted media.</p>
 <figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/prowlarr.png" title="/posts/running-a-fully-automated-media-center/images/prowlarr.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/prowlarr.png" data-sub-html="<h2>Prowlarr Indexers</h2>">
         <img
             class="lazyload"
@@ -283,10 +261,10 @@ tools accordingly with preferred trackers and associated settings.</p>
             alt="/posts/running-a-fully-automated-media-center/images/prowlarr.png" width="1454" height="481" />
     </a><figcaption class="image-caption">Prowlarr Indexers</figcaption>
     </figure>
-<p>Using &ldquo;Cocaine Bear (2023)&rdquo; as an example since the first &ldquo;Cocaine Bear: The
-True Story (2023)&rdquo; example does not have many available downloads, Radarr will
-query the movie tracker configured by Prowlarr and find the most apt release to
-grab.</p>
+<p>Say a user requests &ldquo;Cocaine Bear (2023)&rdquo; from either Requestrr or Overseerr. The
+request is then sent to Radarr. Radarr will then monitor the movie and start a
+search across the indexers configured by Prowlarr and return a list of potential
+results.</p>
 <figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/radarr-search.png" title="/posts/running-a-fully-automated-media-center/images/radarr-search.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/radarr-search.png" data-sub-html="<h2>Radarr Search</h2>">
         <img
             class="lazyload"
@@ -297,13 +275,12 @@ grab.</p>
             alt="/posts/running-a-fully-automated-media-center/images/radarr-search.png" width="1445" height="1299" />
     </a><figcaption class="image-caption">Radarr Search</figcaption>
     </figure>
-<p>The score on the right most column indicates the best release given a set of
-preconfigured parameters. In this case the 1080p version of the movie was
-requested. For 1080p, the <code>WEB Tier 01</code> and <code>MA</code> (Movies Anywhere) release has a
-slightly higher score than the <code>WEB Tier 01</code> and <code>AMZN</code> (Amazon Prime Video).
-The scores come from the madman that made <a href="https://trash-guides.info/" target="_blank" rel="noopener noreffer ">TRaSH-Guides</a>.
-The author provides an excellent guide on how to pick a suitable profile and
-details on scoring.</p>
+<p>Radarr is configured to score results based on a set of parameters. In this case,
+a 1080p release was requested. Other resolutions are ignored, and the quality is
+used to determine the most apt release to automatically grab. These scores are
+managed by the person who created <a href="https://trash-guides.info/" target="_blank" rel="noopener noreffer ">TRaSH-Guides</a>.
+The creator provides an excellent guide on how to pick a suitable profile and
+information on how releases are scored.</p>
 <div class="details admonition example">
         <div class="details-summary admonition-title">
             <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>Quality Profile Flowchart Example [Click to Expand]<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
@@ -334,19 +311,14 @@ details on scoring.</p>
         title="Example Truncated HD Bluray &#43; WEB Score Breakdown" width="697" height="908" /></div>
         </div>
     </div>
-<p>Radarr also has the capability to monitor for releases. On a certain interval,
-eg. every 15 minutes, Radarr will check indexer RSS feeds for new releases and
-see if they match any monitored movies. If there is a match, it will be grabbed.</p>
-<p>Sonarr, Readarr, and Lidarr are all sister applications and work more or less
-the same. Autobrr is a companion application that bypasses the RSS feed. Say a
-very anticipated TV show just came out, such as Game of Thrones at peak, and the
-RSS search has already been performed the minute before it appeared on indexers.
-There will be a 15 minute delay, or whatever the interval is, before a search
-for the latest episode is reattempted. Autobrr monitors IRC channels of popular
-supported trackers and idles the #announcements channels, waiting for new
-release. Once there is a match matching a preconfigured preference, it will
-notify the relevant media automation tool and let it decide if it should be
-grabbed.</p>
+<p>By default, Radarr and the rest of the *Arr stack are configured to query RSS
+feeds from indexers at specific intervals (eg. every 15 minutes) to see if any
+new uploads match monitored releases. Autobrr is an auxillary application that
+directly monitors indexer IRC channels instead, where new uploads are announced
+immediately. Once an upload is announced, it will parse the string and filter
+accordingly before sending a notification to the appropriate *Arr application.
+This is particularly useful for grabbing the latest TV shows as soon as they
+finish airing.</p>
 <figure><a class="lightgallery" href="/posts/running-a-fully-automated-media-center/images/autobrr-dashboard.png" title="/posts/running-a-fully-automated-media-center/images/autobrr-dashboard.png" data-thumbnail="/posts/running-a-fully-automated-media-center/images/autobrr-dashboard.png" data-sub-html="<h2>Autobrr Dashboard</h2>">
         <img
             class="lazyload"
@@ -380,26 +352,21 @@ grabbed.</p>
         title="Autobrr Filter Movies &amp;amp; TV Example" width="969" height="433" /></div>
         </div>
     </div>
-<p>Radarr and Sonarr has the capability to upgrade releases when they come out. Eg.
-if a 1080p WEB-DL comes out, and a 1080p BluRay version is released later, the
-better quality release will be downloaded and replace the older copy. Sometimes
-there is a valid use case for maintaining two separate versions of the same
-media, eg. one 1080p version and a 4K version. Two instances of Radarr are run
-to ensure that both copies will be available instead of being overwritten.</p>
 <h3 id="cloud-sync-and-playback">Cloud Sync and Playback</h3>
-<p>Hosting media on Google Drive has its drawbacks. There is a cap to how much can
-be uploaded in one day, and API limits, and delay in media startup and seek.
-Getting rate limited results in noticeable degradation in viewing experience in
-the form of stuttering and pauses. A couple pieces of software allows playback
-to be as smooth and seamless as possible.</p>
+<p>Hosting media on Google Drive has its drawbacks. There is a cap on how much can
+be uploaded in one day and API limits. Getting rate limited by the API results
+in noticeable degradation in viewing experience, such as stuttering and frequent
+pauses. Several tools are used to ensure we abide by Google&rsquo;s limitations and
+have smooth video playback.</p>
 <ul>
 <li>Rclone: Mount Google Drive locally and sync local contents to remote storage.</li>
 <li>Autoscan: Notifies Plex once new media is available.</li>
 <li>Cloudplow: Pushes locally downloaded content to Google Drive.</li>
 <li>UnionFS: Overlays multiple directories into one mount point.</li>
 </ul>
-<p>Once media is grabbed by the *Arr stack, the file will be imported and hard
-linked to a new directory under a new file name.</p>
+<p>Once media is grabbed by the *Arr stack, the file will be organised into a
+and renamed to match metadata provided by sources such as TVDB and the file
+quality.</p>
 <div class="details admonition example open">
         <div class="details-summary admonition-title">
             <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>Cocaine Bear Original Filename<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
@@ -420,11 +387,11 @@ linked to a new directory under a new file name.</p>
 </div>
         </div>
     </div>
-<p>Mentioned previously, UnionFS overlays multiple directories together. When a
-file is downloaded and imported into its new location and filename, it actually
-goes to <code>/mnt/local/Media</code>. The RClone mounted Google Drive storage is located
-at <code>/mnt/remote/Media</code>. The <code>/mnt/unionfs/Media</code> directory shows files present
-in either the local or remote locations in one place.</p>
+<p>When a file is downloaded and processed for organisation (imported), it will be
+placed in <code>/mnt/local/Media</code>, which resides on the machine&rsquo;s local hard drive.
+Google Drive is mounted to <code>/mnt/local/Media</code> using Rclone. UnionFS is used to
+overlay both directories into <code>/mnt/unionfs/Media</code>. This way media located
+locally and remotely can be accessed in one place using a universal file path.</p>
 <div class="details admonition example open">
         <div class="details-summary admonition-title">
             <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>UnionFS Directory Example<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
@@ -445,14 +412,24 @@ Autoscan listens for requests sent by the *Arr stack and in turn notifies Plex
 that new media is available at the specified location. This greatly reduces the
 number of API calls to Google Drive since Plex does not perform its default
 behaviour of scanning the entire folder for new files.</p>
-<p>Back to UnionFS, this paradigm has several benefits. Since Plex configured to
-look for media in the UnionFS mount, it makes no distinction between locally
-hosted and Google Drive hosted files. Once Autoscan picks new content up, it
-will be immediately be ready for streaming via Plex. To free up local space,
-Cloudplow comes into play. Running at a configured interval, it will check if
-the local media folder exceeds a certain file size. Once that file size has been
-reached, it will start moving the contents of the local directory over to the
-remote Rclone mount. The process is seamless and does not interrupt streaming.</p>
+<p>This is particularly useful because Plex is configured to look for new media in
+the UnionFS mount and does not make any distinction between locally and remotely
+hosted media. Two things happen after new media has been imported:</p>
+<ol>
+<li>Autoscan is notified and alerts Plex to refresh a specific directory to
+locate new content.</li>
+<li>Cloudplow runs at a configured interview to check if the local media folder
+exceeds a certain file size. Once that file size is reached, it will use
+Rclone to move content from the <code>local</code> directory to the <code>remote</code> one.</li>
+</ol>
+<p>Autoscan reduces the amount of API calls made to Google Drive since Plex&rsquo;s
+default scanning behaviour when looking for new content does not work with
+remote mounts. It will rescan the entire library to check for new content and
+uses more API calls the more media there is.</p>
+<p>Cloudplow avoids the limit of how much can be uploaded in one day by uploading
+in smaller intervals according to threshold. It also has the added benefit of
+allowing content to be immediately watchable after being downloaded, and
+provides a seamless viewing experience even if it&rsquo;s being pushed to the cloud.</p>
 <h3 id="other-tools">Other Tools</h3>
 <p>These are some nice to haves, but not necessary to how Plex and media management
 functions.</p>

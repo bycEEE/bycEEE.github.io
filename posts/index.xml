@@ -5,12 +5,12 @@
         <description>All Posts | bchoy.me</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
             <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster><copyright>bchoy.me</copyright><lastBuildDate>Sun, 30 Apr 2023 21:49:32 &#43;0000</lastBuildDate><atom:link href="https://bchoy.me/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>Creating a Fully Automated Media Server</title>
+    <title>Running a Fully Automated Media Server</title>
     <link>https://bchoy.me/posts/running-a-fully-automated-media-center/</link>
     <pubDate>Sun, 30 Apr 2023 21:49:32 &#43;0000</pubDate>
     <author>Brian Choy</author>
     <guid>https://bchoy.me/posts/running-a-fully-automated-media-center/</guid>
-    <description><![CDATA[No Plex Zone 8 years ago I started No Plex Zone because my girlfriend during college could not watch her favourite shows on campus. During that time I wanted to get started in my career and decided to build a Plex server and load it up with things we wanted to watch. My friends asked me if they could also use my Plex server and I happily obliged. Then the requests came in.]]></description>
+    <description><![CDATA[No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable.]]></description>
 </item>
 <item>
     <title>bchoy.me ver.1.22474487139...</title>
