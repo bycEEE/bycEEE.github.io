@@ -4,38 +4,57 @@
         <link>https://bchoy.me/posts/</link>
         <description>All Posts | bchoy.me</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>bycEEE@gmail.com (Brian Choy)</managingEditor>
-            <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster><copyright>bchoy.me</copyright><lastBuildDate>Sun, 30 Apr 2023 21:49:32 &#43;0000</lastBuildDate><atom:link href="https://bchoy.me/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>bycEEE@gmail.com (Brian Choy)</webMaster><copyright>bchoy.me</copyright><lastBuildDate>Wed, 13 Dec 2023 13:45:14 &#43;0000</lastBuildDate><atom:link href="https://bchoy.me/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>HackTheBox Surveillance</title>
+    <link>https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/</link>
+    <pubDate>Wed, 13 Dec 2023 13:45:14 &#43;0000</pubDate>
+    <author>Brian Choy</author>
+    <guid>https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/</guid>
+    <description><![CDATA[Initial Enumeration Port Scan ❯ rustscan -t 1500 -b 1500 --ulimit 65000 -a 10.10.11.245 -- -sV -sC -oA ./{{ip}}.initial Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 Ubuntu Linux; protocol 2.0 80 tcp open http syn-ack nginx 1.18.0 Ubuntu The initial network scan reveals two ports.
+❯ curl -L http://10.10.11.245 curl: (6) Could not resolve host: surveillance.htb To resolve this site, 10.]]></description>
+</item>
+<item>
+    <title>HackTheBox Devvortex</title>
+    <link>https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/</link>
+    <pubDate>Mon, 11 Dec 2023 15:43:42 &#43;0000</pubDate>
+    <author>Brian Choy</author>
+    <guid>https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/</guid>
+    <description><![CDATA[Initial Enumeration Port Scanning We kick off enumeration with rustscan and look for any services running on the target.
+❯ rustscan -t 1500 -b 1500 --ulimit 65000 -a 10.10.11.242 -- -sV -sC -oA ./{{ip}}.initial The initial scan shows the target listening on ports 22 and 80.
+Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh syn-ack OpenSSH 8.2p1 Ubuntu 4ubuntu0.9 Ubuntu Linux; protocol 2.0 80 tcp open http syn-ack nginx 1.]]></description>
+</item>
+<item>
     <title>Running a Fully Automated Media Server</title>
-    <link>https://bchoy.me/posts/running-a-fully-automated-media-center/</link>
+    <link>https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/</link>
     <pubDate>Sun, 30 Apr 2023 21:49:32 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/running-a-fully-automated-media-center/</guid>
+    <guid>https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/</guid>
     <description><![CDATA[No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable.]]></description>
 </item>
 <item>
     <title>bchoy.me ver.1.22474487139...</title>
-    <link>https://bchoy.me/posts/bchoy-me-ver-1-22474487139/</link>
+    <link>https://bchoy.me/posts/2023-01-11-bchoy-me-ver-1-22474487139/</link>
     <pubDate>Wed, 11 Jan 2023 21:52:02 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/bchoy-me-ver-1-22474487139/</guid>
+    <guid>https://bchoy.me/posts/2023-01-11-bchoy-me-ver-1-22474487139/</guid>
     <description><![CDATA[It&rsquo;s been a long while since I&rsquo;ve updated this blog - almost 4 years. During this time I&rsquo;ve grown immensely and there were many things worth posting here. Unfortunately I neglected maintaining my personal blog to the point where the main domain doesn&rsquo;t even work.
 I started a personal project recently that inspired me to start blogging again, until I saw this disaster.
 Original Directory Structure Redone Directory Structure I didn&rsquo;t even have a linter back then and wanted to fix this first before adding more content.]]></description>
 </item>
 <item>
     <title>HackTheBox SwagShop</title>
-    <link>https://bchoy.me/posts/hackthebox-swagshop/</link>
+    <link>https://bchoy.me/posts/2019-05-19-hackthebox-swagshop/</link>
     <pubDate>Sun, 19 May 2019 18:15:02 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/hackthebox-swagshop/</guid>
+    <guid>https://bchoy.me/posts/2019-05-19-hackthebox-swagshop/</guid>
     <description><![CDATA[<p>Over a year has passed since I&rsquo;ve last done anything related to penetration testing. I decided to tackle the SwagShop machine on HackTheBox to ease back into things since it has a nice friendly green &ldquo;Easy&rdquo; rating. Note: This post is hidden until the machine is &ldquo;Retired&rdquo; to avoid spoilers to the community.</p>]]></description>
 </item>
 <item>
     <title>How A Cryptocurrency Miner Made Its Way onto Our Internal Kubernetes Clusters</title>
-    <link>https://bchoy.me/posts/kubernetes-crypto-miner/</link>
+    <link>https://bchoy.me/posts/2018-09-20-kubernetes-crypto-miner/</link>
     <pubDate>Thu, 20 Sep 2018 18:15:02 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/kubernetes-crypto-miner/</guid>
+    <guid>https://bchoy.me/posts/2018-09-20-kubernetes-crypto-miner/</guid>
     <description><![CDATA[<p>Medium post: <a href="https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205" target="_blank" rel="noopener noreffer ">https://medium.com/jw-player-engineering/how-a-cryptocurrency-miner-made-its-way-onto-our-internal-kubernetes-clusters-9b09c4704205</a></p>
 <p>The explosion of cryptocurrency in recent years spurred a wave of exploits targeting unsuspecting machines to mine cryptocurrency for the attackers. Earlier in the year, the JW Player DevOps team discovered one of the aforementioned miners running on our development and staging Kubernetes clusters.</p>
 <p>To be clear, <em>our production cluster was not affected, no JW Player customer data was accessed or exposed, and service was uninterrupted</em>. Malicious actors are not always intent on stealing information or taking a website down, they can be just as content (or more so) in stealing your compute power. We take any intrusion very seriously though, and wanted to share our findings to help other DevOps teams harden their systems.</p>
@@ -43,10 +62,10 @@ Original Directory Structure Redone Directory Structure I didn&rsquo;t even have
 </item>
 <item>
     <title>VMWare SSH Bug</title>
-    <link>https://bchoy.me/posts/vmware-ssh-bug/</link>
+    <link>https://bchoy.me/posts/2018-09-11-vmware-ssh-bug/</link>
     <pubDate>Tue, 11 Sep 2018 11:55:09 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/vmware-ssh-bug/</guid>
+    <guid>https://bchoy.me/posts/2018-09-11-vmware-ssh-bug/</guid>
     <description><![CDATA[<p>When using VMWare to do work on my virtual machines, I came across an annoying bug where all my SSH connections failed:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ssh root@52.172.12.100
 </span></span><span class="line"><span class="cl">packet_write_wait: Connection to 52.172.12.100 port 22: Broken pipe
@@ -54,10 +73,10 @@ Original Directory Structure Redone Directory Structure I didn&rsquo;t even have
 </item>
 <item>
     <title>OverTheWire Natas</title>
-    <link>https://bchoy.me/posts/overthewire-natas/</link>
+    <link>https://bchoy.me/posts/2018-01-05-overthewire-natas/</link>
     <pubDate>Fri, 05 Jan 2018 16:26:56 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/overthewire-natas/</guid>
+    <guid>https://bchoy.me/posts/2018-01-05-overthewire-natas/</guid>
     <description><![CDATA[<p>Following up on my Bandit post, <a href="http://overthewire.org/wargames/natas/" target="_blank" rel="noopener noreffer ">OverTheWire Natas</a> teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.</p>
 <h2 id="level-0">Level 0</h2>
 <p>The password to this level is listed on the natas game description:</p>
@@ -68,40 +87,23 @@ Original Directory Structure Redone Directory Structure I didn&rsquo;t even have
 </item>
 <item>
     <title>OverTheWire Bandit</title>
-    <link>https://bchoy.me/posts/overthewire-bandit/</link>
+    <link>https://bchoy.me/posts/2017-12-26-overthewire-bandit/</link>
     <pubDate>Tue, 26 Dec 2017 15:25:17 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/overthewire-bandit/</guid>
+    <guid>https://bchoy.me/posts/2017-12-26-overthewire-bandit/</guid>
     <description><![CDATA[<p><a href="http://overthewire.org/wargames/bandit/" target="_blank" rel="noopener noreffer ">OverTheWire Bandit</a> is a capture the flag (CTF) game for beginners. I&rsquo;ve recently regained interest in security and found this a fun way to get back into what originally led me to learn programming. These are quick notes for my solutions on level 0-27.</p>
 <h2 id="level-0---level-1">Level 0 -&gt; Level 1</h2>
 <p>The password for the next level is stored in a file called readme located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.</p>]]></description>
 </item>
 <item>
     <title>Creating a Docker Workflow with Node.js</title>
-    <link>https://bchoy.me/posts/creating-a-docker-workflow-with-nodejs/</link>
+    <link>https://bchoy.me/posts/2016-02-28-creating-a-docker-workflow-with-nodejs/</link>
     <pubDate>Sun, 28 Feb 2016 16:40:28 &#43;0000</pubDate>
     <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/creating-a-docker-workflow-with-nodejs/</guid>
+    <guid>https://bchoy.me/posts/2016-02-28-creating-a-docker-workflow-with-nodejs/</guid>
     <description><![CDATA[<p><strong>Note:</strong> These are my findings after working with Docker, Jenkins, and AWS for only 2-3 months. This post details my thought process for the workflow I have set up with Docker and was written to document my progress. However, it might be useful for other beginners who are interested in setting up a better workflow for development with Node.js and Docker.</p>
 <h2 id="the-problem">The Problem</h2>
 <p>Our development team occasionally has to switch between different projects. Each project has its own set of dependencies requiring a specific version of Node.js, npm, and/or Ruby to be run. Using nvm and rvm can mitigate the issue, but constantly switching between versions is a hassle and it is easy to lose track of which version you&rsquo;re currently using. Time is also wasted on debugging environment inconsistencies between local development machines, and even more time is lost solving cross-platform issues when deploying to the dev/qa/prod servers (OSX to Linux). Many hours were lost for both the development and system administration teams debugging these issues; hours that could instead be spent improving the current project or working on other projects.</p>]]></description>
-</item>
-<item>
-    <title>Dockerizing a Node Application</title>
-    <link>https://bchoy.me/posts/dockerizing-a-node-application/</link>
-    <pubDate>Mon, 28 Dec 2015 16:32:20 &#43;0000</pubDate>
-    <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/dockerizing-a-node-application/</guid>
-    <description><![CDATA[<p>I&rsquo;ve been hearing good things about Docker ever since I started working professionally as a web developer. However, a lot of the deployment process was abstracted from me. The projects I worked on were mature and had an established workflow. The code I pushed up to Github will end up magically working on the staging server and then to production. A few weeks ago I was given the opportunity see a new project grow through its infancy. I saw a lot of problems with getting a project working locally to work on production. Something would break every few pushes and time would be wasted getting the devleopers and system administrators together to figure out a solution. After hearing so many good things about Docker and how it aims to solve the problems we were having in production, I suggested that we use Docker to develop our application and ship it to production.</p>
-<p>Knowing absolutely nothing about Docker, these are the problems I faced and the references I used to figure out a workflow for our developers. This is yet another blog post where I jot down my thoughts and decision making, and not really walking through anything.</p>]]></description>
-</item>
-<item>
-    <title>Deploying to Elastic Beanstalk on git push with Jenkins</title>
-    <link>https://bchoy.me/posts/deploying-to-elastic-beanstalk-jenkins/</link>
-    <pubDate>Mon, 02 Nov 2015 16:45:23 &#43;0000</pubDate>
-    <author>Brian Choy</author>
-    <guid>https://bchoy.me/posts/deploying-to-elastic-beanstalk-jenkins/</guid>
-    <description><![CDATA[<p>Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push.</p>]]></description>
 </item>
 </channel>
 </rss>

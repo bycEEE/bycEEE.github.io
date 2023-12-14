@@ -2,27 +2,29 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://bchoy.me/</loc><lastmod>2023-04-30T21:49:32&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/</loc><lastmod>2023-04-30T21:49:32&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/running-a-fully-automated-media-center/</loc><lastmod>2023-04-30T21:49:32&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/bchoy-me-ver-1-22474487139/</loc><lastmod>2023-01-11T21:52:02&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/hackthebox-swagshop/</loc><lastmod>2019-05-19T18:15:02&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/kubernetes-crypto-miner/</loc><lastmod>2018-09-20T18:15:02&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/vmware-ssh-bug/</loc><lastmod>2018-09-11T11:55:09&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/overthewire-natas/</loc><lastmod>2018-01-05T16:26:56&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/overthewire-bandit/</loc><lastmod>2017-12-26T15:25:17&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/creating-a-docker-workflow-with-nodejs/</loc><lastmod>2016-02-28T16:40:28&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/dockerizing-a-node-application/</loc><lastmod>2015-12-28T16:32:20&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/deploying-to-elastic-beanstalk-jenkins/</loc><lastmod>2015-11-02T16:45:23&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/using-capistrano-to-deploy-rails-app/</loc><lastmod>2015-10-02T15:32:20&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/docker-and-rails-in-production/</loc><lastmod>2015-09-14T21:59:37&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/setting-up-a-webdev-environment-on-windows/</loc><lastmod>2015-07-29T20:43:20&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/deep-dream/</loc><lastmod>2015-07-09T23:20:32&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/visual-data-of-a-relationship-over-a-year/</loc><lastmod>2015-05-20T21:43:43&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/playing-with-friends-on-agario/</loc><lastmod>2015-05-14T20:33:54&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/writing-a-league-of-legends-api-wrapper/</loc><lastmod>2015-04-13T21:19:02&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/iterm2-keyboard-shortcuts/</loc><lastmod>2015-03-28T16:54:33&#43;00:00</lastmod></url><url>
-            <loc>https://bchoy.me/posts/no-plex-zone/</loc><lastmod>2015-02-08T20:07:00-05:00</lastmod></url><url>
+            <loc>https://bchoy.me/</loc><lastmod>2023-12-13T13:45:14&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/</loc><lastmod>2023-12-13T13:45:14&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/</loc><lastmod>2023-12-13T13:45:14&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/</loc><lastmod>2023-12-11T15:43:42&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/</loc><lastmod>2023-04-30T21:49:32&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2023-01-11-bchoy-me-ver-1-22474487139/</loc><lastmod>2023-01-11T21:52:02&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2019-05-19-hackthebox-swagshop/</loc><lastmod>2019-05-19T18:15:02&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2018-09-20-kubernetes-crypto-miner/</loc><lastmod>2018-09-20T18:15:02&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2018-09-11-vmware-ssh-bug/</loc><lastmod>2018-09-11T11:55:09&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2018-01-05-overthewire-natas/</loc><lastmod>2018-01-05T16:26:56&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2017-12-26-overthewire-bandit/</loc><lastmod>2017-12-26T15:25:17&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2016-02-28-creating-a-docker-workflow-with-nodejs/</loc><lastmod>2016-02-28T16:40:28&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-12-28-dockerizing-a-node-application/</loc><lastmod>2015-12-28T16:32:20&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/</loc><lastmod>2015-11-02T16:45:23&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-10-02-using-capistrano-to-deploy-rails-app/</loc><lastmod>2015-10-02T15:32:20&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-09-14-docker-and-rails-in-production/</loc><lastmod>2015-09-14T21:59:37&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-07-29-setting-up-a-webdev-environment-on-windows/</loc><lastmod>2015-07-29T20:43:20&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-07-09-deep-dream/</loc><lastmod>2015-07-09T23:20:32&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-05-20-visual-data-of-a-relationship-over-a-year/</loc><lastmod>2015-05-20T21:43:43&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-05-14-playing-with-friends-on-agario/</loc><lastmod>2015-05-14T20:33:54&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-04-13-writing-a-league-of-legends-api-wrapper/</loc><lastmod>2015-04-13T21:19:02&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-03-28-iterm2-keyboard-shortcuts/</loc><lastmod>2015-03-28T16:54:33&#43;00:00</lastmod></url><url>
+            <loc>https://bchoy.me/posts/2015-02-08-no-plex-zone/</loc><lastmod>2015-02-08T20:07:00-05:00</lastmod></url><url>
             <loc>https://bchoy.me/about/</loc></url><url>
             <loc>https://bchoy.me/categories/</loc></url><url>
             <loc>https://bchoy.me/resume/</loc></url><url>

