@@ -1,505 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>Running a Fully Automated Media Server - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="Running a Fully Automated Media Server" />
-<meta property="og:description" content="No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/" /><meta property="og:image" content="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-04-30T21:49:32+00:00" />
-<meta property="article:modified_time" content="2023-04-30T21:49:32+00:00" /><meta property="og:site_name" content="bchoy.me" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg"/>
-<meta name="twitter:title" content="Running a Fully Automated Media Server"/>
-<meta name="twitter:description" content="No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable."/>
-<meta name="application-name" content="My cool site">
-<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/" /><link rel="prev" href="https://bchoy.me/posts/2023-01-11-bchoy-me-ver-1-22474487139/" /><link rel="next" href="https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Running a Fully Automated Media Server",
-        "inLanguage": "en",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https:\/\/bchoy.me\/posts\/2023-04-30-running-a-fully-automated-media-center\/"
-        },"image": [{
-                            "@type": "ImageObject",
-                            "url": "https:\/\/bchoy.me\/posts\/2023-04-30-running-a-fully-automated-media-center\/featured-image.jpg",
-                            "width":  1054 ,
-                            "height":  596 
-                        }],"genre": "posts","wordcount":  1348 ,
-        "url": "https:\/\/bchoy.me\/posts\/2023-04-30-running-a-fully-automated-media-center\/","datePublished": "2023-04-30T21:49:32+00:00","dateModified": "2023-04-30T21:49:32+00:00","license": "bchoy.me","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "Brian Choy"
-            },"description": ""
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="bchoy.me">bchoy.me</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> Blog </a><a class="menu-item" href="/about"> About </a><a class="menu-item" href="/resume"> Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="bchoy.me">bchoy.me</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
-                    </a>
-                </div><a class="menu-item" href="/posts/" title="">Blog</a><a class="menu-item" href="/about" title="">About</a><a class="menu-item" href="/resume" title="">Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
-</header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Running a Fully Automated Media Server</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="04-30-2023">04-30-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1348 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
-        </div><div class="featured-image"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg"
-        data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg, /posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg 2x"
-        data-sizes="auto"
-        alt="/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg"
-        title="/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg" /></div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#no-plex-zone">No Plex Zone</a></li>
-    <li><a href="#no-cloud-zone">No Cloud Zone</a></li>
-    <li><a href="#automation">Automation</a>
-      <ul>
-        <li><a href="#user-flow">User Flow</a></li>
-        <li><a href="#core-infrastructure">Core Infrastructure</a></li>
-        <li><a href="#media-automation">Media Automation</a></li>
-        <li><a href="#cloud-sync-and-playback">Cloud Sync and Playback</a></li>
-        <li><a href="#other-tools">Other Tools</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><h2 id="no-plex-zone">No Plex Zone</h2>
-<p>8 years ago I started <a href="2015-02-08-no-plex-zone.md" rel="">No Plex Zone</a>. It was a great
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Running a Fully Automated Media Server - bchoy.me</title><meta name=Description content="bchoy.me"><meta property="og:title" content="Running a Fully Automated Media Server">
+<meta property="og:description" content="No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable."><meta property="og:type" content="article"><meta property="og:url" content="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/"><meta property="og:image" content="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-04-30T21:49:32+00:00"><meta property="article:modified_time" content="2023-04-30T21:49:32+00:00"><meta property="og:site_name" content="bchoy.me"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg"><meta name=twitter:title content="Running a Fully Automated Media Server"><meta name=twitter:description content="No Plex Zone 8 years ago I started No Plex Zone. It was a great foray into building my own home lab and learning Linux. I initially just wanted to watch movies and shows in my college campus, and before long my friends asked me if they could also watch stuff on my Plex server too. I happily obliged and manually grabbed new releases when asked. This process quickly became unsustainable."><meta name=application-name content="My cool site"><meta name=apple-mobile-web-app-title content="My cool site"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://bchoy.me/posts/2023-04-30-running-a-fully-automated-media-center/><link rel=prev href=https://bchoy.me/posts/2023-01-11-bchoy-me-ver-1-22474487139/><link rel=next href=https://bchoy.me/posts/2023-12-11-hackthebox-devvortex/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Running a Fully Automated Media Server","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/bchoy.me\/posts\/2023-04-30-running-a-fully-automated-media-center\/"},"image":[{"@type":"ImageObject","url":"https:\/\/bchoy.me\/posts\/2023-04-30-running-a-fully-automated-media-center\/featured-image.jpg","width":1054,"height":596}],"genre":"posts","wordcount":1348,"url":"https:\/\/bchoy.me\/posts\/2023-04-30-running-a-fully-automated-media-center\/","datePublished":"2023-04-30T21:49:32+00:00","dateModified":"2023-04-30T21:49:32+00:00","license":"bchoy.me","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Brian Choy"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"light"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"light"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=bchoy.me>bchoy.me</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Blog </a><a class=menu-item href=/about>About </a><a class=menu-item href=/resume>Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=bchoy.me>bchoy.me</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Blog</a><a class=menu-item href=/about title>About</a><a class=menu-item href=/resume title>Resume</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class="toc-content always-active" id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Running a Fully Automated Media Server</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://bchoy.me title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Brian Choy</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=04-30-2023>04-30-2023</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;1348 words&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;7 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg, /posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg title=/posts/2023-04-30-running-a-fully-automated-media-center/featured-image.jpg></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#no-plex-zone>No Plex Zone</a></li><li><a href=#no-cloud-zone>No Cloud Zone</a></li><li><a href=#automation>Automation</a><ul><li><a href=#user-flow>User Flow</a></li><li><a href=#core-infrastructure>Core Infrastructure</a></li><li><a href=#media-automation>Media Automation</a></li><li><a href=#cloud-sync-and-playback>Cloud Sync and Playback</a></li><li><a href=#other-tools>Other Tools</a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=no-plex-zone>No Plex Zone</h2><p>8 years ago I started <a href=2015-02-08-no-plex-zone.md rel>No Plex Zone</a>. It was a great
 foray into building my own home lab and learning Linux. I initially just wanted
 to watch movies and shows in my college campus, and before long my friends asked
 me if they could also watch stuff on my Plex server too. I happily obliged and
 manually grabbed new releases when asked. This process quickly became
 unsustainable. The community around Plex grew significantly since then, with
 many great tools available to host a fully automated media server. This was
-written with the focus of explaining to friends how my media server works.</p>
-<h2 id="no-cloud-zone">No Cloud Zone</h2>
-<p>Everything is now hosted in a data center. The 10mbps upload in my new apartment
+written with the focus of explaining to friends how my media server works.</p><h2 id=no-cloud-zone>No Cloud Zone</h2><p>Everything is now hosted in a data center. The 10mbps upload in my new apartment
 rendered streaming completely useless outside of my home network (thanks
 Spectrum). Sadly I couldn&rsquo;t continue my home lab for this project, but I
 placated myself with a new shiny dedicated server with 1gbps uplink and Google
-Drive as a storage backend.</p>
-<h2 id="automation">Automation</h2>
-<h3 id="user-flow">User Flow</h3>
-<p>Before diving into all the moving pieces, this is what the user experience looks
+Drive as a storage backend.</p><h2 id=automation>Automation</h2><h3 id=user-flow>User Flow</h3><p>Before diving into all the moving pieces, this is what the user experience looks
 like. If a movie or show is not available on Plex, there are two interfaces to
-request new media:</p>
-<p><figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png" data-sub-html="<h2>Request via Discord</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png"
-            data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png 2x"
-            data-sizes="auto"
-            alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png" width="604" height="598" />
-    </a><figcaption class="image-caption">Request via Discord</figcaption>
-    </figure>
-<figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png" data-sub-html="<h2>Request via Browser</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png"
-            data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png 2x"
-            data-sizes="auto"
-            alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png" width="1195" height="818" />
-    </a><figcaption class="image-caption">Request via Browser</figcaption>
-    </figure></p>
-<p>If the requested media does not exist, it will be automatically downloaded when
+request new media:</p><p><figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png data-sub-html="<h2>Request via Discord</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/requestrr.png width=604 height=598></a><figcaption class=image-caption>Request via Discord</figcaption></figure><figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png data-sub-html="<h2>Request via Browser</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/overseerr.png width=1195 height=818></a><figcaption class=image-caption>Request via Browser</figcaption></figure></p><p>If the requested media does not exist, it will be automatically downloaded when
 available and notify the requester. There are no manual steps other than
-deciding what to watch and hitting a button. Automation achieved!</p>
-<p>If the requested media does not exist, it will be downloaded when available and
-notify the requester via Discord. Automation achieved!</p>
-<figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png" data-sub-html="<h2>Movie successfully requested</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png"
-            data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png 2x"
-            data-sizes="auto"
-            alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png" width="1433" height="766" />
-    </a><figcaption class="image-caption">Movie successfully requested</figcaption>
-    </figure>
-<h3 id="core-infrastructure">Core Infrastructure</h3>
-<p>No Plex Zone was originally installed and configured by manually running
+deciding what to watch and hitting a button. Automation achieved!</p><p>If the requested media does not exist, it will be downloaded when available and
+notify the requester via Discord. Automation achieved!</p><figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png data-sub-html="<h2>Movie successfully requested</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-request-success.png width=1433 height=766></a><figcaption class=image-caption>Movie successfully requested</figcaption></figure><h3 id=core-infrastructure>Core Infrastructure</h3><p>No Plex Zone was originally installed and configured by manually running
 commands. Since I was learning Linux and didn&rsquo;t document anything, it was hard
 to manage and make changes. All software was run by connecting to the machine
 and manually executing the startup command. Now everything is documented in code
-and does not require direct ssh access to make any changes.</p>
-<div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>Quick Overview of Infrastructure<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><h3 id="server-management">Server Management</h3>
-<ul>
-<li>Ansible: Provision the server with core OS dependencies, container
+and does not require direct ssh access to make any changes.</p><div class="details admonition info open"><div class="details-summary admonition-title"><i class="icon fas fa-info-circle fa-fw" aria-hidden=true></i>Quick Overview of Infrastructure<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><h3 id=server-management>Server Management</h3><ul><li>Ansible: Provision the server with core OS dependencies, container
 orchestration software (Nomad), networking tweaks, and mount paths for Google
-Drive via UnionFS.</li>
-<li>Nomad: Deploys and manages every other piece of software.</li>
-<li>Duplicacy: Automatic backups of stateful containers. This includes local
-application configurations and databases.</li>
-<li>Prometheus: Collect metrics.</li>
-<li>Loki: Aggregate all logs.</li>
-<li>Vector: Formats and routes logs and metrics.</li>
-<li>Grafana: Visualises metrics and logs.</li>
-<li>Uptime Kuma: Simple monitoring to alert when an application is down.</li>
-</ul>
-<h3 id="web">Web</h3>
-<ul>
-<li>Traefik: Reverse proxy with automatic container discovery with Nomad to allow
-external traffic to access exposed applications.</li>
-<li>Authelia: Single Sign-On and authentication for applications.</li>
-<li>CloudFlare: Assigns domain names for each web app, provides full HTTPS, and a
-CDN for better peering.</li>
-</ul>
-<h3 id="media-servers">Media Servers</h3>
-<ul>
-<li>Plex: Serves movies, TV shows, and music.</li>
-<li>Kavita: Serves eBooks.</li>
-</ul>
-</div>
-        </div>
-    </div>
-<h3 id="media-automation">Media Automation</h3>
-<p>The <a href="https://wiki.servarr.com" target="_blank" rel="noopener noreffer ">*Arr stack</a> is the heart of the automation
+Drive via UnionFS.</li><li>Nomad: Deploys and manages every other piece of software.</li><li>Duplicacy: Automatic backups of stateful containers. This includes local
+application configurations and databases.</li><li>Prometheus: Collect metrics.</li><li>Loki: Aggregate all logs.</li><li>Vector: Formats and routes logs and metrics.</li><li>Grafana: Visualises metrics and logs.</li><li>Uptime Kuma: Simple monitoring to alert when an application is down.</li></ul><h3 id=web>Web</h3><ul><li>Traefik: Reverse proxy with automatic container discovery with Nomad to allow
+external traffic to access exposed applications.</li><li>Authelia: Single Sign-On and authentication for applications.</li><li>CloudFlare: Assigns domain names for each web app, provides full HTTPS, and a
+CDN for better peering.</li></ul><h3 id=media-servers>Media Servers</h3><ul><li>Plex: Serves movies, TV shows, and music.</li><li>Kavita: Serves eBooks.</li></ul></div></div></div><h3 id=media-automation>Media Automation</h3><p>The <a href=https://wiki.servarr.com target=_blank rel="noopener noreffer">*Arr stack</a> is the heart of the automation
 process. This software suite is designed to be a one stop solution to
 automatically monitor, grab, sort, orgranise, and import media. When a request
 is sent from the Discord bot (Requestrr) or the web request frontend (Overseerr),
-it is routed to one of the following:</p>
-<ul>
-<li>Radarr: Movies.</li>
-<li>Sonarr: TV.</li>
-<li>Readarr: Books.</li>
-<li>Lidarr: Music.</li>
-</ul>
-<p>Other:</p>
-<ul>
-<li>Prowlarr: Indexer management.</li>
-<li>Autobrr: Additional download monitoring and filtering.</li>
-</ul>
-<p>Prowlarr is used to add, configure, and sync indexers to the appropriate member
-of the *Arr stack for effective searching of wanted media.</p>
-<figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png" data-sub-html="<h2>Prowlarr Indexers</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png"
-            data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png 2x"
-            data-sizes="auto"
-            alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png" width="1454" height="481" />
-    </a><figcaption class="image-caption">Prowlarr Indexers</figcaption>
-    </figure>
-<p>Say a user requests &ldquo;Cocaine Bear (2023)&rdquo; from either Requestrr or Overseerr. The
+it is routed to one of the following:</p><ul><li>Radarr: Movies.</li><li>Sonarr: TV.</li><li>Readarr: Books.</li><li>Lidarr: Music.</li></ul><p>Other:</p><ul><li>Prowlarr: Indexer management.</li><li>Autobrr: Additional download monitoring and filtering.</li></ul><p>Prowlarr is used to add, configure, and sync indexers to the appropriate member
+of the *Arr stack for effective searching of wanted media.</p><figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png data-sub-html="<h2>Prowlarr Indexers</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/prowlarr.png width=1454 height=481></a><figcaption class=image-caption>Prowlarr Indexers</figcaption></figure><p>Say a user requests &ldquo;Cocaine Bear (2023)&rdquo; from either Requestrr or Overseerr. The
 request is then sent to Radarr. Radarr will then monitor the movie and start a
 search across the indexers configured by Prowlarr and return a list of potential
-results.</p>
-<figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png" data-sub-html="<h2>Radarr Search</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png"
-            data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png 2x"
-            data-sizes="auto"
-            alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png" width="1445" height="1299" />
-    </a><figcaption class="image-caption">Radarr Search</figcaption>
-    </figure>
-<p>Radarr is configured to score results based on a set of parameters. In this case,
+results.</p><figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png data-sub-html="<h2>Radarr Search</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/radarr-search.png width=1445 height=1299></a><figcaption class=image-caption>Radarr Search</figcaption></figure><p>Radarr is configured to score results based on a set of parameters. In this case,
 a 1080p release was requested. Other resolutions are ignored, and the quality is
 used to determine the most apt release to automatically grab. These scores are
-managed by the person who created <a href="https://trash-guides.info/" target="_blank" rel="noopener noreffer ">TRaSH-Guides</a>.
+managed by the person who created <a href=https://trash-guides.info/ target=_blank rel="noopener noreffer">TRaSH-Guides</a>.
 The creator provides an excellent guide on how to pick a suitable profile and
-information on how releases are scored.</p>
-<div class="details admonition example">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>Quality Profile Flowchart Example [Click to Expand]<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png"
-        data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png"
-        title="Quality Profile Flowchart" width="1864" height="2532" /></div>
-        </div>
-    </div>
-<div class="details admonition example">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>HD BluRay &#43; Web Score Breakdown [Click to Expand]<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png"
-        data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png"
-        title="Example Truncated HD Bluray &#43; WEB Score Breakdown" width="697" height="908" /></div>
-        </div>
-    </div>
-<p>By default, Radarr and the rest of the *Arr stack are configured to query RSS
+information on how releases are scored.</p><div class="details admonition example"><div class="details-summary admonition-title"><i class="icon fas fa-list-ol fa-fw" aria-hidden=true></i>Quality Profile Flowchart Example [Click to Expand]<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/flowchart-custom-format-radarr.png title="Quality Profile Flowchart" width=1864 height=2532></div></div></div><div class="details admonition example"><div class="details-summary admonition-title"><i class="icon fas fa-list-ol fa-fw" aria-hidden=true></i>HD BluRay + Web Score Breakdown [Click to Expand]<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/trash-hd-bluray-web-score-example.png title="Example Truncated HD Bluray + WEB Score Breakdown" width=697 height=908></div></div></div><p>By default, Radarr and the rest of the *Arr stack are configured to query RSS
 feeds from indexers at specific intervals (eg. every 15 minutes) to see if any
 new uploads match monitored releases. Autobrr is an auxillary application that
 directly monitors indexer IRC channels instead, where new uploads are announced
 immediately. Once an upload is announced, it will parse the string and filter
 accordingly before sending a notification to the appropriate *Arr application.
 This is particularly useful for grabbing the latest TV shows as soon as they
-finish airing.</p>
-<figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png" data-sub-html="<h2>Autobrr Dashboard</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png"
-            data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png 2x"
-            data-sizes="auto"
-            alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png" width="1030" height="873" />
-    </a><figcaption class="image-caption">Autobrr Dashboard</figcaption>
-    </figure>
-<div class="details admonition example">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>Autobrr Filter Examples [Click to Expand]<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png"
-        data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png"
-        title="Autobrr Filter Example" width="986" height="757" />
-<img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png"
-        data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png"
-        title="Autobrr Filter Movies &amp;amp; TV Example" width="969" height="433" /></div>
-        </div>
-    </div>
-<h3 id="cloud-sync-and-playback">Cloud Sync and Playback</h3>
-<p>Hosting media on Google Drive has its drawbacks. There is a cap on how much can
+finish airing.</p><figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png data-sub-html="<h2>Autobrr Dashboard</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-dashboard.png width=1030 height=873></a><figcaption class=image-caption>Autobrr Dashboard</figcaption></figure><div class="details admonition example"><div class="details-summary admonition-title"><i class="icon fas fa-list-ol fa-fw" aria-hidden=true></i>Autobrr Filter Examples [Click to Expand]<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-general.png title="Autobrr Filter Example" width=986 height=757>
+<img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/autobrr-filter-movies-tv.png title="Autobrr Filter Movies &amp;amp; TV Example" width=969 height=433></div></div></div><h3 id=cloud-sync-and-playback>Cloud Sync and Playback</h3><p>Hosting media on Google Drive has its drawbacks. There is a cap on how much can
 be uploaded in one day and API limits. Getting rate limited by the API results
 in noticeable degradation in viewing experience, such as stuttering and frequent
 pauses. Several tools are used to ensure we abide by Google&rsquo;s limitations and
-have smooth video playback.</p>
-<ul>
-<li>Rclone: Mount Google Drive locally and sync local contents to remote storage.</li>
-<li>Autoscan: Notifies Plex once new media is available.</li>
-<li>Cloudplow: Pushes locally downloaded content to Google Drive.</li>
-<li>UnionFS: Overlays multiple directories into one mount point.</li>
-</ul>
-<p>Once media is grabbed by the *Arr stack, the file will be organised into a
+have smooth video playback.</p><ul><li>Rclone: Mount Google Drive locally and sync local contents to remote storage.</li><li>Autoscan: Notifies Plex once new media is available.</li><li>Cloudplow: Pushes locally downloaded content to Google Drive.</li><li>UnionFS: Overlays multiple directories into one mount point.</li></ul><p>Once media is grabbed by the *Arr stack, the file will be organised into a
 and renamed to match metadata provided by sources such as TVDB and the file
-quality.</p>
-<div class="details admonition example open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>Cocaine Bear Original Filename<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><p>Original Path: <code>/mnt/unionfs/downloads/radarr</code></p>
-<p>Original Filename: <code>Cocaine.Bear.2023.1080p.MA.WEB-DL.DDP5.1.Atmos.H.264-CMRG</code></p>
-</div>
-        </div>
-    </div>
-<div class="details admonition example open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>Cocaine Bear New Filename<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><p>New Path: <code>/mnt/unionfs/Media/Movies/radarr/Cocaine Bear (2023)</code></p>
-<p>New Filename: <code>Cocaine Bear (2023) {imdb-tt14209916} [WEBDL-1080p][EAC3 Atmos 5.1][x264]-CMRG.mkv</code></p>
-</div>
-        </div>
-    </div>
-<p>When a file is downloaded and processed for organisation (imported), it will be
+quality.</p><div class="details admonition example open"><div class="details-summary admonition-title"><i class="icon fas fa-list-ol fa-fw" aria-hidden=true></i>Cocaine Bear Original Filename<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><p>Original Path: <code>/mnt/unionfs/downloads/radarr</code></p><p>Original Filename: <code>Cocaine.Bear.2023.1080p.MA.WEB-DL.DDP5.1.Atmos.H.264-CMRG</code></p></div></div></div><div class="details admonition example open"><div class="details-summary admonition-title"><i class="icon fas fa-list-ol fa-fw" aria-hidden=true></i>Cocaine Bear New Filename<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><p>New Path: <code>/mnt/unionfs/Media/Movies/radarr/Cocaine Bear (2023)</code></p><p>New Filename: <code>Cocaine Bear (2023) {imdb-tt14209916} [WEBDL-1080p][EAC3 Atmos 5.1][x264]-CMRG.mkv</code></p></div></div></div><p>When a file is downloaded and processed for organisation (imported), it will be
 placed in <code>/mnt/local/Media</code>, which resides on the machine&rsquo;s local hard drive.
 Google Drive is mounted to <code>/mnt/local/Media</code> using Rclone. UnionFS is used to
 overlay both directories into <code>/mnt/unionfs/Media</code>. This way media located
-locally and remotely can be accessed in one place using a universal file path.</p>
-<div class="details admonition example open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-list-ol fa-fw" aria-hidden="true"></i>UnionFS Directory Example<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png"
-        data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png 2x"
-        data-sizes="auto"
-        alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png"
-        title="UnionFS Example" width="535" height="725" /></div>
-        </div>
-    </div>
-<p>Once one of the media automation tools imports the file, it will notify Autoscan.
+locally and remotely can be accessed in one place using a universal file path.</p><div class="details admonition example open"><div class="details-summary admonition-title"><i class="icon fas fa-list-ol fa-fw" aria-hidden=true></i>UnionFS Directory Example<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/unionfs-example.png title="UnionFS Example" width=535 height=725></div></div></div><p>Once one of the media automation tools imports the file, it will notify Autoscan.
 Autoscan listens for requests sent by the *Arr stack and in turn notifies Plex
 that new media is available at the specified location. This greatly reduces the
 number of API calls to Google Drive since Plex does not perform its default
-behaviour of scanning the entire folder for new files.</p>
-<p>This is particularly useful because Plex is configured to look for new media in
+behaviour of scanning the entire folder for new files.</p><p>This is particularly useful because Plex is configured to look for new media in
 the UnionFS mount and does not make any distinction between locally and remotely
-hosted media. Two things happen after new media has been imported:</p>
-<ol>
-<li>Autoscan is notified and alerts Plex to refresh a specific directory to
-locate new content.</li>
-<li>Cloudplow runs at a configured interview to check if the local media folder
+hosted media. Two things happen after new media has been imported:</p><ol><li>Autoscan is notified and alerts Plex to refresh a specific directory to
+locate new content.</li><li>Cloudplow runs at a configured interview to check if the local media folder
 exceeds a certain file size. Once that file size is reached, it will use
-Rclone to move content from the <code>local</code> directory to the <code>remote</code> one.</li>
-</ol>
-<p>Autoscan reduces the amount of API calls made to Google Drive since Plex&rsquo;s
+Rclone to move content from the <code>local</code> directory to the <code>remote</code> one.</li></ol><p>Autoscan reduces the amount of API calls made to Google Drive since Plex&rsquo;s
 default scanning behaviour when looking for new content does not work with
 remote mounts. It will rescan the entire library to check for new content and
-uses more API calls the more media there is.</p>
-<p>Cloudplow avoids the limit of how much can be uploaded in one day by uploading
+uses more API calls the more media there is.</p><p>Cloudplow avoids the limit of how much can be uploaded in one day by uploading
 in smaller intervals according to threshold. It also has the added benefit of
 allowing content to be immediately watchable after being downloaded, and
-provides a seamless viewing experience even if it&rsquo;s being pushed to the cloud.</p>
-<h3 id="other-tools">Other Tools</h3>
-<p>These are some nice to haves, but not necessary to how Plex and media management
-functions.</p>
-<ul>
-<li>Plex Meta Manager: Highly configurable tool to create and maintain collections
+provides a seamless viewing experience even if it&rsquo;s being pushed to the cloud.</p><h3 id=other-tools>Other Tools</h3><p>These are some nice to haves, but not necessary to how Plex and media management
+functions.</p><ul><li>Plex Meta Manager: Highly configurable tool to create and maintain collections
 in Plex. I have not played around with it enough, but so far it dynamically
-creates collections for holidays, IMDB lists of top movies, Oscar winners, etc.
-<figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png" data-sub-html="<h2>Plex Meta Manager</h2>">
-          <img
-              class="lazyload"
-              src="/svg/loading.min.svg"
-              data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png"
-              data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png 2x"
-              data-sizes="auto"
-              alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png" width="1735" height="1067" />
-      </a><figcaption class="image-caption">Plex Meta Manager</figcaption>
-      </figure></li>
-<li>Notifarr: Automatically sync updates to custom profiles from TRaSH-Guides.
+creates collections for holidays, IMDB lists of top movies, Oscar winners, etc.<figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png data-sub-html="<h2>Plex Meta Manager</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/plex-meta-manager.png width=1735 height=1067></a><figcaption class=image-caption>Plex Meta Manager</figcaption></figure></li><li>Notifarr: Automatically sync updates to custom profiles from TRaSH-Guides.
 Additionally notifies on Discord application health issues, newly downloaded
-content, new application releases, etc.</li>
-<li>Tautulli: Plex stats.
-<figure><a class="lightgallery" href="/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png" title="/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png" data-thumbnail="/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png" data-sub-html="<h2>Tautulli</h2>">
-          <img
-              class="lazyload"
-              src="/svg/loading.min.svg"
-              data-src="/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png"
-              data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png 2x"
-              data-sizes="auto"
-              alt="/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png" width="2004" height="1070" />
-      </a><figcaption class="image-caption">Tautulli</figcaption>
-      </figure></li>
-</ul>
-</div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 04-30-2023</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"></div>
-            <div class="post-info-share">
-                <span></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/posts/2023-01-11-bchoy-me-ver-1-22474487139/" class="prev" rel="prev" title="bchoy.me ver.1.22474487139..."><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>bchoy.me ver.1.22474487139...</a>
-            <a href="/posts/2023-12-11-hackthebox-devvortex/" class="next" rel="next" title="HackTheBox Devvortex">HackTheBox Devvortex<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
-</div>
-</article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2015 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://bchoy.me" target="_blank">Brian Choy</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
-            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
-            gtag('config', 'G-F9RPBWE7GE', { 'anonymize_ip': true });
-        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body>
-</html>
+content, new application releases, etc.</li><li>Tautulli: Plex stats.<figure><a class=lightgallery href=/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png title=/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png data-thumbnail=/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png data-sub-html="<h2>Tautulli</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png data-srcset="/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png, /posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png 1.5x, /posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png 2x" data-sizes=auto alt=/posts/2023-04-30-running-a-fully-automated-media-center/images/tautulli.png width=2004 height=1070></a><figcaption class=image-caption>Tautulli</figcaption></figure></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 04-30-2023</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/posts/2023-01-11-bchoy-me-ver-1-22474487139/ class=prev rel=prev title="bchoy.me ver.1.22474487139..."><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>bchoy.me ver.1.22474487139...</a>
+<a href=/posts/2023-12-11-hackthebox-devvortex/ class=next rel=next title="HackTheBox Devvortex">HackTheBox Devvortex<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2015 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://bchoy.me target=_blank>Brian Choy</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:50},comment:{},lightgallery:!0,math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-F9RPBWE7GE",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body></html>

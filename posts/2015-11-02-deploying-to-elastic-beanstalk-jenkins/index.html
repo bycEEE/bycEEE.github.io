@@ -1,354 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>Deploying to Elastic Beanstalk on git push with Jenkins - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="Deploying to Elastic Beanstalk on git push with Jenkins" />
-<meta property="og:description" content="Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://bchoy.me/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/" /><meta property="og:image" content="https://bchoy.me/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-11-02T16:45:23+00:00" />
-<meta property="article:modified_time" content="2015-11-02T16:45:23+00:00" /><meta property="og:site_name" content="bchoy.me" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://bchoy.me/logo.png"/>
-
-<meta name="twitter:title" content="Deploying to Elastic Beanstalk on git push with Jenkins"/>
-<meta name="twitter:description" content="Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push."/>
-<meta name="application-name" content="My cool site">
-<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://bchoy.me/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/" /><link rel="prev" href="https://bchoy.me/posts/2015-10-02-using-capistrano-to-deploy-rails-app/" /><link rel="next" href="https://bchoy.me/posts/2015-12-28-dockerizing-a-node-application/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Deploying to Elastic Beanstalk on git push with Jenkins",
-        "inLanguage": "en",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https:\/\/bchoy.me\/posts\/2015-11-02-deploying-to-elastic-beanstalk-jenkins\/"
-        },"genre": "posts","wordcount":  549 ,
-        "url": "https:\/\/bchoy.me\/posts\/2015-11-02-deploying-to-elastic-beanstalk-jenkins\/","datePublished": "2015-11-02T16:45:23+00:00","dateModified": "2015-11-02T16:45:23+00:00","license": "bchoy.me","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "Brian Choy"
-            },"description": ""
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="bchoy.me">bchoy.me</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> Blog </a><a class="menu-item" href="/about"> About </a><a class="menu-item" href="/resume"> Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="bchoy.me">bchoy.me</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
-                    </a>
-                </div><a class="menu-item" href="/posts/" title="">Blog</a><a class="menu-item" href="/about" title="">About</a><a class="menu-item" href="/resume" title="">Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
-</header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Deploying to Elastic Beanstalk on git push with Jenkins</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="11-02-2015">11-02-2015</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;549 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#create-new-ec2-instance-with-ubuntu-1404">Create new EC2 instance with Ubuntu 14.04</a></li>
-    <li><a href="#set-up-security">Set up security</a></li>
-    <li><a href="#set-up-github-integration">Set up GitHub integration</a></li>
-    <li><a href="#plugins-to-install">Plugins to Install</a></li>
-    <li><a href="#create-a-build">Create a build</a></li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><p>Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push.</p>
-<h2 id="create-new-ec2-instance-with-ubuntu-1404">Create new EC2 instance with Ubuntu 14.04</h2>
-<p>First create a new EC2 instance. For my server I&rsquo;m using the Ubuntu 14.04 AMI - t2.micro tier</p>
-<ul>
-<li>Network: my VPC</li>
-<li>Security group: allowing whitelisted traffic on port 22, 80, and 443. Github&rsquo;s IP is whitelisted too: 192.30.252.0/22 on ports 22, 80, 443, and 9418</li>
-</ul>
-<p>Reference: <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing&#43;Jenkins&#43;on&#43;Ubuntu" target="_blank" rel="noopener noreffer ">https://wiki.jenkins-ci.org/display/JENKINS/</a></p>
-<p><a href="http://www.tristanwaddington.com/2012/03/installing-jenkins-on-an-ubuntu-amazon-ec2-instance/" target="_blank" rel="noopener noreffer ">http://www.tristanwaddington.com/2012/03/installing-jenkins-on-an-ubuntu-amazon-ec2-instance/</a></p>
-<p>Set up reverse proxy - <a href="https://wiki.jenkins-ci.org/display/JENKINS/Running&#43;Jenkins&#43;behind&#43;Apache" target="_blank" rel="noopener noreffer ">https://wiki.jenkins-ci.org/display/JENKINS/Running+Jenkins+behind+Apache</a></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key <span class="p">|</span> sudo apt-key add -
-</span></span><span class="line"><span class="cl">sudo sh -c <span class="s1">&#39;echo deb http://pkg.jenkins-ci.org/debian binary/ &gt; /etc/apt/sources.list.d/jenkins.list&#39;</span>
-</span></span><span class="line"><span class="cl">sudo apt-get update
-</span></span><span class="line"><span class="cl">sudo apt-get install jenkins
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt-get install apache2
-</span></span><span class="line"><span class="cl">sudo a2enmod proxy
-</span></span><span class="line"><span class="cl">sudo a2enmod proxy_http
-</span></span><span class="line"><span class="cl">sudo a2enmod vhost_alias
-</span></span><span class="line"><span class="cl">sudo a2dissite 000-default
-</span></span><span class="line"><span class="cl">sudo vim /etc/apache2/sites-available/jenkins.conf
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">&lt;VirtualHost</span> <span class="s">*:80&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">ServerAdmin</span> <span class="s">bchoy@barbariangroup.com</span>
-</span></span><span class="line"><span class="cl">    <span class="s">ServerName</span> <span class="s">ec2-xxx-xxx-xxx-xxx.us-west-2.compute.amazonaws.com</span>
-</span></span><span class="line"><span class="cl">    <span class="s">ServerAlias</span> <span class="s">jenkins</span>
-</span></span><span class="line"><span class="cl">    <span class="s">ProxyRequests</span> <span class="s">Off</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&lt;Proxy</span> <span class="s">*&gt;</span>
-</span></span><span class="line"><span class="cl">            <span class="s">Order</span> <span class="s">deny,allow</span>
-</span></span><span class="line"><span class="cl">            <span class="s">Allow</span> <span class="s">from</span> <span class="s">all</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&lt;/Proxy&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">ProxyPreserveHost</span> <span class="no">on</span>
-</span></span><span class="line"><span class="cl">    <span class="s">ProxyPass</span> <span class="s">/</span> <span class="s">http://localhost:8080/</span> <span class="s">nocanon</span>
-</span></span><span class="line"><span class="cl">    <span class="s">ProxyPassReverse</span> <span class="s">/</span> <span class="s">http://localhost:8080/</span>
-</span></span><span class="line"><span class="cl">    <span class="s">AllowEncodedSlashes</span> <span class="s">NoDecode</span>
-</span></span><span class="line"><span class="cl"><span class="s">&lt;/VirtualHost&gt;</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo a2ensite jenkins
-</span></span><span class="line"><span class="cl">sudo service apache2 reload
-</span></span><span class="line"><span class="cl">sudo apache2ctl restart
-</span></span><span class="line"><span class="cl">sudo /etc/init.d/jenkins start
-</span></span></code></pre></div><p>Install git and now the Jenkins server should be all set up.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt-get install git
-</span></span></code></pre></div><h2 id="set-up-security">Set up security</h2>
-<p>Manage Jenkins -&gt; Configure Global Security</p>
-<figure><a class="lightgallery" href="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png" title="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png" data-thumbnail="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png" data-sub-html="<h2>Global Securaity</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png"
-            data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png 2x"
-            data-sizes="auto"
-            alt="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png" width="1309" height="725" />
-    </a><figcaption class="image-caption">Global Securaity</figcaption>
-    </figure>
-<p>Register a new user under the same username that you created permissions for.</p>
-<p>Back in AWS you should attach an IAM policy to the security group the app is in to access the S3 bucket and EB deployment permissions. This is my policy:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2012-10-17&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;Stmt1446219985300&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;elasticbeanstalk:CreateApplication&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;elasticbeanstalk:CreateApplicationVersion&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;elasticbeanstalk:UpdateEnvironment&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;elasticbeanstalk:DescribeEnvironments&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">],</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:elasticbeanstalk:*&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;Stmt1446158122885&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:AbortMultipartUpload&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:CreateBucket&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketAcl&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketCORS&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketLocation&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketLogging&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketNotification&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketPolicy&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketRequestPayment&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketTagging&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketVersioning&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetBucketWebsite&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetLifecycleConfiguration&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetObject&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetObjectAcl&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetObjectTorrent&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetObjectVersion&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetObjectVersionAcl&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:GetObjectVersionTorrent&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:ListAllMyBuckets&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:ListBucket&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:ListBucketMultipartUploads&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:ListBucketVersions&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:ListMultipartUploadParts&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketAcl&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketCORS&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketLogging&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketNotification&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketPolicy&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketRequestPayment&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketTagging&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketVersioning&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutBucketWebsite&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutLifecycleConfiguration&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutObject&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutObjectAcl&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:PutObjectVersionAcl&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;s3:RestoreObject&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">],</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:s3:::*&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="set-up-github-integration">Set up GitHub integration</h2>
-<p>Install GitHub plugin, create SSH keys on EC2 Jenkins instance as the jenkins user. Add the keys to GitHub via the reference below.
-Reference: <a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank" rel="noopener noreffer ">https://help.github.com/articles/generating-ssh-keys/</a>
-Do everything as jenkins user: sudo su -s /bin/bash jenkins</p>
-<p>Now we can go to Credentials -&gt; Global credentials -&gt; Add</p>
-<figure><a class="lightgallery" href="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png" title="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png" data-thumbnail="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png" data-sub-html="<h2>Add Global Credentials</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png"
-            data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png 2x"
-            data-sizes="auto"
-            alt="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png" width="927" height="395" />
-    </a><figcaption class="image-caption">Add Global Credentials</figcaption>
-    </figure>
-<p>I left my passphrase blank. For some reason I couldn&rsquo;t get a passphrase to work. Also now would be a good time to go to your GitHub project page, go to settings, and add a webhook which is your public IP/DNS followed by /github-webhook/.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http://ec2-xxx-xxx-xxx-xxx.us-west-2.compute.amazonaws.com/github-webhook/
-</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png" title="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png" data-thumbnail="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png" data-sub-html="<h2>Manage Webhook</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png"
-            data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png 2x"
-            data-sizes="auto"
-            alt="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png" width="689" height="623" />
-    </a><figcaption class="image-caption">Manage Webhook</figcaption>
-    </figure>
-<h2 id="plugins-to-install">Plugins to Install</h2>
-<ul>
-<li>Hudson Post build task plugin</li>
-<li>AWS Elastic Beanstalk Deployment Plugin</li>
-<li>Promoted Builds Plugin</li>
-<li>S3 publisher plugin</li>
-<li>Token Macro</li>
-</ul>
-<h2 id="create-a-build">Create a build</h2>
-<ol>
-<li>Create new jobs -&gt; Freestyle project</li>
-<li>Enter the GitHub project URL</li>
-<li>Tick Promo builds when&hellip; and Promote immediately once the build is complete. Add Deploy into AWS Elastic Beanstalk as a build step</li>
-</ol>
-<figure><a class="lightgallery" href="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png" title="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png" data-thumbnail="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png" data-sub-html="<h2>Promote Builds</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png"
-            data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png 2x"
-            data-sizes="auto"
-            alt="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png" width="931" height="701" />
-    </a><figcaption class="image-caption">Promote Builds</figcaption>
-    </figure>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Appplication name: Elastic Beanstalk application name, not environment name
-</span></span><span class="line"><span class="cl">Root Object: .
-</span></span><span class="line"><span class="cl">Includes: \*_/_
-</span></span><span class="line"><span class="cl">Version Label Format: ${GIT_COMMIT}-${BUILD-TAG}
-</span></span><span class="line"><span class="cl">Environment name: Under application name
-</span></span></code></pre></div><figure><a class="lightgallery" href="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png" title="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png" data-thumbnail="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png" data-sub-html="<h2>Elastic Beanstalk Config</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png"
-            data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png 2x"
-            data-sizes="auto"
-            alt="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png" width="1264" height="919" />
-    </a><figcaption class="image-caption">Elastic Beanstalk Config</figcaption>
-    </figure>
-<p>I couldn&rsquo;t get the ${GIT_COMMIT} label to work for no good reason. I guess it&rsquo;s broken. My solution is to install the Build Name Setter plugin and use the following settings:</p>
-<figure><a class="lightgallery" href="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png" title="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png" data-thumbnail="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png" data-sub-html="<h2>Set Build Name</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png"
-            data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png 2x"
-            data-sizes="auto"
-            alt="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png" width="931" height="143" />
-    </a><figcaption class="image-caption">Set Build Name</figcaption>
-    </figure>
-<p>That way I can tell which of my EB builds applies to which Git commit.</p></div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 11-02-2015</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"></div>
-            <div class="post-info-share">
-                <span></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/posts/2015-10-02-using-capistrano-to-deploy-rails-app/" class="prev" rel="prev" title="Using Capistrano to Deploy Rails App"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Using Capistrano to Deploy Rails App</a>
-            <a href="/posts/2015-12-28-dockerizing-a-node-application/" class="next" rel="next" title="Dockerizing a Node Application">Dockerizing a Node Application<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
-</div>
-</article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2015 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://bchoy.me" target="_blank">Brian Choy</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
-            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
-            gtag('config', 'G-F9RPBWE7GE', { 'anonymize_ip': true });
-        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body>
-</html>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Deploying to Elastic Beanstalk on git push with Jenkins - bchoy.me</title><meta name=Description content="bchoy.me"><meta property="og:title" content="Deploying to Elastic Beanstalk on git push with Jenkins">
+<meta property="og:description" content="Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push."><meta property="og:type" content="article"><meta property="og:url" content="https://bchoy.me/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/"><meta property="og:image" content="https://bchoy.me/logo.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2015-11-02T16:45:23+00:00"><meta property="article:modified_time" content="2015-11-02T16:45:23+00:00"><meta property="og:site_name" content="bchoy.me"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bchoy.me/logo.png"><meta name=twitter:title content="Deploying to Elastic Beanstalk on git push with Jenkins"><meta name=twitter:description content="Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push."><meta name=application-name content="My cool site"><meta name=apple-mobile-web-app-title content="My cool site"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://bchoy.me/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/><link rel=prev href=https://bchoy.me/posts/2015-10-02-using-capistrano-to-deploy-rails-app/><link rel=next href=https://bchoy.me/posts/2015-12-28-dockerizing-a-node-application/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Deploying to Elastic Beanstalk on git push with Jenkins","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/bchoy.me\/posts\/2015-11-02-deploying-to-elastic-beanstalk-jenkins\/"},"genre":"posts","wordcount":549,"url":"https:\/\/bchoy.me\/posts\/2015-11-02-deploying-to-elastic-beanstalk-jenkins\/","datePublished":"2015-11-02T16:45:23+00:00","dateModified":"2015-11-02T16:45:23+00:00","license":"bchoy.me","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Brian Choy"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"light"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"light"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=bchoy.me>bchoy.me</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Blog </a><a class=menu-item href=/about>About </a><a class=menu-item href=/resume>Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=bchoy.me>bchoy.me</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Blog</a><a class=menu-item href=/about title>About</a><a class=menu-item href=/resume title>Resume</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class="toc-content always-active" id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Deploying to Elastic Beanstalk on git push with Jenkins</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://bchoy.me title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Brian Choy</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=11-02-2015>11-02-2015</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;549 words&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;3 minutes&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#create-new-ec2-instance-with-ubuntu-1404>Create new EC2 instance with Ubuntu 14.04</a></li><li><a href=#set-up-security>Set up security</a></li><li><a href=#set-up-github-integration>Set up GitHub integration</a></li><li><a href=#plugins-to-install>Plugins to Install</a></li><li><a href=#create-a-build>Create a build</a></li></ul></nav></div></div><div class=content id=content><p>Here are some notes I took on how I set up my Jenkins server and deployed my application to Elastic Beanstalk on every git push.</p><h2 id=create-new-ec2-instance-with-ubuntu-1404>Create new EC2 instance with Ubuntu 14.04</h2><p>First create a new EC2 instance. For my server I&rsquo;m using the Ubuntu 14.04 AMI - t2.micro tier</p><ul><li>Network: my VPC</li><li>Security group: allowing whitelisted traffic on port 22, 80, and 443. Github&rsquo;s IP is whitelisted too: 192.30.252.0/22 on ports 22, 80, 443, and 9418</li></ul><p>Reference: <a href=https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Ubuntu target=_blank rel="noopener noreffer">https://wiki.jenkins-ci.org/display/JENKINS/</a></p><p><a href=http://www.tristanwaddington.com/2012/03/installing-jenkins-on-an-ubuntu-amazon-ec2-instance/ target=_blank rel="noopener noreffer">http://www.tristanwaddington.com/2012/03/installing-jenkins-on-an-ubuntu-amazon-ec2-instance/</a></p><p>Set up reverse proxy - <a href=https://wiki.jenkins-ci.org/display/JENKINS/Running+Jenkins+behind+Apache target=_blank rel="noopener noreffer">https://wiki.jenkins-ci.org/display/JENKINS/Running+Jenkins+behind+Apache</a></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key <span class=p>|</span> sudo apt-key add -
+</span></span><span class=line><span class=cl>sudo sh -c <span class=s1>&#39;echo deb http://pkg.jenkins-ci.org/debian binary/ &gt; /etc/apt/sources.list.d/jenkins.list&#39;</span>
+</span></span><span class=line><span class=cl>sudo apt-get update
+</span></span><span class=line><span class=cl>sudo apt-get install jenkins
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo apt-get install apache2
+</span></span><span class=line><span class=cl>sudo a2enmod proxy
+</span></span><span class=line><span class=cl>sudo a2enmod proxy_http
+</span></span><span class=line><span class=cl>sudo a2enmod vhost_alias
+</span></span><span class=line><span class=cl>sudo a2dissite 000-default
+</span></span><span class=line><span class=cl>sudo vim /etc/apache2/sites-available/jenkins.conf
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-nginx data-lang=nginx><span class=line><span class=cl><span class=k>&lt;VirtualHost</span> <span class=s>*:80&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=s>ServerAdmin</span> <span class=s>bchoy@barbariangroup.com</span>
+</span></span><span class=line><span class=cl>    <span class=s>ServerName</span> <span class=s>ec2-xxx-xxx-xxx-xxx.us-west-2.compute.amazonaws.com</span>
+</span></span><span class=line><span class=cl>    <span class=s>ServerAlias</span> <span class=s>jenkins</span>
+</span></span><span class=line><span class=cl>    <span class=s>ProxyRequests</span> <span class=s>Off</span>
+</span></span><span class=line><span class=cl>    <span class=s>&lt;Proxy</span> <span class=s>*&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=s>Order</span> <span class=s>deny,allow</span>
+</span></span><span class=line><span class=cl>            <span class=s>Allow</span> <span class=s>from</span> <span class=s>all</span>
+</span></span><span class=line><span class=cl>    <span class=s>&lt;/Proxy&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=s>ProxyPreserveHost</span> <span class=no>on</span>
+</span></span><span class=line><span class=cl>    <span class=s>ProxyPass</span> <span class=s>/</span> <span class=s>http://localhost:8080/</span> <span class=s>nocanon</span>
+</span></span><span class=line><span class=cl>    <span class=s>ProxyPassReverse</span> <span class=s>/</span> <span class=s>http://localhost:8080/</span>
+</span></span><span class=line><span class=cl>    <span class=s>AllowEncodedSlashes</span> <span class=s>NoDecode</span>
+</span></span><span class=line><span class=cl><span class=s>&lt;/VirtualHost&gt;</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo a2ensite jenkins
+</span></span><span class=line><span class=cl>sudo service apache2 reload
+</span></span><span class=line><span class=cl>sudo apache2ctl restart
+</span></span><span class=line><span class=cl>sudo /etc/init.d/jenkins start
+</span></span></code></pre></div><p>Install git and now the Jenkins server should be all set up.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo apt-get install git
+</span></span></code></pre></div><h2 id=set-up-security>Set up security</h2><p>Manage Jenkins -> Configure Global Security</p><figure><a class=lightgallery href=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png title=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png data-thumbnail=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png data-sub-html="<h2>Global Securaity</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png 2x" data-sizes=auto alt=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/global-security.png width=1309 height=725></a><figcaption class=image-caption>Global Securaity</figcaption></figure><p>Register a new user under the same username that you created permissions for.</p><p>Back in AWS you should attach an IAM policy to the security group the app is in to access the S3 bucket and EB deployment permissions. This is my policy:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;Version&#34;</span><span class=p>:</span> <span class=s2>&#34;2012-10-17&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;Statement&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Sid&#34;</span><span class=p>:</span> <span class=s2>&#34;Stmt1446219985300&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Action&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;elasticbeanstalk:CreateApplication&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;elasticbeanstalk:CreateApplicationVersion&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;elasticbeanstalk:UpdateEnvironment&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;elasticbeanstalk:DescribeEnvironments&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Effect&#34;</span><span class=p>:</span> <span class=s2>&#34;Allow&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Resource&#34;</span><span class=p>:</span> <span class=s2>&#34;arn:aws:elasticbeanstalk:*&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Sid&#34;</span><span class=p>:</span> <span class=s2>&#34;Stmt1446158122885&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Action&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:AbortMultipartUpload&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:CreateBucket&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketAcl&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketCORS&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketLocation&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketLogging&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketNotification&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketPolicy&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketRequestPayment&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketTagging&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketVersioning&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetBucketWebsite&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetLifecycleConfiguration&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetObject&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetObjectAcl&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetObjectTorrent&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetObjectVersion&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetObjectVersionAcl&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:GetObjectVersionTorrent&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:ListAllMyBuckets&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:ListBucket&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:ListBucketMultipartUploads&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:ListBucketVersions&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:ListMultipartUploadParts&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketAcl&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketCORS&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketLogging&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketNotification&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketPolicy&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketRequestPayment&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketTagging&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketVersioning&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutBucketWebsite&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutLifecycleConfiguration&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutObject&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutObjectAcl&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:PutObjectVersionAcl&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;s3:RestoreObject&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Effect&#34;</span><span class=p>:</span> <span class=s2>&#34;Allow&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;Resource&#34;</span><span class=p>:</span> <span class=s2>&#34;arn:aws:s3:::*&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=set-up-github-integration>Set up GitHub integration</h2><p>Install GitHub plugin, create SSH keys on EC2 Jenkins instance as the jenkins user. Add the keys to GitHub via the reference below.
+Reference: <a href=https://help.github.com/articles/generating-ssh-keys/ target=_blank rel="noopener noreffer">https://help.github.com/articles/generating-ssh-keys/</a>
+Do everything as jenkins user: sudo su -s /bin/bash jenkins</p><p>Now we can go to Credentials -> Global credentials -> Add</p><figure><a class=lightgallery href=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png title=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png data-thumbnail=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png data-sub-html="<h2>Add Global Credentials</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png 2x" data-sizes=auto alt=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/add-global-credentials.png width=927 height=395></a><figcaption class=image-caption>Add Global Credentials</figcaption></figure><p>I left my passphrase blank. For some reason I couldn&rsquo;t get a passphrase to work. Also now would be a good time to go to your GitHub project page, go to settings, and add a webhook which is your public IP/DNS followed by /github-webhook/.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>http://ec2-xxx-xxx-xxx-xxx.us-west-2.compute.amazonaws.com/github-webhook/
+</span></span></code></pre></div><figure><a class=lightgallery href=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png title=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png data-thumbnail=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png data-sub-html="<h2>Manage Webhook</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png 2x" data-sizes=auto alt=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/manage-webhook.png width=689 height=623></a><figcaption class=image-caption>Manage Webhook</figcaption></figure><h2 id=plugins-to-install>Plugins to Install</h2><ul><li>Hudson Post build task plugin</li><li>AWS Elastic Beanstalk Deployment Plugin</li><li>Promoted Builds Plugin</li><li>S3 publisher plugin</li><li>Token Macro</li></ul><h2 id=create-a-build>Create a build</h2><ol><li>Create new jobs -> Freestyle project</li><li>Enter the GitHub project URL</li><li>Tick Promo builds when&mldr; and Promote immediately once the build is complete. Add Deploy into AWS Elastic Beanstalk as a build step</li></ol><figure><a class=lightgallery href=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png title=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png data-thumbnail=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png data-sub-html="<h2>Promote Builds</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png 2x" data-sizes=auto alt=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/promote-builds.png width=931 height=701></a><figcaption class=image-caption>Promote Builds</figcaption></figure><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Appplication name: Elastic Beanstalk application name, not environment name
+</span></span><span class=line><span class=cl>Root Object: .
+</span></span><span class=line><span class=cl>Includes: \*_/_
+</span></span><span class=line><span class=cl>Version Label Format: ${GIT_COMMIT}-${BUILD-TAG}
+</span></span><span class=line><span class=cl>Environment name: Under application name
+</span></span></code></pre></div><figure><a class=lightgallery href=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png title=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png data-thumbnail=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png data-sub-html="<h2>Elastic Beanstalk Config</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png 2x" data-sizes=auto alt=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/elastic-beanstalk-config.png width=1264 height=919></a><figcaption class=image-caption>Elastic Beanstalk Config</figcaption></figure><p>I couldn&rsquo;t get the ${GIT_COMMIT} label to work for no good reason. I guess it&rsquo;s broken. My solution is to install the Build Name Setter plugin and use the following settings:</p><figure><a class=lightgallery href=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png title=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png data-thumbnail=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png data-sub-html="<h2>Set Build Name</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png data-srcset="/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png 1.5x, /posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png 2x" data-sizes=auto alt=/posts/2015-11-02-deploying-to-elastic-beanstalk-jenkins/images/set-build-name.png width=931 height=143></a><figcaption class=image-caption>Set Build Name</figcaption></figure><p>That way I can tell which of my EB builds applies to which Git commit.</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 11-02-2015</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/posts/2015-10-02-using-capistrano-to-deploy-rails-app/ class=prev rel=prev title="Using Capistrano to Deploy Rails App"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Using Capistrano to Deploy Rails App</a>
+<a href=/posts/2015-12-28-dockerizing-a-node-application/ class=next rel=next title="Dockerizing a Node Application">Dockerizing a Node Application<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2015 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://bchoy.me target=_blank>Brian Choy</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:50},comment:{},lightgallery:!0,math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-F9RPBWE7GE",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body></html>

